@@ -1,68 +1,101 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    /* Définition de la couleur de fond */
+    --background: 132, 24%, 96%;
+
+    /* Définition de la couleur de premier plan (texte) */
+    --foreground: 150, 22%, 9%;
+
+    /* Définition de la couleur atténuée (peut être utilisée pour des éléments tels que les bordures ou les arrière-plans de faible importance) */
+    --muted: 264 5% 88%;
+
+    /* Définition de la couleur de premier plan atténuée */
+    --muted-foreground: 264 4% 39%;
+
+    /* Définition de la couleur de fond pour les popovers (fenêtres contextuelles) */
+    --popover: 144 48% 97%;
+
+    /* Définition de la couleur de premier plan pour les popovers */
+    --popover-foreground: 144 53% 1%;
+
+    /* Définition de la couleur de fond pour les cartes */
+    --card: 144 48% 97%;
+
+    /* Définition de la couleur de premier plan pour les cartes */
+    --card-foreground: 132, 24%, 96%;
+
+    /* Définition de la couleur de la bordure */
+    --border: 150, 22%, 9%;
+
+    /* Définition de la couleur pour les éléments de saisie (comme les champs de formulaire) */
+    --input: 144 7% 93%;
+
+    /* Définition de la couleur primaire (peut être utilisée pour les éléments principaux ou les actions principales) - Les btn */
+    --primary: 150, 22%, 9%;
+
+    /* Définition de la couleur de premier plan pour la couleur primaire - ecriture dans btn*/
+    --primary-foreground: 132, 24%, 96%;
+
+    /* Définition de la couleur secondaire (peut être utilisée pour les éléments secondaires ou les actions secondaires) */
+    --secondary: 264 21% 19%;
+
+    /* Définition de la couleur de premier plan pour la couleur secondaire */
+    --secondary-foreground: 264 21% 79%;
+
+    /* Définition de l'accent de couleur (peut être utilisé pour mettre en évidence des éléments importants) */
+    --accent: 24 21% 19%;
+
+    /* Définition de la couleur de premier plan pour l'accent de couleur */
+    --accent-foreground: 24 21% 79%;
+
+    /* Définition de la couleur destructive (peut être utilisée pour indiquer des actions dangereuses ou destructrices) */
+    --destructive: 4 93% 40%;
+
+    /* Définition de la couleur de premier plan pour la couleur destructive */
+    --destructive-foreground: 0 0% 100%;
+
+    /* Définition de la couleur de l'anneau (peut être utilisée pour des éléments tels que les indicateurs de sélection) */
+    --ring: 144 21% 19%;
+
+    /* Définition du rayon de bordure pour les éléments */
+    --radius: 0.5rem;
+
+    --nom: 140.571, 23%, 30%;
   }
-  a:hover {
-    color: #747bff;
+
+  .dark {
+    --background: 144 37% 1%;
+    --foreground: 144 24% 99%;
+    --muted: 264 5% 12%;
+    --muted-foreground: 264 4% 61%;
+    --popover: 144 37% 2%;
+    --popover-foreground: 0 0% 100%;
+    --card: 144 37% 2%;
+    --card-foreground: 0 0% 100%;
+    --border: 144 7% 12%;
+    --input: 144 7% 12%;
+    --primary: 186.86 44.3% 30.98%;
+    --primary-foreground: 144 0% 100%;
+    --secondary: 264 21% 19%;
+    --secondary-foreground: 264 21% 79%;
+    --accent: 191.25 42.11% 14.9%;
+    --accent-foreground: 24 0% 100%;
+    --destructive: 4 93% 52%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 185.87 49.46% 36.47%;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
