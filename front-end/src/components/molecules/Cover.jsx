@@ -8,8 +8,8 @@ export default function Cover() {
                 <p className="text-black text-center text-4xl p-5"> Ebooky</p>
                 <p className="text-black text-center p-10"> Votre bibliothèque en ligne, rien que pour vous!</p>
                 <div className="flex justify-center gap-x-4 ">
-                    <Button className="px-14 py-6">Créer un Profil</Button>
-                    <Button className="px-14 py-6">Se connecter</Button>
+                    <a href="/register"><Button className="px-14 py-6">Créer un Profil</Button></a>
+                    <a href="/login"><Button className="px-14 py-6">Se connecter</Button></a>
                 </div>
             </div>
             <div className="w-1/2 h-full flex justify-end">

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,5 +42,30 @@ class SecurityController extends AbstractController
         $em->flush();
 
         return new JsonResponse(['message' => 'Votre compte a bien été créé']);
+    }
+    #[Route('/login', name: 'login', methods: "POST")]
+    public function login(Request $request, UserRepository $userRepository, JWTEncoderInterface $jwtEncoder, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $email = $data['email'];
+        $password = $data['password'];
+
+        $user = $userRepository->findOneBy(['email' => $email]);
+        if (!$user || !$passwordHasher->isPasswordValid($user, $password)) {
+            return new JsonResponse(['message' => 'Les informations fournies ne sont pas correctes.'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $payload = [
+            'email' => $user->getEmail(),
+            'id' => $user->getId(),
+
+        ];
+
+        // Encodez le payload pour obtenir le token JWT complet
+        $token = $jwtEncoder->encode($payload);
+
+        return new JsonResponse([
+            'token' => $token,
+        ]);
     }
 }
