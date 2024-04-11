@@ -10,3 +10,14 @@ register:
   path: /register
   controller: App\Controller\SecurityController::register
   methods: POST
+
+
+login: 
+    path : /login
+    controller : App\Controller\SecurityController::login
+    methods: POST
+
+profile: 
+    path : /profile
+    controller : App\Controller\ProfileController::profile
+    methods: GET    
