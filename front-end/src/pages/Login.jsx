@@ -16,6 +16,7 @@ function Login() {
                 .then(function (response) {
                     const responseDataString = JSON.stringify(response.data);
                     window.localStorage.setItem("session", responseDataString);
+                    window.location.href = "/";
 
                 })
                 .catch(function (error) {

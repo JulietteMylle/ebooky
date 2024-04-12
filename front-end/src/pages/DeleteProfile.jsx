@@ -33,9 +33,8 @@ function DeleteProfile() {
             await axios.delete('https://localhost:8000/deleteProfile', {
                 headers: { 'Authorization': 'Bearer ' + tokenValue }
             });
-            alert('Profile deleted successfully!');
             localStorage.removeItem("session");
-            // Rediriger l'utilisateur vers une page de confirmation ou de déconnexion
+            window.location.href = "/";
         } catch (error) {
             console.error("Error deleting profile:", error);
             alert('An error occurred while deleting profile. Please try again.');

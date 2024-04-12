@@ -3,7 +3,7 @@ import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
-import DeleteProfile from "../pages/DeleteUser";
+import DeleteProfile from "../pages/DeleteProfile";
 
 function AppRoutes() {
     return (

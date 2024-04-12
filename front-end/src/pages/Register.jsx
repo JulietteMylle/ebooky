@@ -15,6 +15,7 @@ const Register = () => {
             axios.post('https://127.0.0.1:8000/register', values)
                 .then(function (response) {
                     setMessage(response.data.message);
+                    window.location.href = "/login";
                 })
                 .catch(function (error) {
                     setMessage(error.response.data.message);

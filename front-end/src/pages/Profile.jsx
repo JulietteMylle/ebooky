@@ -79,6 +79,7 @@ function Profile() {
                     </div>
                     <button type="submit">Mettre à jour le profil</button>
                     <button onClick={handleDisconnect}> Se déconnecter </button>
+                    <Link to="/deleteProfile">Supprimer mon compte</Link>
                 </form>
             )
             }
