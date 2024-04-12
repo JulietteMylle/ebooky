@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Profile() {
     const [userData, setUserData] = useState(null);
@@ -52,6 +53,16 @@ function Profile() {
         }
     };
 
+    const handleDisconnect = async (e) => {
+        e.preventDefault();
+
+
+        localStorage.removeItem("session");
+        // ici pour rediriger vers page acc 
+        window.location.href = "/";
+        // Rediriger l'utilisateur vers une page de confirmation ou de déconnexion
+    };
+
     return (
         <div>
             <p>Mon profil</p>
@@ -67,9 +78,11 @@ function Profile() {
                         <input type="email" name="email" value={newUserData.email} onChange={handleChange} />
                     </div>
                     <button type="submit">Mettre à jour le profil</button>
+                    <button onClick={handleDisconnect}> Se déconnecter </button>
                 </form>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 
