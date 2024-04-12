@@ -1,8 +1,10 @@
+import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import Button from '../atoms/Button';
 import Logo from '../atoms/Logo';
 import SearchInput from '../atoms/SearchInput';
 import { ToggleTheme } from '../molecules/ToggleTheme';
+import { Link } from 'react-router-dom';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,9 +15,17 @@ import {
 } from '../ui/dropdown-menu';
 
 const NavBar = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("session");
+        if (token) {
+            setIsAuthenticated(true);
+        }
+    }, []);
+
     return (
         <div className=" w-full flex items-center justify-between px-4 text-[#F2F7F3] bg-[#064e3b] dark:bg-[#26474E]">
-            {/* bg-[#263B2E] text-[#F2F7F3] */}
             <div className="w-14 h-12 ">
                 <Logo />
             </div>
@@ -37,7 +47,11 @@ const NavBar = () => {
             <span>Ma bibliothèque</span>
             <SearchInput />
             <ToggleTheme />
-            <Button content="Se connecter" />
+            {isAuthenticated ? (
+                <Link to="/profile">Mon Profil</Link>
+            ) : (
+                <Link to="/login">Se Connecter</Link>
+            )}
             <Button content="Panier" icon="cart" />
         </div>
     );

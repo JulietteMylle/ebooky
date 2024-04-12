@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
+import DeleteProfile from "../pages/DeleteUser";
 
 function AppRoutes() {
     return (
@@ -11,6 +12,8 @@ function AppRoutes() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/deleteProfile" element={<DeleteProfile />} />
+
 
 
 

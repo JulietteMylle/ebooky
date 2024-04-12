@@ -72,4 +72,27 @@ class ProfileController extends AbstractController
         // Retourner une réponse JSON avec un message de succès
         return new JsonResponse(['message' => 'Profile updated successfully']);
     }
+    #[Route('/deleteProfile', name: 'deleteProfile', methods: "DELETE")]
+    public function deleteProfile(
+        JWTEncoderInterface $JWTInterface,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository
+    ): JsonResponse {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        if (!$user) {
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Supprimer l'utilisateur de la base de données
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'User deleted successfully'], Response::HTTP_OK);
+    }
 }

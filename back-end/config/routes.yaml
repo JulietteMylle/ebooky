@@ -25,5 +25,9 @@ profile:
 updateProfile: 
     path : /updateProfile
     controller : App\Controller\ProfileController::updateProfile
-    methods: PUT    
+    methods: PUT 
 
+deleteProfile: 
+    path : /deleteProfile
+    controller : App\Controller\ProfileController::deleteProfile
+    methods: DELETE

@@ -57,6 +57,7 @@ const Register = () => {
 
             </form>
             {message && <p>{message}</p>}
+            <a href="/login"><button>J'ai déjà un compte !</button> </a>
         </div>
 
 
