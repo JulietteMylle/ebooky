@@ -54,7 +54,7 @@ const Register = () => {
                     value={formik.values.password}
                 />
 
-                <button className='my-8 text-2xl' type='submit'>Gooooo</button>
+                <button className='my-8 text-2xl ' type='submit'>Gooooo</button>
 
             </form>
             {message && <p>{message}</p>}
