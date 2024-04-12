@@ -34,6 +34,7 @@ function DeleteProfile() {
                 headers: { 'Authorization': 'Bearer ' + tokenValue }
             });
             alert('Profile deleted successfully!');
+            localStorage.removeItem("session");
             // Rediriger l'utilisateur vers une page de confirmation ou de déconnexion
         } catch (error) {
             console.error("Error deleting profile:", error);
