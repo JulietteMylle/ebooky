@@ -21,3 +21,9 @@ profile:
     path : /profile
     controller : App\Controller\ProfileController::profile
     methods: GET    
+
+updateProfile: 
+    path : /updateProfile
+    controller : App\Controller\ProfileController::updateProfile
+    methods: PUT    
+

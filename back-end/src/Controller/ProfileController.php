@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
@@ -20,16 +21,55 @@ class ProfileController extends AbstractController
 {
 
     #[Route('/profile', name: 'profile', methods: "GET")]
-    public function profile(Security $security, EntityManagerInterface $em, Request $request, JWTEncoderInterface $JWTInterface): JsonResponse
+    public function profile(Security $security, EntityManagerInterface $em, Request $request, JWTEncoderInterface $JWTInterface, UserRepository $userRepository): JsonResponse
     {
         $authHeaders = $request->headers->get('Authorization');
         $token = str_replace('Bearer ', '', $authHeaders);
 
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $username = $user->getUsername();
+
+        $responseData = [
+            'email' => $email,
+            'username' => $username
+        ];
+
+        return new JsonResponse($responseData);
+    }
+
+    #[Route('/updateProfile', name: 'updateProfile', methods: "PUT")]
+    public function updateProfile(
+        JWTEncoderInterface $JWTInterface,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository
+    ): JsonResponse {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
 
         $decodedtoken = $JWTInterface->decode($token);
         $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        // Récupérer les données envoyées par le front-end
+        $requestData = json_decode($request->getContent(), true);
 
 
-        return new JsonResponse($email);
+        // Mettre à jour les informations du profil avec les nouvelles données
+        if (isset($requestData['username'])) {
+            $user->setUsername($requestData['username']);
+        }
+        if (isset($requestData['email'])) {
+            $user->setEmail($requestData['email']);
+        }
+
+
+        // Enregistrer les modifications dans la base de données
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // Retourner une réponse JSON avec un message de succès
+        return new JsonResponse(['message' => 'Profile updated successfully']);
     }
 }
