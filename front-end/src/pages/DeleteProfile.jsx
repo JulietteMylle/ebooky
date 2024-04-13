@@ -42,11 +42,12 @@ function DeleteProfile() {
     };
 
     return (
-        <div>
-            <h1>Supression du compte</h1>
-            <p>Etes-vous sûrs ? Cette action est définitive</p>
+        <div className="flex justify-center items-center h-screen p-12 rounded-3xl m-96 mt-12 mb-12 flex-col">
+        <img className=" w-auto h-96 rounded-md" src="src/assets/images/imge-delete-account.jpg" alt=""  />
+            <h1 className='text-center my-12 text-6xl'>Supression du compte</h1>
+            <p className='text-center my-12 text-2xl'>Etes-vous sûrs ? Cette action est définitive ... </p>
             <form onSubmit={handleSubmit}>
-                <button type="submit">Supprimer</button>
+                <button className='my-8 text-2xl border w-80 h-20 rounded-lg bg-primary text-white hover:bg-transparent hover:text-black' type="submit">Supprimer</button>
             </form>
         </div>
     );
