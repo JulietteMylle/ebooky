@@ -20,6 +20,16 @@ const Register = () => {
                 .catch(function (error) {
                     setMessage(error.response.data.message);
                 });
+        },
+        validate: (values) => {
+            const errors = {};
+            if (values.username.length < 3 || values.username.length > 50) {
+                errors.username = 'Le pseudo doit contenir entre 3 et 50 caractères';
+            }
+            if (values.password.length < 8 || values.password.length > 255) {
+                errors.password = 'Le mot de passe doit contenir entre 8 et 255 caractères';
+            }
+            return errors;
         }
     });
 
@@ -34,9 +44,12 @@ const Register = () => {
                     id='username'
                     name='username'
                     type='text'
+                    minLength={3}
+                    maxLength={50}
                     onChange={formik.handleChange}
                     value={formik.values.username}
                 />
+                {formik.errors.username ? <div className="text-red-500">{formik.errors.username}</div> : null}
                 <label className='text-center my-8 text-2xl' htmlFor="email">Votre adresse e-mail</label>
                 <input className='mx-96 h-16 rounded-sm'
                     id='email'
@@ -50,18 +63,17 @@ const Register = () => {
                     id='password'
                     name='password'
                     type='password'
+                    minLength={8}
+                    maxLength={255}
                     onChange={formik.handleChange}
                     value={formik.values.password}
                 />
-
+                {formik.errors.password ? <div className="text-red-500">{formik.errors.password}</div> : null}
                 <button className='my-8 text-2xl ' type='submit'>Gooooo</button>
-
             </form>
             {message && <p>{message}</p>}
             <a href="/login"><button>J'ai déjà un compte !</button> </a>
         </div>
-
-
     );
 };
 
