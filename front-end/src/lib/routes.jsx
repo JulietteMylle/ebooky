@@ -16,7 +16,6 @@ function AppRoutes() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/deleteProfile" element={<DeleteProfile />} />
       <Route path="/errorPage" element={<ErrorPage />} />
-      <Route path="/register" element={<Register />} />
       <Route path="/termsOfService" element={<TermsOfService />} />
     </Routes>
   );

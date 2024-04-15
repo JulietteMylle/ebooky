@@ -13,6 +13,18 @@
             "./src/Repository/.gitignore"
         ]
     },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "1f5514cfa15b947298df4d771e694e578d4c204d"
+        },
+        "files": [
+            "src/DataFixtures/AppFixtures.php"
+        ]
+    },
     "doctrine/doctrine-migrations-bundle": {
         "version": "3.3",
         "recipe": {
@@ -24,6 +36,18 @@
         "files": [
             "./config/packages/doctrine_migrations.yaml",
             "./migrations/.gitignore"
+        ]
+    },
+    "google/apiclient": {
+        "version": "2.15",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.10",
+            "ref": "07a97ec434d43b7903c78069a04c92adb6442e52"
+        },
+        "files": [
+            "config/packages/google_apiclient.yaml"
         ]
     },
     "lexik/jwt-authentication-bundle": {
