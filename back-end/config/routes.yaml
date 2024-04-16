@@ -1,38 +1,47 @@
 controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    type: attribute
-    defaults:
-        _format: json
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
+  defaults:
+    _format: json
 
 register:
   path: /register
   controller: App\Controller\SecurityController::register
   methods: POST
 
+login:
+  path: /login
+  controller: App\Controller\SecurityController::login
+  methods: POST
 
-login: 
-    path : /login
-    controller : App\Controller\SecurityController::login
-    methods: POST
+profile:
+  path: /profile
+  controller: App\Controller\ProfileController::profile
+  methods: GET
 
-profile: 
-    path : /profile
-    controller : App\Controller\ProfileController::profile
-    methods: GET    
+updateProfile:
+  path: /updateProfile
+  controller: App\Controller\ProfileController::updateProfile
+  methods: PUT
 
-updateProfile: 
-    path : /updateProfile
-    controller : App\Controller\ProfileController::updateProfile
-    methods: PUT 
+deleteProfile:
+  path: /deleteProfile
+  controller: App\Controller\ProfileController::deleteProfile
+  methods: DELETE
 
-deleteProfile: 
-    path : /deleteProfile
-    controller : App\Controller\ProfileController::deleteProfile
-    methods: DELETE
+newEbooks:
+  path: /newEbooks
+  controller: App\Controller\EbooksController::newEbooks
+  methods: GET
 
-newEbooks: 
-    path : /newEbooks
-    controller : App\Controller\NewEbooksController::newEbooks
-    methods: GET
+ebookDetails:
+  path: /ebooks/{id}
+  controller: App\Controller\EbooksController::ebook_details
+  methods: GET
+
+cart:
+  path: /panier
+  controller: App\Controller\PanierController::panier_utilisateur
+  methods: GET

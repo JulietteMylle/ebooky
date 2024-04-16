@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\EbookRepository;
 
-class NewEbooksController extends AbstractController
+class EbooksController extends AbstractController
 {
     #[Route('/newEbooks', name: 'newEbooks')]
     public function newEbooks(EbookRepository $ebookRepository): JsonResponse
@@ -28,10 +28,11 @@ class NewEbooksController extends AbstractController
 
             // Créer un tableau associatif pour stocker les informations de l'ebook
             $bookData = [
+                'id' => $book->getId(),
                 'title' => $book->getTitle(),
                 'price' => $book->getPrice(),
                 'authors' => $authors,
-                'picture' => '/images/couvertures/' . $book->getPicture(),
+                'picture' => 'http://localhost:8000/images/couvertures/' . $book->getPicture(),
 
             ];
 
@@ -41,5 +42,37 @@ class NewEbooksController extends AbstractController
 
         // Retourner une réponse JSON avec les informations de tous les ebooks
         return new JsonResponse($booksData);
+    }
+
+    #[Route('/ebooks/{id}', name: 'ebook_details', methods: ['GET'])]
+    public function ebookDetails(EbookRepository $ebookRepository, $id): JsonResponse
+    {
+        $book = $ebookRepository->find($id);
+
+        if (!$book) {
+            return $this->json(['message' => 'Book not found'], 404);
+        }
+
+        $authors = [];
+        foreach ($book->getAuthors() as $author) {
+            $authors[] = $author->getFullName();
+        }
+
+        $bookData = [
+            'title' => $book->getTitle(),
+            'price' => $book->getPrice(),
+            'authors' => $authors,
+            'description' => $book->getDescription(),
+            'picture' => 'http://localhost:8000/images/couvertures/' . $book->getPicture(),
+        ];
+
+        // Récupérer le publisher de l'ebook
+        $publisher = $book->getPublisher();
+        if ($publisher) {
+            // Attribuer directement le nom du publisher à la clé 'publisher'
+            $bookData['publisher'] = $publisher->getName();
+        }
+
+        return new JsonResponse($bookData);
     }
 }
