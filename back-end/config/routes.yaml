@@ -16,6 +16,7 @@ login:
   controller: App\Controller\SecurityController::login
   methods: POST
 
+
 profile:
   path: /profile
   controller: App\Controller\ProfileController::profile
@@ -25,23 +26,28 @@ updateProfile:
   path: /updateProfile
   controller: App\Controller\ProfileController::updateProfile
   methods: PUT
-
-deleteProfile: 
-    path : /deleteProfile
-    controller : App\Controller\ProfileController::deleteProfile
-    methods: DELETE
-
-newEbooks: 
-    path : /newEbooks
-    controller : App\Controller\NewEbooksController::newEbooks
-    methods: GET
-    
+  
 deleteProfile:
   path: /deleteProfile
   controller: App\Controller\ProfileController::deleteProfile
   methods: DELETE
 
+newEbooks:
+  path: /newEbooks
+  controller: App\Controller\EbooksController::newEbooks
+  methods: GET
+
+ebookDetails:
+  path: /ebooks/{id}
+  controller: App\Controller\EbooksController::ebook_details
+  methods: GET
+    
 books:
   path: /books
   controller: App\Controller\BookController::allBooks
+
+cart:
+  path: /panier
+  controller: App\Controller\PanierController::panier_utilisateur
+
   methods: GET

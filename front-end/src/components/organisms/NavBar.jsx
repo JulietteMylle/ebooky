@@ -43,6 +43,7 @@ const NavBar = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
+
       <a href="/library">Librairie</a>
 
       <span>Ma bibliothèque</span>
@@ -53,9 +54,10 @@ const NavBar = () => {
       ) : (
         <Link to="/login">Se Connecter</Link>
       )}
-      <Button content="Panier" icon="cart" />
+    <Link to="/cart" ><Button content="Panier" icon="cart" /></Link>
     </div>
   );
+
 };
 
 export default NavBar;

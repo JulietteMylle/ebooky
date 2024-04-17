@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Cart;
 use App\Repository\CartItemsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,8 +27,8 @@ class CartItems
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Cart $cartId = null;
+    #[ORM\JoinColumn(name: 'cart_id', referencedColumnName: 'id', nullable: false)]
+    private ?Cart $cart = null;
 
     #[ORM\OneToOne(inversedBy: 'cartItems', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -43,7 +44,7 @@ class CartItems
         return $this->price;
     }
 
-    public function setPrice(float $price): static
+    public function setPrice(float $price): self
     {
         $this->price = $price;
 
@@ -55,7 +56,7 @@ class CartItems
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): static
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
 
@@ -67,7 +68,7 @@ class CartItems
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -79,21 +80,21 @@ class CartItems
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getCartId(): ?Cart
+    public function getCart(): ?Cart
     {
-        return $this->cartId;
+        return $this->cart;
     }
 
-    public function setCartId(?Cart $cartId): static
+    public function setCart(?Cart $cart): self
     {
-        $this->cartId = $cartId;
+        $this->cart = $cart;
 
         return $this;
     }
@@ -103,7 +104,7 @@ class CartItems
         return $this->ebookId;
     }
 
-    public function setEbookId(Ebook $ebookId): static
+    public function setEbookId(Ebook $ebookId): self
     {
         $this->ebookId = $ebookId;
 

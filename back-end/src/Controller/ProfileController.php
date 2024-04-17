@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CartRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -21,7 +22,7 @@ class ProfileController extends AbstractController
 {
 
     #[Route('/profile', name: 'profile', methods: "GET")]
-    public function profile(Security $security, EntityManagerInterface $em, Request $request, JWTEncoderInterface $JWTInterface, UserRepository $userRepository): JsonResponse
+    public function profile(Security $security, EntityManagerInterface $em,  Request $request, JWTEncoderInterface $JWTInterface, UserRepository $userRepository): JsonResponse
     {
         $authHeaders = $request->headers->get('Authorization');
         $token = str_replace('Bearer ', '', $authHeaders);
@@ -77,7 +78,8 @@ class ProfileController extends AbstractController
         JWTEncoderInterface $JWTInterface,
         Request $request,
         EntityManagerInterface $entityManager,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        CartRepository $cartRepository,
     ): JsonResponse {
         $authHeaders = $request->headers->get('Authorization');
         $token = str_replace('Bearer ', '', $authHeaders);
@@ -89,8 +91,18 @@ class ProfileController extends AbstractController
             return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
+        $userId = $user->getId();
+        $cart = $cartRepository->findOneBy(['userId' => $userId]);
+
+        // Si un panier est trouvé, supprimez-le
+        if ($cart) {
+            $entityManager->remove($cart);
+        }
+
+
         // Supprimer l'utilisateur de la base de données
         $entityManager->remove($user);
+
         $entityManager->flush();
 
         return new JsonResponse(['message' => 'User deleted successfully'], Response::HTTP_OK);
