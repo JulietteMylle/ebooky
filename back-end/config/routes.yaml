@@ -26,6 +26,16 @@ updateProfile:
   controller: App\Controller\ProfileController::updateProfile
   methods: PUT
 
+deleteProfile: 
+    path : /deleteProfile
+    controller : App\Controller\ProfileController::deleteProfile
+    methods: DELETE
+
+newEbooks: 
+    path : /newEbooks
+    controller : App\Controller\NewEbooksController::newEbooks
+    methods: GET
+    
 deleteProfile:
   path: /deleteProfile
   controller: App\Controller\ProfileController::deleteProfile
