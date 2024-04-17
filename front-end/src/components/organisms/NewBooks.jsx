@@ -1,4 +1,5 @@
 import BookCard from '../molecules/BookCard';
+import NewEbooks from '../molecules/LatestBooksCard';
 import { Button } from '../ui/button';
 export const NewBooks = () => {
     return (
@@ -11,10 +12,7 @@ export const NewBooks = () => {
                 <h5>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h5>
             </div>
             <div className="flex flex-row justify-evenly py-9">
-                <BookCard />
-                <BookCard />
-                <BookCard />
-                <BookCard />
+                <NewEbooks />
             </div>
         </div>
     );

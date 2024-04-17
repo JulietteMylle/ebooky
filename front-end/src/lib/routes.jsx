@@ -6,6 +6,8 @@ import Profile from "../pages/Profile";
 import DeleteProfile from "../pages/DeleteProfile";
 import ErrorPage from "../pages/ErrorPage";
 import TermsOfService from "../pages/TermsOfService";
+import EbookDetails from "../pages/EbooksDetails";
+import Cart from "../pages/Cart";
 
 function AppRoutes() {
   return (
@@ -16,9 +18,14 @@ function AppRoutes() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/deleteProfile" element={<DeleteProfile />} />
       <Route path="/errorPage" element={<ErrorPage />} />
-     
+      <Route path="/ebooks/:id" element={<EbookDetails />} />
+      <Route path="/cart" element={<Cart />} />
+
+
+
+
       <Route path="/termsOfService" element={<TermsOfService />} />
-            <Route path="/newEbooks" element={<NewEbooks />} />
+
     </Routes>
   );
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const NewEbooks = () => {
     const [ebooks, setEbooks] = useState([]);
@@ -21,17 +22,21 @@ const NewEbooks = () => {
 
     return (
         <div>
-            <h2>Nouveaux ebooks</h2>
-            <ul>
+            <h2 className="text-2xl font-bold mb-4">Nouveaux ebooks</h2>
+            <div className="grid grid-cols-5 gap-4">
                 {ebooks.map((ebook, index) => (
-                    <li key={index}>
-                        <h3>{ebook.title}</h3>
-                        <p>Prix: {ebook.price}</p>
-                        <p>Auteurs: {ebook.authors.join(', ')}</p>
-                        <img src={`https://localhost:8000${ebook.picture}`} alt={ebook.title} /> {/* Afficher l'image */}
-                    </li>
+                    <Link key={index} to={`/ebooks/${ebook.id}`} className="hover:no-underline">
+                        <div className="bg-white shadow-md p-4 rounded-md">
+                            <img src={`${ebook.picture}`} alt={ebook.title} className="w-full h-auto rounded-md" /> {/* Afficher l'image */}
+
+                            <h3 className="text-xl font-semibold mb-2">{ebook.title}</h3>
+                            <p className="text-gray-600 mb-2">Prix: {ebook.price}</p>
+                            <p className="text-gray-600 mb-4">Auteurs: {ebook.authors.join(', ')}</p>
+
+                        </div>
+                    </Link>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };
