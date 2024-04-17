@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\CartItems; // Utilisation de l'entité CartItems
 use App\Repository\CartRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]
@@ -23,8 +26,16 @@ class Cart
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToOne(inversedBy: 'cart', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $userId = null;
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartItems::class)]
+    private Collection $cartItems;
+
+    public function __construct()
+    {
+        $this->cartItems = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -36,7 +47,7 @@ class Cart
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -48,7 +59,7 @@ class Cart
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -60,21 +71,51 @@ class Cart
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(User $userId): static
+    public function setUser(?User $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CartItems[] // Utilisation de CartItems
+     */
+    public function getCartItems(): Collection // Modification de CartItems
+    {
+        return $this->cartItems;
+    }
+
+    public function addCartItem(CartItems $cartItem): self // Modification de CartItems
+    {
+        if (!$this->cartItems->contains($cartItem)) {
+            $this->cartItems[] = $cartItem;
+            $cartItem->setCart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartItem(CartItems $cartItem): self // Modification de CartItems
+    {
+        if ($this->cartItems->removeElement($cartItem)) {
+            // set the owning side to null (unless already changed)
+            if ($cartItem->getCart() === $this) {
+                $cartItem->setCart(null);
+            }
+        }
 
         return $this;
     }

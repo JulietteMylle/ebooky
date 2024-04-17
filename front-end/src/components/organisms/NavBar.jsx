@@ -52,7 +52,8 @@ const NavBar = () => {
             ) : (
                 <Link to="/login">Se Connecter</Link>
             )}
-            <Button content="Panier" icon="cart" />
+            <Link to="/cart" ><Button content="Panier" icon="cart" /></Link>
+
         </div>
     );
 };

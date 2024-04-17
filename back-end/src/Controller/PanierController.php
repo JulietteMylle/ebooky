@@ -35,7 +35,30 @@ class PanierController extends AbstractController
         if (!$user) {
             return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
-        $cart = $cartRepository->findOneBy(['user_id_id' => $user]);
-        dd($cart);
+        $userCart = $user->getCart();
+        if ($userCart) {
+            // Récupérer les éléments du panier associés à ce panier
+            $cartItems = $userCart->getCartItems();
+
+            // Maintenant, vous pouvez parcourir les éléments du panier
+            $items = [];
+            foreach ($cartItems as $cartItem) {
+                $ebook = $cartItem->getEbookId();
+                if ($ebook) {
+                    $items[] = [
+                        'id' => $cartItem->getId(),
+                        'name' => $ebook->getTitle(), // Nom du livre
+                        'price' => $cartItem->getPrice(),
+                        'quantity' => $cartItem->getQuantity(),
+                        'picture' => 'http://localhost:8000/images/couvertures/' . $ebook->getPicture(),
+                    ];
+                }
+            }
+
+            // Construire la réponse JSON
+            return new JsonResponse([
+                'items' => $items,
+            ]);
+        }
     }
 }

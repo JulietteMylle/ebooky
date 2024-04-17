@@ -32,7 +32,7 @@ class EbooksController extends AbstractController
                 'title' => $book->getTitle(),
                 'price' => $book->getPrice(),
                 'authors' => $authors,
-                'picture' => 'http://localhost:8000/images/couvertures/' . $book->getPicture(),
+                'picture' => 'https://localhost:8000/images/couvertures/' . $book->getPicture(),
 
             ];
 

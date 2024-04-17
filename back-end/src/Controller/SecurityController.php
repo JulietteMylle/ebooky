@@ -50,7 +50,7 @@ class SecurityController extends AbstractController
         $cart->setStatus("pending");
         $cart->setCreatedAt(new \DateTimeImmutable());
         $cart->setUpdatedAt(new \DateTimeImmutable());
-        $cart->setUserId($user);
+        $cart->setUser($user);
 
         // Enregistrement des données dans la base de données
         $entityManager->beginTransaction();
