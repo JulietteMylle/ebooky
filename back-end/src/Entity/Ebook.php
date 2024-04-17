@@ -255,29 +255,7 @@ class Ebook
     /**
      * @return Collection<int, User>
      */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
 
-    public function addUser(User $user): static
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addEbookId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        if ($this->users->removeElement($user)) {
-            $user->removeEbookId($this);
-        }
-
-        return $this;
-    }
 
     public function getCartItems(): ?CartItems
     {

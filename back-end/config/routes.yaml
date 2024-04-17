@@ -45,3 +45,14 @@ cart:
   path: /panier
   controller: App\Controller\PanierController::panier_utilisateur
   methods: GET
+
+
+add_panier:
+  path : /add_panier/{id}
+  controller : App\Controller\PanierController::addPanier
+  methods : POST
+
+remove_panier:
+  path : /remove_panier/{id}
+  controller : App\Controller\PanierController::removePanier
+  methods : DELETE
