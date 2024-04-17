@@ -6,6 +6,7 @@ import Profile from "../pages/Profile";
 import DeleteProfile from "../pages/DeleteProfile";
 import ErrorPage from "../pages/ErrorPage";
 import TermsOfService from "../pages/TermsOfService";
+import Library from "../pages/Library";
 
 function AppRoutes() {
   return (
@@ -17,6 +18,7 @@ function AppRoutes() {
       <Route path="/deleteProfile" element={<DeleteProfile />} />
       <Route path="/errorPage" element={<ErrorPage />} />
       <Route path="/termsOfService" element={<TermsOfService />} />
+      <Route path="/library" element={<Library />} />
     </Routes>
   );
 }
