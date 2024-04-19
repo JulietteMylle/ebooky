@@ -46,7 +46,7 @@ class PanierController extends AbstractController
             // Maintenant, vous pouvez parcourir les éléments du panier
             $items = [];
             foreach ($cartItems as $cartItem) {
-                $ebook = $cartItem->getEbookId();
+                $ebook = $cartItem->getEbook();
                 if ($ebook) {
                     $items[] = [
                         'id' => $cartItem->getId(),
@@ -89,7 +89,7 @@ class PanierController extends AbstractController
         $cartItems = $user->getCart()->getCartItems();
         $cartItemFound = null;
         foreach ($cartItems as $cartItem) {
-            if ($cartItem->getEbookId() === $ebook) {
+            if ($cartItem->getEbook() === $ebook) {
                 $cartItemFound = $cartItem;
                 break; // Sortir de la boucle une fois que l'ebook est trouvé
             }
@@ -102,7 +102,7 @@ class PanierController extends AbstractController
         } else {
             // Créer une nouvelle instance de CartItems
             $cartItem = new CartItems();
-            $cartItem->setEbookId($ebook);
+            $cartItem->setEbook($ebook);
             $cartItem->setPrice($ebook->getPrice());
             $cartItem->setQuantity(1);
             $cartItem->setCreatedAt(new \DateTimeImmutable());
@@ -130,8 +130,7 @@ class PanierController extends AbstractController
         if ($userCart) {
             // Récupérer les éléments du panier associés à ce panier
             $cartItems = $userCart->getCartItems();
-            $cartItemDeleted = $cartItemsRepository->getEbookId();
-            dd($cartItemDeleted);
+            $cartItemDeleted = $cartItemsRepository->findOneBy(['id' => $id]);
             foreach ($cartItems as $cartItem) {
                 // Vérifier si l'élément du panier correspond à l'ID spécifié
                 if ($cartItem->getId() === $id) {
