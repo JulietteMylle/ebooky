@@ -52,11 +52,16 @@ class Ebook
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'ebookIds')]
     private Collection $users;
 
-    #[ORM\OneToOne(mappedBy: 'ebookId', cascade: ['persist', 'remove'])]
-    private ?CartItems $cartItems = null;
+
 
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'ebookId')]
     private Collection $reviews;
+
+    /**
+     * @var Collection<int, CartItems>
+     */
+    #[ORM\OneToMany(targetEntity: CartItems::class, mappedBy: 'ebook')]
+    private Collection $cartItems;
 
     public function __construct()
     {
@@ -65,6 +70,7 @@ class Ebook
         $this->categories = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->cartItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -256,24 +262,6 @@ class Ebook
      * @return Collection<int, User>
      */
 
-
-    public function getCartItems(): ?CartItems
-    {
-        return $this->cartItems;
-    }
-
-    public function setCartItems(CartItems $cartItems): static
-    {
-        // set the owning side of the relation if necessary
-        if ($cartItems->getEbookId() !== $this) {
-            $cartItems->setEbookId($this);
-        }
-
-        $this->cartItems = $cartItems;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Review>
      */
@@ -298,6 +286,36 @@ class Ebook
             // set the owning side to null (unless already changed)
             if ($review->getEbookId() === $this) {
                 $review->setEbookId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CartItems>
+     */
+    public function getCartItems(): Collection
+    {
+        return $this->cartItems;
+    }
+
+    public function addCartItem(CartItems $cartItem): static
+    {
+        if (!$this->cartItems->contains($cartItem)) {
+            $this->cartItems->add($cartItem);
+            $cartItem->setEbook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartItem(CartItems $cartItem): static
+    {
+        if ($this->cartItems->removeElement($cartItem)) {
+            // set the owning side to null (unless already changed)
+            if ($cartItem->getEbook() === $this) {
+                $cartItem->setEbook(null);
             }
         }
 

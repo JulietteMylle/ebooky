@@ -117,32 +117,31 @@ class PanierController extends AbstractController
         return new JsonResponse($user->getCart());
     }
     #[Route('/remove_panier/{id}', name: 'removePanier')]
-    public function removePanier(int $id, Request $request, CartItemsRepository $cartItemsRepository, JWTEncoderInterface $JWTInterface, UserRepository $userRepository, EntityManagerInterface $entityManager): JsonResponse
+    public function removePanier(int $id, Request $request, CartItemsRepository $cartItemsRepository, JWTEncoderInterface $JWTInterface, UserRepository $userRepository, EntityManagerInterface $entityManager, CartRepository $cartRepository): JsonResponse
     {
         // Récupérer l'utilisateur à partir du token JWT
         $authHeaders = $request->headers->get('Authorization');
         $token = str_replace('Bearer ', '', $authHeaders);
         $decodedToken = $JWTInterface->decode($token);
         $userId = $decodedToken["id"];
+
         $user = $userRepository->find($userId);
-
-        // Vérifier si l'utilisateur existe
-        if (!$user) {
-            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        $userCart = $user->getCart();
+        if ($userCart) {
+            // Récupérer les éléments du panier associés à ce panier
+            $cartItems = $userCart->getCartItems();
+            $cartItemDeleted = $cartItemsRepository->getEbookId();
+            dd($cartItemDeleted);
+            foreach ($cartItems as $cartItem) {
+                // Vérifier si l'élément du panier correspond à l'ID spécifié
+                if ($cartItem->getId() === $id) {
+                    $entityManager->remove($cartItem);
+                    $entityManager->flush();
+                    return new JsonResponse(['message' => 'Cart item successfully removed']);
+                }
+            }
         }
 
-        // Récupérer l'élément du panier à supprimer
-        $cartItem = $cartItemsRepository->find($id);
-
-        // Vérifier si l'élément du panier existe
-        if (!$cartItem) {
-            return new JsonResponse(['message' => 'Cart item not found'], Response::HTTP_NOT_FOUND);
-        }
-
-        // Supprimer l'élément du panier
-        $entityManager->remove($cartItem);
-        $entityManager->flush();
-
-        return new JsonResponse(['message' => 'Cart item successfully removed']);
+        return new JsonResponse(['message' => 'Cart item not found'], Response::HTTP_NOT_FOUND);
     }
 }
