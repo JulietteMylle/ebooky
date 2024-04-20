@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Cart = () => {
@@ -42,6 +42,25 @@ const Cart = () => {
         }
     };
 
+    const adjustQuantity = async (itemId, action) => {
+        try {
+            const token = localStorage.getItem("session");
+            const parsedTokenObject = JSON.parse(token);
+            const tokenValue = parsedTokenObject.token;
+
+            const url = action === 'increase' ? `https://localhost:8000/add_quantity/${itemId}` : `https://localhost:8000/remove_quantity/${itemId}`;
+            await axios.post(url, {}, {
+                headers: {
+                    Authorization: `Bearer ${tokenValue}`
+                }
+            });
+
+            fetchCartItems(); // Rafraîchir les données du panier après l'ajustement de la quantité
+        } catch (error) {
+            console.error('Error adjusting quantity:', error);
+        }
+    };
+
     return (
         <div className="container mx-auto py-8">
             <h1 className="text-3xl font-semibold mb-4">Mon Panier</h1>
@@ -52,10 +71,15 @@ const Cart = () => {
                         <div className="p-4">
                             <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
                             <p className="text-gray-600">Prix: {item.price} €</p>
-                            <p className="text-gray-600">Quantité: {item.quantity}</p>
                             <div className="flex justify-between items-center mt-4">
-                                <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={() => removeCartItem(item.id)}>Supprimer</button>
-                                <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Modifier</button>
+                                <div className="flex items-center">
+                                    <button className="bg-blue-500 text-white px-3 py-1 rounded-md" onClick={() => adjustQuantity(item.id, 'decrease')}>-</button>
+                                    <p className="mx-2">{item.quantity}</p>
+                                    <button className="bg-blue-500 text-white px-3 py-1 rounded-md" onClick={() => adjustQuantity(item.id, 'increase')}>+</button>
+                                </div>
+                                <div>
+                                    <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={() => removeCartItem(item.id)}>Supprimer</button>
+                                </div>
                             </div>
                         </div>
                     </div>

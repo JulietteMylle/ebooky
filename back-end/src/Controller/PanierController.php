@@ -143,4 +143,56 @@ class PanierController extends AbstractController
 
         return new JsonResponse(['message' => 'Cart item not found'], Response::HTTP_NOT_FOUND);
     }
+    #[Route('/add_quantity/{id}', name: 'addQuantity')]
+    public function addQuantity(int $id, Request $request, CartItemsRepository $cartItemsRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        // Récupérer l'élément du panier à partir de son ID
+        $cartItem = $cartItemsRepository->find($id);
+
+        // Vérifier si l'élément du panier existe
+        if (!$cartItem) {
+            return new JsonResponse(['message' => 'Cart item not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Augmenter la quantité de l'ebook dans le panier
+        $quantity = $cartItem->getQuantity();
+        $cartItem->setQuantity($quantity + 1);
+
+        // Enregistrer les modifications dans la base de données
+        $entityManager->flush();
+
+        // Retourner une réponse JSON avec l'élément du panier mis à jour
+        return new JsonResponse($cartItem);
+    }
+
+    #[Route('/remove_quantity/{id}', name: 'removeQuantity')]
+    public function removeQuantity(int $id, Request $request, CartItemsRepository $cartItemsRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        // Récupérer l'élément du panier à partir de son ID
+        $cartItem = $cartItemsRepository->find($id);
+
+        // Vérifier si l'élément du panier existe
+        if (!$cartItem) {
+            return new JsonResponse(['message' => 'Cart item not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Réduire la quantité de l'ebook dans le panier
+        $quantity = $cartItem->getQuantity();
+        if ($quantity > 1) {
+            $cartItem->setQuantity($quantity - 1);
+        } else {
+            // Si la quantité atteint zéro, retirer l'ebook du panier
+            $entityManager->remove($cartItem);
+        }
+
+        // Enregistrer les modifications dans la base de données
+        $entityManager->flush();
+
+        // Retourner une réponse JSON avec l'élément du panier mis à jour ou un message de succès si l'ebook a été retiré
+        if ($quantity > 1) {
+            return new JsonResponse($cartItem);
+        } else {
+            return new JsonResponse(['message' => 'Cart item removed successfully']);
+        }
+    }
 }
