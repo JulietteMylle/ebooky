@@ -161,7 +161,6 @@ class AdminController extends AbstractController
         }
 
         $data = json_decode($request->getContent(), true);
-        dd($data);
 
         // Récupérer l'ebook à mettre à jour
         $ebook = $ebookRepository->find($id);
@@ -171,11 +170,11 @@ class AdminController extends AbstractController
 
 
         // Mettre à jour les données de l'ebook
-        $ebook->setTitle($data['title']);
-        $ebook->setDescription($data['description']);
-        $ebook->setPrice($data['price']);
-        $ebook->setStatus($data['status']);
-        $ebook->addAuthor($data['author']);
+        // $ebook->setTitle($data['title']);
+        // $ebook->setDescription($data['description']);
+        // $ebook->setPrice($data['price']);
+        // $ebook->setStatus($data['status']);
+        $ebook->addAuthor($data['authors']);
 
         // Enregistrer les modifications
         $entityManager->persist($ebook);
