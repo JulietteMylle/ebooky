@@ -56,3 +56,36 @@ remove_panier:
   path : /remove_panier/{id}
   controller : App\Controller\PanierController::removePanier
   methods : DELETE
+
+
+admin_profile: 
+  path: /admin/profile
+  controller: App\Controller\AdminController::adminProfile
+  methods: GET
+
+adminUpdateProfile: 
+  path: /admin/updateProfile
+  controller: App\Controller\AdminController::adminUpdateProfile
+  methods: PUT
+
+adminDeleteProfile: 
+  path: /admin/deleteProfile
+  controller: App\Controller\AdminController::adminDeleteProfile
+  methods: DELETE
+
+
+
+adminEbookListPage: 
+  path: /admin/ebookListPage
+  controller: App\Controller\AdminController::adminEbookListPage
+  methods: GET
+
+adminEditEbook: 
+  path: /admin/editEbook/{id}
+  controller: App\Controller\AdminController::adminEditEbook
+  methods: PUT
+
+adminEditEbookAuthor: 
+  path: /admin/editEbookAuthor/{id}
+  controller: App\Controller\AdminController::adminEditEbookAuthor
+  methods: PUT
