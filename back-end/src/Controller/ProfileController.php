@@ -32,11 +32,14 @@ class ProfileController extends AbstractController
         $user = $userRepository->findOneBy(["email" => $email]);
         $username = $user->getUsername();
 
+
+
+
         $responseData = [
             'email' => $email,
-            'username' => $username
-        ];
+            'username' => $username,
 
+        ];
         return new JsonResponse($responseData);
     }
 
