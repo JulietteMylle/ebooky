@@ -145,9 +145,8 @@ class AdminController extends AbstractController
 
         return new JsonResponse($ebookData);
     }
-
     #[Route('/admin/editEbook/{id}', name: 'adminEditEbook', methods: "PUT")]
-    public function adminEditEbook(int $id, AuthorRepository $authorRepository, EbookRepository $ebookRepository, UserRepository $userRepository, JWTEncoderInterface $JWTInterface, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function adminEditEbook(AuthorRepository $authorRepository, UserRepository $userRepository, int $id, EbookRepository $ebookRepository, JWTEncoderInterface $JWTInterface, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $authHeaders = $request->headers->get('Authorization');
         $token = str_replace('Bearer ', '', $authHeaders);
@@ -162,24 +161,99 @@ class AdminController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
 
-        // Récupérer l'ebook à mettre à jour
+
+
         $ebook = $ebookRepository->find($id);
+
+
         if (!$ebook) {
-            return new JsonResponse(['error' => 'Ebook non trouvé'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['error' => 'Ebook not found'], 404);
+        }
+        $authorName = $data['authors'] ?? null;
+
+        // Recherchez l'auteur en fonction de son nom
+        $author = $authorRepository->findOneBy(['fullName' => $authorName]);
+
+        // Vérifiez si l'auteur existe
+        if (!$author) {
+            return new JsonResponse(['error' => 'Auteur non trouvé'], 404);
         }
 
+        // Utilisez l'identifiant de l'auteur pour la mise à jour de l'ebook
+        $ebook->addAuthor($author);
 
-        // Mettre à jour les données de l'ebook
-        // $ebook->setTitle($data['title']);
-        // $ebook->setDescription($data['description']);
-        // $ebook->setPrice($data['price']);
-        // $ebook->setStatus($data['status']);
-        $ebook->addAuthor($data['authors']);
 
-        // Enregistrer les modifications
+        // Mise à jour des autres champs si nécessaire
+        $ebook->setTitle($data['title'] ?? $ebook->getTitle());
+        $ebook->setDescription($data['description'] ?? $ebook->getDescription());
+        $ebook->setNumberPages($data['numberPages'] ?? $ebook->getNumberPages());
+        $ebook->setPrice($data['price'] ?? $ebook->getPrice());
+        $ebook->setStatus($data['status'] ?? $ebook->getStatus());
+
+        // Retrait des anciens auteurs
+        $oldAuthors = $ebook->getAuthors();
+        foreach ($oldAuthors as $oldAuthor) {
+            if ($oldAuthor->getId() !== $author->getId()) {
+                $ebook->removeAuthor($oldAuthor);
+            }
+        }
+
+        // Persistance des changements dans la base de données
         $entityManager->persist($ebook);
         $entityManager->flush();
 
-        return new JsonResponse(['message' => 'Ebook mis à jour avec succès']);
+        return new JsonResponse(['message' => 'Ebook author updated successfully']);
+    }
+    #[Route('/admin/authors', name: 'admin_authors', methods: ['GET'])]
+    public function admin_authors(AuthorRepository $authorRepository): JsonResponse
+    {
+        $authors = $authorRepository->findAll();
+
+        $authorsData = [];
+        foreach ($authors as $author) {
+            $authorsData[] = [
+                'id' => $author->getId(),
+                'fullName' => $author->getFullName(),
+                // Ajoutez d'autres données de l'auteur si nécessaire
+            ];
+        }
+
+        return new JsonResponse($authorsData);
+    }
+
+
+    #[Route('/admin/getAuthorId', name: 'get_author_id', methods: ['GET'])]
+    public function getAuthorId(Request $request, AuthorRepository $authorRepository): JsonResponse
+    {
+        $fullName = $request->query->get('fullName');
+
+        // Recherche de l'auteur par son nom complet
+        $author = $authorRepository->findOneBy(['fullName' => $fullName]);
+
+        if (!$author) {
+            return new JsonResponse(['error' => 'Auteur non trouvé'], 404);
+        }
+
+        return new JsonResponse(['id' => $author->getId()]);
+    }
+    #[Route('/admin/createEbook', name: 'adminCreateEbook', methods: "POST")]
+    public function adminCreateEbook(Request $request, EbookRepository $ebookRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+
+        $data = json_decode($request->getContent(), true);
+        $publisher = $data['publisher'];
+        $title = $data['title'];
+        $description = $data['description'];
+        $picture = $data['picture'];
+        $publicationDate = $data[publication_date];
+
+        // Créer une nouvelle instance de l'entité Ebook avec les données fournies
+        $ebook = new Ebook();
+
+        // Persister l'ebook dans la base de données
+        $entityManager->persist($ebook);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Ebook créé avec succès', 'id' => $ebook->getId()]);
     }
 }

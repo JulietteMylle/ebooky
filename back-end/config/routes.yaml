@@ -46,46 +46,42 @@ cart:
   controller: App\Controller\PanierController::panier_utilisateur
   methods: GET
 
-
 add_panier:
-  path : /add_panier/{id}
-  controller : App\Controller\PanierController::addPanier
-  methods : POST
+  path: /add_panier/{id}
+  controller: App\Controller\PanierController::addPanier
+  methods: POST
 
 remove_panier:
-  path : /remove_panier/{id}
-  controller : App\Controller\PanierController::removePanier
-  methods : DELETE
+  path: /remove_panier/{id}
+  controller: App\Controller\PanierController::removePanier
+  methods: DELETE
 
-
-admin_profile: 
+admin_profile:
   path: /admin/profile
   controller: App\Controller\AdminController::adminProfile
   methods: GET
 
-adminUpdateProfile: 
+adminUpdateProfile:
   path: /admin/updateProfile
   controller: App\Controller\AdminController::adminUpdateProfile
   methods: PUT
 
-adminDeleteProfile: 
+adminDeleteProfile:
   path: /admin/deleteProfile
   controller: App\Controller\AdminController::adminDeleteProfile
   methods: DELETE
 
-
-
-adminEbookListPage: 
+adminEbookListPage:
   path: /admin/ebookListPage
   controller: App\Controller\AdminController::adminEbookListPage
   methods: GET
 
-adminEditEbook: 
+adminEditEbook:
   path: /admin/editEbook/{id}
   controller: App\Controller\AdminController::adminEditEbook
   methods: PUT
 
-adminEditEbookAuthor: 
-  path: /admin/editEbookAuthor/{id}
-  controller: App\Controller\AdminController::adminEditEbookAuthor
-  methods: PUT
+admin_authors:
+  path: /admin/authors
+  controller: App\Controller\AdminController::admin_authors
+  methods: GET
