@@ -21,7 +21,7 @@ class Publisher
     #[ORM\Column(length: 255)]
     private ?string $details = null;
 
-    #[ORM\OneToMany(targetEntity: ebook::class, mappedBy: 'publisher')]
+    #[ORM\OneToMany(targetEntity: Ebook::class, mappedBy: 'publisher')]
     private Collection $ebooks;
 
     public function __construct()
@@ -66,22 +66,22 @@ class Publisher
         return $this->ebooks;
     }
 
-    public function addEbooks(ebook $ebooks): static
+    public function addEbook(Ebook $ebook): static
     {
-        if (!$this->ebooks->contains($ebooks)) {
-            $this->ebooks->add($ebooks);
-            $ebooks->setPublisher($this);
+        if (!$this->ebooks->contains($ebook)) {
+            $this->ebooks->add($ebook);
+            $ebook->setPublisher($this);
         }
 
         return $this;
     }
 
-    public function removeEbooks(ebook $ebooks): static
+    public function removeEbook(Ebook $ebook): static
     {
-        if ($this->ebooks->removeElement($ebooks)) {
+        if ($this->ebooks->removeElement($ebook)) {
             // set the owning side to null (unless already changed)
-            if ($ebooks->getPublisher() === $this) {
-                $ebooks->setPublisher(null);
+            if ($ebook->getPublisher() === $this) {
+                $ebook->setPublisher(null);
             }
         }
 

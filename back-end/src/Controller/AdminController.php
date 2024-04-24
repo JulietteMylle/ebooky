@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
+use App\Entity\Publisher;
 use App\Repository\AuthorRepository;
 use App\Repository\CartRepository;
 use App\Repository\EbookRepository;
+use App\Repository\PublisherRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -126,10 +129,9 @@ class AdminController extends AbstractController
             foreach ($ebook->getAuthors() as $author) {
                 $authors[] = $author->getFullName();
             }
-            $publishers = [];
-            foreach ($ebook->getPublisher() as $publisher) {
-                $publishers[] = $publisher->getName();
-            }
+
+
+
             $ebookData[] = [
                 'id' => $ebook->getId(),
                 'title' => $ebook->getTitle(),
@@ -138,9 +140,13 @@ class AdminController extends AbstractController
                 'authors' => $authors,
                 'price' => $ebook->getPrice(),
                 'status' => $ebook->getStatus(),
-                'publisher' => $publishers,
 
             ];
+            $publisher = $ebook->getPublisher();
+            if ($publisher) {
+                // Ajouter le nom de l'éditeur à l'élément de $ebookData actuel
+                $ebookData[count($ebookData) - 1]['publisher'] = $publisher->getName();
+            }
         }
 
         return new JsonResponse($ebookData);
@@ -214,6 +220,7 @@ class AdminController extends AbstractController
             $authorsData[] = [
                 'id' => $author->getId(),
                 'fullName' => $author->getFullName(),
+                'biography' => $author->getBiography(),
                 // Ajoutez d'autres données de l'auteur si nécessaire
             ];
         }
@@ -236,24 +243,101 @@ class AdminController extends AbstractController
 
         return new JsonResponse(['id' => $author->getId()]);
     }
-    #[Route('/admin/createEbook', name: 'adminCreateEbook', methods: "POST")]
-    public function adminCreateEbook(Request $request, EbookRepository $ebookRepository, EntityManagerInterface $entityManager): JsonResponse
+    // #[Route('/admin/createEbook', name: 'adminCreateEbook', methods: "POST")]
+    // public function adminCreateEbook(Request $request, EbookRepository $ebookRepository, EntityManagerInterface $entityManager): JsonResponse
+    // {
+
+    //     $data = json_decode($request->getContent(), true);
+    //     $publisher = $data['publisher'];
+    //     $title = $data['title'];
+    //     $description = $data['description'];
+    //     $picture = $data['picture'];
+    //     $publicationDate = $data[publication_date];
+
+    //     // Créer une nouvelle instance de l'entité Ebook avec les données fournies
+    //     $ebook = new Ebook();
+
+    //     // Persister l'ebook dans la base de données
+    //     $entityManager->persist($ebook);
+    //     $entityManager->flush();
+
+    //     return new JsonResponse(['message' => 'Ebook créé avec succès', 'id' => $ebook->getId()]);
+    // }
+
+    #[Route('/admin/addAuthor', name: 'admin_add_author', methods: ['POST'])]
+    public function admin_add_author(Request $request, EntityManagerInterface $entityManager, AuthorRepository $authorRepository): JsonResponse
     {
-
         $data = json_decode($request->getContent(), true);
-        $publisher = $data['publisher'];
-        $title = $data['title'];
-        $description = $data['description'];
-        $picture = $data['picture'];
-        $publicationDate = $data[publication_date];
 
-        // Créer une nouvelle instance de l'entité Ebook avec les données fournies
-        $ebook = new Ebook();
+        $fullName = $data['fullName'];
+        $biography = $data['biography'];
 
-        // Persister l'ebook dans la base de données
-        $entityManager->persist($ebook);
+        if (!$fullName || !$biography) {
+            return new JsonResponse(['message' => 'Tous les champs sont obligatoires']);
+        }
+
+        $author = new Author();
+        $author->setFullName($fullName);
+        $author->setBiography($biography);
+
+        $entityManager->persist($author);
         $entityManager->flush();
 
-        return new JsonResponse(['message' => 'Ebook créé avec succès', 'id' => $ebook->getId()]);
+        return new JsonResponse(['message' => 'Le nouvel auteur a été créé'], JsonResponse::HTTP_CREATED);
+    }
+    #[Route('/admin/editAuthor/{id}', name: 'admin_update_author', methods: ['PUT'])]
+    public function admin_update_author(Request $request, EntityManagerInterface $entityManager, AuthorRepository $authorRepository, int $id): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $fullName = $data['fullName'] ?? null;
+        $biography = $data['biography'] ?? null;
+
+        if (!$fullName || !$biography) {
+            return new JsonResponse(['message' => 'Tous les champs sont obligatoires'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $author = $authorRepository->find($id);
+
+        if (!$author) {
+            return new JsonResponse(['message' => 'Auteur non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $author->setFullName($fullName);
+        $author->setBiography($biography);
+
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'L\'auteur a été mis à jour'], JsonResponse::HTTP_OK);
+    }
+    #[Route('/admin/deleteAuthors/{id}', name: 'admin_delete_author', methods: ['DELETE'])]
+    public function admin_delete_author(EntityManagerInterface $entityManager, AuthorRepository $authorRepository, int $id): JsonResponse
+    {
+        $author = $authorRepository->find($id);
+
+        if (!$author) {
+            return new JsonResponse(['message' => 'Auteur non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $entityManager->remove($author);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'L\'auteur a été supprimé'], JsonResponse::HTTP_OK);
+    }
+    #[Route('/admin/publishers', name: 'admin_publishers', methods: ['GET'])]
+    public function admin_publishers(PublisherRepository $publisherRepository): JsonResponse
+    {
+        $publishers = $publisherRepository->findAll();
+
+        $publishersData = [];
+        foreach ($publishers as $publisher) {
+            $publishersData[] = [
+                'id' => $publisher->getId(),
+                'name' => $publisher->getName(),
+                'details' => $publisher->getDetails(),
+            ];
+        }
+
+        return new JsonResponse($publishersData);
     }
 }

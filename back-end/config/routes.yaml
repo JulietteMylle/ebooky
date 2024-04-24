@@ -85,3 +85,23 @@ admin_authors:
   path: /admin/authors
   controller: App\Controller\AdminController::admin_authors
   methods: GET
+
+admin_add_author:
+  path: /admin/addAuthor
+  controller: App\Controller\AdminController::admin_add_author
+  methods: POST
+
+admin_update_author:
+  path: /admin/editAuthor/{id}
+  controller: App\Controller\AdminController::admin_update_author
+  methods: PUT
+
+admin_delete_author:
+  path: /admin/deleteAuthors/{id}
+  controller: App\Controller\AdminController::admin_delete_author
+  methods: DELETE
+
+admin_publishers:
+  path: /admin/publishers
+  controller: App\Controller\AdminController::admin_publishers
+  methods: GET

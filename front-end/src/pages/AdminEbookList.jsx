@@ -89,6 +89,7 @@ function AdminEbookList() {
                                 <th className="px-4 py-2">Auteurs</th>
                                 <th className="px-4 py-2">Prix</th>
                                 <th className="px-4 py-2">Statut</th>
+                                <th className="px-4 py-2">Maison d'éditions</th>
                                 <th className="px-4 py-2">Actions</th>
                             </tr>
                         </thead>
@@ -112,8 +113,12 @@ function AdminEbookList() {
                                         <input type="text" value={ebook.status} onChange={(e) => handleFieldChange(e, 'status', index)} />
                                     </td>
                                     <td className="border px-4 py-2">
+                                        <input type="text" value={ebook.publisher && ebook.publisher} onChange={(e) => handleFieldChange(e, 'publisher', index)} />
+                                    </td>
+                                    <td className="border px-4 py-2">
                                         <button onClick={() => handleUpdateEbook(ebook.id, ebooks[index])}>Enregistrer</button>
                                     </td>
+                                    
                                 </tr>
                             ))}
                         </tbody>

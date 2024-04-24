@@ -11,6 +11,8 @@ import Cart from "../pages/Cart";
 import AdminProfile from "../pages/AdminProfile";
 import AdminDeleteProfile from "../pages/AdminDeleteProfile";
 import AdminEbookList from "../pages/AdminEbookList";
+import AdminAuthorPage from "../pages/AdminAuthorPage";
+import AddAuthorForm from "../pages/AdminAddAuthor";
 
 
 function AppRoutes() {
@@ -29,7 +31,15 @@ function AppRoutes() {
       <Route path="/ebooks/:id" element={<EbookDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/admin/ebookListPage" element={<AdminEbookList />} />
+      <Route path="/admin/authorPage" element={<AdminAuthorPage />} />
+      <Route path="/admin/addAuthor" element={<AddAuthorForm />} />
+      <Route path="/admin/publishers" element={<Admin />} />
 
+
+
+
+
+      
 
 
       <Route path="/termsOfService" element={<TermsOfService />} />
