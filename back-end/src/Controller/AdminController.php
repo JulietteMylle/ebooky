@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Author;
+use App\Entity\Ebook;
 use App\Entity\Publisher;
 use App\Repository\AuthorRepository;
 use App\Repository\CartRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\EbookRepository;
 use App\Repository\PublisherRepository;
 use App\Repository\UserRepository;
@@ -14,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -243,26 +246,6 @@ class AdminController extends AbstractController
 
         return new JsonResponse(['id' => $author->getId()]);
     }
-    // #[Route('/admin/createEbook', name: 'adminCreateEbook', methods: "POST")]
-    // public function adminCreateEbook(Request $request, EbookRepository $ebookRepository, EntityManagerInterface $entityManager): JsonResponse
-    // {
-
-    //     $data = json_decode($request->getContent(), true);
-    //     $publisher = $data['publisher'];
-    //     $title = $data['title'];
-    //     $description = $data['description'];
-    //     $picture = $data['picture'];
-    //     $publicationDate = $data[publication_date];
-
-    //     // Créer une nouvelle instance de l'entité Ebook avec les données fournies
-    //     $ebook = new Ebook();
-
-    //     // Persister l'ebook dans la base de données
-    //     $entityManager->persist($ebook);
-    //     $entityManager->flush();
-
-    //     return new JsonResponse(['message' => 'Ebook créé avec succès', 'id' => $ebook->getId()]);
-    // }
 
     #[Route('/admin/addAuthor', name: 'admin_add_author', methods: ['POST'])]
     public function admin_add_author(Request $request, EntityManagerInterface $entityManager, AuthorRepository $authorRepository): JsonResponse
@@ -339,5 +322,179 @@ class AdminController extends AbstractController
         }
 
         return new JsonResponse($publishersData);
+    }
+
+    #[Route('/admin/addPublisher', name: 'admin_add_publisher', methods: ['POST'])]
+    public function admin_add_publisher(Request $request, EntityManagerInterface $entityManager, PublisherRepository $publisherRepository): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $name = $data['name'];
+        $details = $data['details'];
+
+        if (!$name || !$details) {
+            return new JsonResponse(['message' => 'Tous les champs sont obligatoires']);
+        }
+
+        $publisher = new Publisher();
+        $publisher->setName($name);
+        $publisher->setDetails($details);
+
+        $entityManager->persist($publisher);
+        $entityManager->flush();
+
+        return new JsonResponse(["message" => "La nouvelle maison d'édition a été créé"], JsonResponse::HTTP_CREATED);
+    }
+    #[Route('/admin/editPublisher/{id}', name: 'admin_update_publisher', methods: ['PUT'])]
+    public function admin_update_publisher(Request $request, EntityManagerInterface $entityManager, PublisherRepository $publisherRepository, int $id): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $name = $data['name'] ?? null;
+        $details = $data['details'] ?? null;
+
+        if (!$name || !$details) {
+            return new JsonResponse(['message' => 'Tous les champs sont obligatoires'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $publisher = $publisherRepository->find($id);
+
+        if (!$publisher) {
+            return new JsonResponse(['message' => 'Maison édition non trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $publisher->setName($name);
+        $publisher->setDetails($details);
+
+        $entityManager->persist($publisher);
+
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'La maison édition a été mise à jour'], JsonResponse::HTTP_OK);
+    }
+    #[Route('/admin/deletePublisher/{id}', name: 'admin_delete_publisher', methods: ['DELETE'])]
+    public function admin_delete_publisher(EntityManagerInterface $entityManager, PublisherRepository $publisherRepository, int $id): JsonResponse
+    {
+        $publisher = $publisherRepository->find($id);
+
+        if (!$publisher) {
+            return new JsonResponse(['message' => 'Maison édition non trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $entityManager->remove($publisher);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'La maison édition a été supprimée'], JsonResponse::HTTP_OK);
+    }
+
+    #[Route('/admin/addEbook', name: 'admin_add_ebook', methods: ['POST'])]
+    public function admin_add_ebook(
+        CategoryRepository $categoryRepository,
+        EntityManagerInterface $entityManager,
+        Request $request,
+        AuthorRepository $authorRepository,
+        PublisherRepository $publisherRepository,
+        EbookRepository $ebookRepository
+    ): JsonResponse {
+        // Récupérer les données du formulaire
+        $title = $request->request->get('title');
+        $publisherName = $request->request->get('publisher');
+        $publicationDate = new \DateTime($request->request->get('publicationDate'));
+        $description = $request->request->get('description');
+        $numberPages = $request->request->get('numberPages');
+        $price = $request->request->get('price');
+        $status = $request->request->get('status');
+        $authorName = $request->request->get('author');
+        $category = $request->request->get('category');
+
+        // Recherche de l'auteur
+        $author = $authorRepository->findOneBy(['fullName' => $authorName]);
+        if (!$author) {
+            return new JsonResponse(['error' => 'Auteur non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Recherche de l'éditeur
+        $publisher = $publisherRepository->findOneBy(['name' => $publisherName]);
+        if (!$publisher) {
+            // Traiter le cas où l'éditeur n'est pas trouvé
+            return new JsonResponse(['error' => 'Éditeur non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Recherche de la catégorie
+        $category = $categoryRepository->findOneBy(['name' => $category]);
+        if (!$category) {
+            // Traiter le cas où la catégorie n'est pas trouvée
+            return new JsonResponse(['error' => 'Catégorie non trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Récupérer le fichier de l'image de couverture
+        $coverImageFile = $request->files->get('picture');
+        if (!$coverImageFile) {
+            return new JsonResponse(['error' => 'Aucune image de couverture téléchargée'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        // Définir le chemin complet où vous souhaitez enregistrer l'image
+        $coversDirectory = $this->getParameter('kernel.project_dir') . '/public/images/couvertures';
+
+        // Générer un nom de fichier unique pour l'image de couverture
+        $newFilename = uniqid() . '.' . $coverImageFile->guessExtension();
+
+        // Déplacer l'image vers le dossier de destination
+        try {
+            $coverImageFile->move($coversDirectory, $newFilename);
+        } catch (FileException $e) {
+            return new JsonResponse(['error' => 'Une erreur s\'est produite lors du téléchargement de l\'image'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        // Création de l'entité Ebook
+        $ebook = new Ebook();
+        $ebook->setTitle($title);
+        $ebook->setPublisher($publisher);
+        $ebook->setPicture($newFilename);
+        $ebook->setPublicationDate($publicationDate);
+        $ebook->setDescription($description);
+        $ebook->setNumberPages($numberPages);
+        $ebook->setPrice($price);
+        $ebook->setStatus($status);
+        $ebook->addAuthor($author);
+        $ebook->addCategory($category);
+
+        // Persist and flush
+        $entityManager->persist($ebook);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Le Ebook a bien été créé'], JsonResponse::HTTP_CREATED);
+    }
+
+    #[Route('/admin/deleteEbook/{id}', name: 'admin_delete_ebook', methods: ['DELETE'])]
+    public function admin_delete_ebook(EntityManagerInterface $entityManager, EbookRepository $ebookRepository, int $id): JsonResponse
+    {
+        $ebook = $ebookRepository->findOneBy(['id' => $id]);
+
+
+        if (!$ebook) {
+            return new JsonResponse(['message' => 'Ebook non trouvé'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Retirer les relations avec les auteurs
+        $authors = $ebook->getAuthors();
+        foreach ($authors as $author) {
+
+            $ebook->removeAuthor($author);
+            $author->removeEbooksId($ebook);
+        }
+
+        // Retirer les relations avec les catégories
+        $categories = $ebook->getCategories();
+        foreach ($categories as $category) {
+            $ebook->removeCategory($category);
+            $category->removeEbookId($ebook);
+        }
+
+        // Supprimer l'ebook
+        $entityManager->remove($ebook);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Le ebook a été supprimé'], JsonResponse::HTTP_OK);
     }
 }

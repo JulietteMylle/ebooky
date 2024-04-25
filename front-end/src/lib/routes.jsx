@@ -13,6 +13,9 @@ import AdminDeleteProfile from "../pages/AdminDeleteProfile";
 import AdminEbookList from "../pages/AdminEbookList";
 import AdminAuthorPage from "../pages/AdminAuthorPage";
 import AddAuthorForm from "../pages/AdminAddAuthor";
+import AdminPublisherPage from "../pages/AdminPublishers";
+import AdminAddPublisher from "../pages/AdminAddPublisher";
+import AddEbookForm from "../pages/AdminAddEbook";
 
 
 function AppRoutes() {
@@ -33,13 +36,16 @@ function AppRoutes() {
       <Route path="/admin/ebookListPage" element={<AdminEbookList />} />
       <Route path="/admin/authorPage" element={<AdminAuthorPage />} />
       <Route path="/admin/addAuthor" element={<AddAuthorForm />} />
-      <Route path="/admin/publishers" element={<Admin />} />
+      <Route path="/admin/publishers" element={<AdminPublisherPage />} />
+      <Route path="/admin/addPublisher" element={<AdminAddPublisher />} />
+      <Route path="/admin/addEbook" element={<AddEbookForm />} />
 
 
 
 
 
-      
+
+
 
 
       <Route path="/termsOfService" element={<TermsOfService />} />

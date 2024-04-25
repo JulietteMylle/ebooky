@@ -74,6 +74,30 @@ function AdminEbookList() {
         setEbooks(newEbooks);
     };
 
+    const handleDeleteEbook = async (id) => {
+        try {
+            // Récupération du token
+            const token = localStorage.getItem("session");
+            if (!token) {
+                setErrorMessage("Oups, vous n'avez pas accès à cette page.");
+                return;
+            }
+
+            const parsedTokenObject = JSON.parse(token);
+            const tokenValue = parsedTokenObject.token;
+
+            await axios.delete(`https://localhost:8000/admin/deleteEbook/${id}`, {
+                headers: { Authorization: "Bearer " + tokenValue },
+            });
+
+            // Mettre à jour localement les données de l'ebook après suppression
+            const updatedEbooks = ebooks.filter(ebook => ebook.id !== id);
+            setEbooks(updatedEbooks);
+        } catch (error) {
+            console.error('Erreur lors de la suppression du livre : ', error);
+        }
+    };
+
     return (
         <div className="container mx-auto">
             <h2 className="text-2xl font-bold mb-4">Liste des ebooks</h2>
@@ -117,8 +141,9 @@ function AdminEbookList() {
                                     </td>
                                     <td className="border px-4 py-2">
                                         <button onClick={() => handleUpdateEbook(ebook.id, ebooks[index])}>Enregistrer</button>
+                                        <button onClick={() => handleDeleteEbook(ebook.id)}>Supprimer</button>
                                     </td>
-                                    
+
                                 </tr>
                             ))}
                         </tbody>

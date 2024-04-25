@@ -105,3 +105,30 @@ admin_publishers:
   path: /admin/publishers
   controller: App\Controller\AdminController::admin_publishers
   methods: GET
+
+admin_add_publisher: 
+  path: /admin/addPublisher
+  controller: App\Controller\AdminController::admin_add_publisher
+  methods: POST
+
+
+admin_edit_publisher: 
+  path: /admin/editPublisher/{id}
+  controller: App\Controller\AdminController::admin_update_publisher
+  methods: PUT
+
+admin_delete_publisher: 
+  path: /admin/deletePublisher/{id}
+  controller: App\Controller\AdminController::admin_delete_publisher
+  methods: DELETE
+
+
+admin_add_ebook: 
+  path: /admin/addEbook
+  controller: App\Controller\AdminController::admin_add_ebook
+  methods: POST
+
+admin_delete_ebook: 
+  path: /admin/deleteEbook/{id}
+  controller: App\Controller\AdminController::admin_delete_ebook
+  methods: DELETE
