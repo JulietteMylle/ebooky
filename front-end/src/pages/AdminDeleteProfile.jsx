@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function DeleteProfile() {
+function AdminDeleteProfile() {
     const [userData, setUserData] = useState(null);
     const [newUserData, setNewUserData] = useState(null);
 
@@ -10,7 +10,7 @@ function DeleteProfile() {
         const parsedTokenObject = JSON.parse(token);
         const tokenValue = parsedTokenObject.token;
 
-        axios.get('https://localhost:8000/profile', {
+        axios.get('https://localhost:8000/admin/profile', {
             headers: { 'Authorization': 'Bearer ' + tokenValue }
         })
             .then(response => {
@@ -30,7 +30,7 @@ function DeleteProfile() {
         const tokenValue = parsedTokenObject.token;
 
         try {
-            await axios.delete('https://localhost:8000/deleteProfile', {
+            await axios.delete('https://localhost:8000/admin/deleteProfile', {
                 headers: { 'Authorization': 'Bearer ' + tokenValue }
             });
             localStorage.removeItem("session");
@@ -53,4 +53,4 @@ function DeleteProfile() {
     );
 }
 
-export default DeleteProfile;
+export default AdminDeleteProfile;

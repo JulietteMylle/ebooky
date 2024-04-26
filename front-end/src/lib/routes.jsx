@@ -8,6 +8,15 @@ import ErrorPage from "../pages/ErrorPage";
 import TermsOfService from "../pages/TermsOfService";
 import EbookDetails from "../pages/EbooksDetails";
 import Cart from "../pages/Cart";
+import AdminProfile from "../pages/AdminProfile";
+import AdminDeleteProfile from "../pages/AdminDeleteProfile";
+import AdminEbookList from "../pages/AdminEbookList";
+import AdminAuthorPage from "../pages/AdminAuthorPage";
+import AddAuthorForm from "../pages/AdminAddAuthor";
+import AdminPublisherPage from "../pages/AdminPublishers";
+import AdminAddPublisher from "../pages/AdminAddPublisher";
+import AddEbookForm from "../pages/AdminAddEbook";
+
 
 function AppRoutes() {
   return (
@@ -16,10 +25,25 @@ function AppRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/admin/profile" element={<AdminProfile />} />
+
       <Route path="/deleteProfile" element={<DeleteProfile />} />
+      <Route path="/admin/deleteProfile" element={<AdminDeleteProfile />} />
+
       <Route path="/errorPage" element={<ErrorPage />} />
       <Route path="/ebooks/:id" element={<EbookDetails />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/admin/ebookListPage" element={<AdminEbookList />} />
+      <Route path="/admin/authorPage" element={<AdminAuthorPage />} />
+      <Route path="/admin/addAuthor" element={<AddAuthorForm />} />
+      <Route path="/admin/publishers" element={<AdminPublisherPage />} />
+      <Route path="/admin/addPublisher" element={<AdminAddPublisher />} />
+      <Route path="/admin/addEbook" element={<AddEbookForm />} />
+
+
+
+
+
 
 
 
