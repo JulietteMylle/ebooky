@@ -1,58 +1,110 @@
-// frontend/Library.js
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Filter from "../components/molecules/Filters";
 import BookCard from "../components/molecules/BookCard";
-// import Filters from "../components/molecules/Filtres";
 
 function Library() {
   const [books, setBooks] = useState([]);
+  const [authors, setAuthors] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [favoris, setFavoris] = useState([]);
 
   useEffect(() => {
     axios
       .get("https://localhost:8000/books")
       .then((response) => {
-        setBooks(response.data);
+        const booksData = response.data;
+        setBooks(booksData);
+        setFilteredBooks(booksData);
+
+        // Extraction des catégories à partir des données des livres
+        const uniqueCategories = [
+          ...new Set(booksData.flatMap((book) => book.category)),
+        ];
+        setCategories(uniqueCategories);
+
+        const uniqueAuthors = [
+          ...new Set(booksData.flatMap((book) => book.authors)),
+        ];
+        setAuthors(uniqueAuthors);
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des livres :", error);
       });
   }, []);
 
+  const addToFavoris = (bookId) => {
+    const bookToAdd = books.find((book) => book.id === bookId);
+    setFavoris([...favoris, bookToAdd]);
+    // console.log(bookId);
+    // console.log(favoris);
+  };
+
+  const handleAddToFavoris = (bookId) => {
+    addToFavoris(bookId);
+  };
+
+  const handleFilter = (filters) => {
+    let filteredBooksData = [...books];
+    if (filters.author) {
+      filteredBooksData = filteredBooksData.filter((book) =>
+        book.authors.some((author) => author.fullName === filters.author)
+      );
+    }
+    if (filters.title) {
+      filteredBooksData = filteredBooksData.filter((book) =>
+        book.title.toLowerCase().includes(filters.title.toLowerCase())
+      );
+    }
+    if (filters.category) {
+      filteredBooksData = filteredBooksData.filter((book) =>
+        book.category.some((category) => category.name === filters.category)
+      );
+    }
+    setFilteredBooks(filteredBooksData);
+  };
+
   return (
-    // <div>
-    //   <h1>Library</h1>
-    //   <div>
-    //     {books.map((book) => (
-    //       <div key={book.id}>
-    //         <h2>{book.title}</h2>
-    //         <p>Author: {book.author}</p>
-    //         {/* Ajoutez d'autres informations sur le livre si nécessaire */}
-    //       </div>
-    //     ))}
-    //   </div>
-    // </div>
-    <div className="flex flex-col items-center w-full">
-      <h1 className="font-bold text-xl">Tous nos livres</h1>
-      {/* <div>
-        <Filters />
-      </div> */}
-      <div className="grid grid-cols-3 gap-4 mt-4">
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
+    <div className="container mx-auto">
+      <h1 className="text-3xl text-center align-center font-semibold mb-8">
+        Librairie Ebooky
+      </h1>
+      <div className="m-7">
+        <Filter
+          authors={authors}
+          categories={categories}
+          handleFilter={handleFilter}
+        />
       </div>
 
-      {books.map((ebook) => (
-        <li key={ebook.id}>
-          {ebook.title} - {ebook.author}
-        </li>
-      ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {filteredBooks.map((book) => (
+          <div
+            key={book.id}
+            className="bg-white border border-gray-200 rounded-md p-4"
+          >
+            <img
+              src={book.picture}
+              alt={book.title}
+              className="mx-auto mb-2 w-48 h-64"
+            />
+            <h2 className="text-lg font-bold text-center mb-2">{book.title}</h2>
+            <p className="text-sm italic text-center mb-4">
+              {book.authors.map((author) => author.fullName).join(", ")}
+            </p>
+            <button
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md w-full mr-2"
+              onClick={() => handleAddToFavoris(book.id)}
+            >
+              Ajouter aux favoris
+            </button>
+            <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md w-full">
+              Voir plus
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

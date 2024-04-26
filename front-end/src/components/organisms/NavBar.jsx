@@ -43,10 +43,10 @@ const NavBar = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-
       <a href="/library">Librairie</a>
 
-      <span>Ma bibliothèque</span>
+      <a href="/mylibrary">Ma Bibliothèque</a>
+      {/* <span>Ma bibliothèque</span> */}
       <SearchInput />
       <ToggleTheme />
       {isAuthenticated ? (
@@ -54,10 +54,11 @@ const NavBar = () => {
       ) : (
         <Link to="/login">Se Connecter</Link>
       )}
-    <Link to="/cart" ><Button content="Panier" icon="cart" /></Link>
+      <Link to="/cart">
+        <Button content="Panier" icon="cart" />
+      </Link>
     </div>
   );
-
 };
 
 export default NavBar;
