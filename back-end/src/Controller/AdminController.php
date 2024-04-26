@@ -467,8 +467,12 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/deleteEbook/{id}', name: 'admin_delete_ebook', methods: ['DELETE'])]
-    public function admin_delete_ebook(EntityManagerInterface $entityManager, EbookRepository $ebookRepository, int $id): JsonResponse
-    {
+    public function admin_delete_ebook(
+        EntityManagerInterface $entityManager,
+        EbookRepository $ebookRepository,
+        int $id,
+        AuthorRepository $authorRepository,
+    ): JsonResponse {
         $ebook = $ebookRepository->findOneBy(['id' => $id]);
 
 
@@ -477,18 +481,21 @@ class AdminController extends AbstractController
         }
 
         // Retirer les relations avec les auteurs
-        $authors = $ebook->getAuthors();
-        foreach ($authors as $author) {
+        /* $authors = $ebook->getAuthors();
+        $authors = $authorRepository->findOneBy(["ebooksIds" => $id]); */
+        // foreach ($authors as $author) {
 
-            $ebook->removeAuthor($author);
-            $author->removeEbooksId($ebook);
-        }
+        //     $ebook->removeAuthor($author);
+
+        //     $author->removeEbooksId($ebook);
+        // }
 
         // Retirer les relations avec les catégories
         $categories = $ebook->getCategories();
+
         foreach ($categories as $category) {
             $ebook->removeCategory($category);
-            $category->removeEbookId($ebook);
+            /* $category->removeEbookId($ebook); */
         }
 
         // Supprimer l'ebook

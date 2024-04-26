@@ -40,13 +40,13 @@ class Ebook
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'ebooksIds')]
+    #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'ebooksIds', cascade: ["remove"])]
     private Collection $authors;
 
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'ebookId')]
     private Collection $files;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'ebookIds')]
+    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'ebookIds', cascade: ["remove"])]
     private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'ebookIds')]
