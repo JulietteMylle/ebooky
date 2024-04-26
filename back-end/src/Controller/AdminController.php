@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -488,5 +489,52 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse(['message' => 'Le ebook a été supprimé'], JsonResponse::HTTP_OK);
+    }
+
+    #[Route('/admin/updateEbookCover/{id}', name: 'admin_update_ebook_cover', methods: ['POST'])]
+    public function admin_update_ebook_cover(
+        int $id,
+        EbookRepository $ebookRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        JWTEncoderInterface $JWTInterface,
+        UserRepository $userRepository
+    ): JsonResponse {
+
+
+        $ebook = $ebookRepository->find($id);
+
+        if (!$ebook) {
+            return new JsonResponse(['error' => 'Ebook not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Récupérer le fichier de la nouvelle image de couverture
+        $newCoverImageFile = $request->files->get('newCoverImage');
+
+        if (!$newCoverImageFile) {
+            return new JsonResponse(['error' => 'No new cover image uploaded'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        // Définir le chemin complet où vous souhaitez enregistrer la nouvelle image
+        $coversDirectory = $this->getParameter('kernel.project_dir') . '/public/images/couvertures';
+
+        // Générer un nom de fichier unique pour la nouvelle image de couverture
+        $newFilename = uniqid() . '.' . $newCoverImageFile->guessExtension();
+
+        // Déplacer la nouvelle image vers le dossier de destination
+        try {
+            $newCoverImageFile->move($coversDirectory, $newFilename);
+        } catch (FileException $e) {
+            return new JsonResponse(['error' => 'An error occurred while uploading the new cover image'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        // Mettre à jour l'image de couverture de l'ebook
+        $ebook->setPicture($newFilename);
+
+        // Persister les changements dans la base de données
+        $entityManager->persist($ebook);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Ebook cover image updated successfully']);
     }
 }

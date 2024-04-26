@@ -16,6 +16,7 @@ import AddAuthorForm from "../pages/AdminAddAuthor";
 import AdminPublisherPage from "../pages/AdminPublishers";
 import AdminAddPublisher from "../pages/AdminAddPublisher";
 import AddEbookForm from "../pages/AdminAddEbook";
+import UpdateEbookCoverComponent from "../pages/AdminUpdateCover";
 
 
 function AppRoutes() {
@@ -39,6 +40,7 @@ function AppRoutes() {
       <Route path="/admin/publishers" element={<AdminPublisherPage />} />
       <Route path="/admin/addPublisher" element={<AdminAddPublisher />} />
       <Route path="/admin/addEbook" element={<AddEbookForm />} />
+      <Route path="/admin/updateEbookCover/:id" element={<UpdateEbookCoverComponent />} />
 
 
 

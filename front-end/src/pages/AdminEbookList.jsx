@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; // Import de Link pour la navigation
 
 function AdminEbookList() {
     const [ebooks, setEbooks] = useState([]);
@@ -35,7 +36,6 @@ function AdminEbookList() {
 
     const handleUpdateEbook = async (id, updatedFields) => {
         try {
-            // Récupération du token
             const token = localStorage.getItem("session");
             if (!token) {
                 setErrorMessage("Oups, vous n'avez pas accès à cette page.");
@@ -51,7 +51,6 @@ function AdminEbookList() {
                 headers: { Authorization: "Bearer " + tokenValue },
             });
 
-            // Mettre à jour localement les données de l'ebook
             const updatedEbooks = ebooks.map(ebook => {
                 if (ebook.id === id) {
                     return { ...ebook, ...fieldsToUpdate };
@@ -76,7 +75,6 @@ function AdminEbookList() {
 
     const handleDeleteEbook = async (id) => {
         try {
-            // Récupération du token
             const token = localStorage.getItem("session");
             if (!token) {
                 setErrorMessage("Oups, vous n'avez pas accès à cette page.");
@@ -90,12 +88,15 @@ function AdminEbookList() {
                 headers: { Authorization: "Bearer " + tokenValue },
             });
 
-            // Mettre à jour localement les données de l'ebook après suppression
             const updatedEbooks = ebooks.filter(ebook => ebook.id !== id);
             setEbooks(updatedEbooks);
         } catch (error) {
             console.error('Erreur lors de la suppression du livre : ', error);
         }
+    };
+    const handleNavigationCouv = (id) => {
+        // Redirection vers la page de modification de la couverture de l'ebook avec l'ID en paramètre
+        window.location.href = `http://localhost:5173/admin/updateEbookCover/${id}`;
     };
 
     return (
@@ -142,8 +143,8 @@ function AdminEbookList() {
                                     <td className="border px-4 py-2">
                                         <button onClick={() => handleUpdateEbook(ebook.id, ebooks[index])}>Enregistrer</button>
                                         <button onClick={() => handleDeleteEbook(ebook.id)}>Supprimer</button>
+                                        <button onClick={() => handleNavigationCouv(ebook.id)}>Modifier la couverture</button>
                                     </td>
-
                                 </tr>
                             ))}
                         </tbody>
@@ -155,3 +156,4 @@ function AdminEbookList() {
 }
 
 export default AdminEbookList;
+

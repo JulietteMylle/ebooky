@@ -132,3 +132,8 @@ admin_delete_ebook:
   path: /admin/deleteEbook/{id}
   controller: App\Controller\AdminController::admin_delete_ebook
   methods: DELETE
+
+admin_update_ebook_cover:
+  path : /admin/updateEbookCover/{id}
+  controller: App\Controller\AdminController::admin_update_ebook_cover
+  methods: POST
