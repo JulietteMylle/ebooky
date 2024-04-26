@@ -49,11 +49,6 @@ class Ebook
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'ebookIds', cascade: ["remove"])]
     private Collection $categories;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'ebookIds')]
-    private Collection $users;
-
-
-
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'ebookId')]
     private Collection $reviews;
 
@@ -68,7 +63,6 @@ class Ebook
         $this->authors = new ArrayCollection();
         $this->files = new ArrayCollection();
         $this->categories = new ArrayCollection();
-        $this->users = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->cartItems = new ArrayCollection();
     }

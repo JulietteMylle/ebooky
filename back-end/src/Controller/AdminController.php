@@ -481,22 +481,7 @@ class AdminController extends AbstractController
         }
 
         // Retirer les relations avec les auteurs
-        /* $authors = $ebook->getAuthors();
-        $authors = $authorRepository->findOneBy(["ebooksIds" => $id]); */
-        // foreach ($authors as $author) {
 
-        //     $ebook->removeAuthor($author);
-
-        //     $author->removeEbooksId($ebook);
-        // }
-
-        // Retirer les relations avec les catégories
-        $categories = $ebook->getCategories();
-
-        foreach ($categories as $category) {
-            $ebook->removeCategory($category);
-            /* $category->removeEbookId($ebook); */
-        }
 
         // Supprimer l'ebook
         $entityManager->remove($ebook);
