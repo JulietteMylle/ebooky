@@ -1,50 +1,40 @@
-// import { useEffect } from "react";
-import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function BookCard() {
+export default function BookCard({ book }) {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
     axios
       .get("https://localhost:8000/books")
       .then((response) => {
-        setBooks(response.data);
+        const booksData = response.data;
+        setBooks(booksData);
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des livres :", error);
       });
   }, []);
 
-  // return (
-  //   <div className="flex m-8">
-  //     <div className=" flex flex-col ">
-
-  //       <img
-  //         src="public/images/couverture-hp.png"
-  //         className="w-60 h-80 flex flex-row pb-3"
-  //         alt=""
-  //       />
-  //       <div className="flex flex-row justify-between font-bold pb-1.5">
-  //         <p>Nom du livre :{book.title}</p>
-  //         <p>20$</p>
-  //       </div>
-  //       <div>
-  //         <p className="text-sm">Auteur</p>
-  //       </div>
-  //       <Button className="m-5">Ajouter au panier</Button>
-  //     </div>
-  //   </div>
-  // );
-
   return (
-    <div>
+    <div className="grid grid-cols-1 gap-4 m-6">
       {books.map((book) => (
-        <div key={book.id}>
-          <div>{book.author}</div>
-          <h2>{book.title}</h2>
-          <p>Author: {book.author}</p>
+        <div
+          key={book.id}
+          className="bg-white border border-gray-200 rounded-md p-4"
+        >
+          <img src={book.picture} alt={book.title} className="mx-auto mb-2" />
+          <h2 className="text-lg font-bold text-center mb-2">{book.title}</h2>
+          <p className="text-sm italic text-center mb-4">
+            {/* {book.authors.map((author) => author.fullName).join(", ")}
+             */}
+            {book.authors &&
+              book.authors.map((author) => author.fullName).join(", ")}
+          </p>
+          {/* Placeholder for your button */}
+          <button className="bg-transparent border border-gray-500 text-gray-500 font-semibold py-2 px-4 rounded-md w-full">
+            Votre bouton
+          </button>
         </div>
       ))}
     </div>
