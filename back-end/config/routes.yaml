@@ -16,7 +16,6 @@ login:
   controller: App\Controller\SecurityController::login
   methods: POST
 
-
 profile:
   path: /profile
   controller: App\Controller\ProfileController::profile
@@ -26,7 +25,7 @@ updateProfile:
   path: /updateProfile
   controller: App\Controller\ProfileController::updateProfile
   methods: PUT
-  
+
 deleteProfile:
   path: /deleteProfile
   controller: App\Controller\ProfileController::deleteProfile
@@ -41,7 +40,7 @@ ebookDetails:
   path: /ebooks/{id}
   controller: App\Controller\EbooksController::ebook_details
   methods: GET
-    
+
 books:
   path: /books
   controller: App\Controller\BookController::allBooks
@@ -49,5 +48,19 @@ books:
 cart:
   path: /panier
   controller: App\Controller\PanierController::panier_utilisateur
+  methods: GET
 
+update_profile_picture:
+  path: /update-profile-picture
+  controller: App\Controller\ProfileController::updateProfilePicture
+  methods: PUT
+
+addToFavoris:
+  path: /mylibrary
+  controller: App\Controller\MyLibraryController::addToFavoris
+  methods: POST
+
+getFavorites:
+  path: /mylibrary/favorites
+  controller: App\Controller\MyLibraryController::getFavorites
   methods: GET

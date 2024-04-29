@@ -47,18 +47,40 @@ class BookController extends AbstractController
                 'description' => $ebook->getDescription(),
                 'category' => $categoriesData,
                 'authors' => $authorsData,
-                // 'category' => $ebook->getCategory()->isEmpty() ? null : $ebook->getCategory()->firste()->getName(),
 
             ];
 
             $ebooksData[] = $ebookData;
         }
 
-
-
-
         // Retourner les ebooks au format JSON
 
         return new JsonResponse($ebooksData);
+    }
+
+
+    #[Route('/books/{id}', name: 'book_show', methods: ['GET'])]
+    public function show(int $id, EbookRepository $ebookRepository): JsonResponse
+    {
+
+        $ebook = $ebookRepository->find($id);
+
+
+        if (!$ebook) {
+            // Retournez une réponse JSON avec un message d'erreur si l'ebook n'est pas trouvé
+            return new JsonResponse(['error' => 'Ebook not found'], Response::HTTP_NOT_FOUND);
+        }
+
+
+        $ebookData = [
+            'title' => $ebook->getTitle(),
+            'id' => $ebook->getId(),
+            'picture' => 'https://localhost:8000/images/couvertures/' . $ebook->getPicture(),
+            'description' => $ebook->getDescription(),
+
+        ];
+
+        // Retournez une réponse JSON 
+        return new JsonResponse($ebookData);
     }
 }

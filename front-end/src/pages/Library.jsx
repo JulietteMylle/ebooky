@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Filter from "../components/molecules/Filters";
-import BookCard from "../components/molecules/BookCard";
+// import BookCard from "../components/molecules/BookCard";
 
 function Library() {
   const [books, setBooks] = useState([]);
@@ -34,15 +34,32 @@ function Library() {
       });
   }, []);
 
-  const addToFavoris = (bookId) => {
-    const bookToAdd = books.find((book) => book.id === bookId);
-    setFavoris([...favoris, bookToAdd]);
-    // console.log(bookId);
-    // console.log(favoris);
-  };
+  const handleAddToFavoris = async (bookId) => {
+    try {
+      // Récupérer le token d'authentification stocké
+      const token = localStorage.getItem("session");
+      const parsedTokenObject = JSON.parse(token);
+      const tokenValue = parsedTokenObject.token;
 
-  const handleAddToFavoris = (bookId) => {
-    addToFavoris(bookId);
+      const response = await axios.post(
+        "https://localhost:8000/mylibrary",
+        {
+          bookId: bookId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${tokenValue}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        setFavoris((prevFavoris) => [...prevFavoris, bookId]);
+      }
+    } catch (error) {
+      console.error("Probleme de récupération du book", error);
+    }
+    console.log(favoris);
   };
 
   const handleFilter = (filters) => {

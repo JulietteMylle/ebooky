@@ -65,12 +65,12 @@ function Filter({ authors, handleFilter, categories }) {
         onChange={handleChange}
         placeholder="Entrez le titre..."
       />
-      <Link
-        to="/mylibrary"
+      {/* <Link
+        to="/api/mylibrary"
         className="inline-block border text-black py-2 px-4 rounded-full no-underline"
       >
         Voir mes favoris
-      </Link>
+      </Link> */}
     </div>
   );
 }

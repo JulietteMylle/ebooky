@@ -12,7 +12,6 @@ import NewEbooks from "../components/organisms/NewBooks";
 
 import EbookDetails from "../pages/EbooksDetails";
 import Cart from "../pages/Cart";
-import EbookPage from "../pages/EbookPage";
 
 function AppRoutes() {
   return (

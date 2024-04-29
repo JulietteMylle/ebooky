@@ -124,4 +124,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cart = $cart;
         return $this;
     }
+
+    // #[ORM\OneToOne(targetEntity: MyLibrary::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    // private ?MyLibrary $myLibrary = null;
+
+    // public function getMyLibrary(): ?MyLibrary
+    // {
+    //     return $this->myLibrary;
+    // }
+
+    // public function setMyLibrary(?MyLibrary $myLibrary): self
+    // {
+    //     $this->myLibrary = $myLibrary;
+    //     return $this;
+    // }
 }

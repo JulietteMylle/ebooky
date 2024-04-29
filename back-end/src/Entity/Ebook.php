@@ -58,6 +58,12 @@ class Ebook
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'ebookId')]
     private Collection $reviews;
 
+    /**
+     * @var Collection<int, MyLibrary>
+     */
+    #[ORM\ManyToMany(targetEntity: MyLibrary::class, mappedBy: 'ebooks')]
+    private Collection $myLibraries;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -65,6 +71,7 @@ class Ebook
         $this->categories = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->myLibraries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -321,6 +328,33 @@ class Ebook
             if ($review->getEbookId() === $this) {
                 $review->setEbookId(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MyLibrary>
+     */
+    public function getMyLibraries(): Collection
+    {
+        return $this->myLibraries;
+    }
+
+    public function addMyLibrary(MyLibrary $myLibrary): static
+    {
+        if (!$this->myLibraries->contains($myLibrary)) {
+            $this->myLibraries->add($myLibrary);
+            $myLibrary->addEbook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMyLibrary(MyLibrary $myLibrary): static
+    {
+        if ($this->myLibraries->removeElement($myLibrary)) {
+            $myLibrary->removeEbook($this);
         }
 
         return $this;
