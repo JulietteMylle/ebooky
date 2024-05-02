@@ -59,10 +59,16 @@ class Ebook
     private Collection $reviews;
 
     /**
-     * @var Collection<int, MyLibrary>
+     * @var Collection<int, UserLibrary>
      */
-    #[ORM\ManyToMany(targetEntity: MyLibrary::class, mappedBy: 'ebooks')]
-    private Collection $myLibraries;
+    #[ORM\ManyToMany(targetEntity: UserLibrary::class, mappedBy: 'ebooks')]
+    private Collection $userLibraries;
+
+    // /**
+    //  * @var Collection<int, MyLibrary>
+    //  */
+    // #[ORM\ManyToMany(targetEntity: MyLibrary::class, mappedBy: 'ebooks')]
+    // private Collection $myLibraries;
 
     public function __construct()
     {
@@ -71,7 +77,7 @@ class Ebook
         $this->categories = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->reviews = new ArrayCollection();
-        $this->myLibraries = new ArrayCollection();
+        $this->userLibraries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,7 +277,6 @@ class Ebook
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->addEbookId($this);
         }
 
         return $this;
@@ -280,7 +285,6 @@ class Ebook
     public function removeUser(User $user): static
     {
         if ($this->users->removeElement($user)) {
-            $user->removeEbookId($this);
         }
 
         return $this;
@@ -334,29 +338,57 @@ class Ebook
     }
 
     /**
-     * @return Collection<int, MyLibrary>
+     * @return Collection<int, UserLibrary>
      */
-    public function getMyLibraries(): Collection
+    public function getUserLibraries(): Collection
     {
-        return $this->myLibraries;
+        return $this->userLibraries;
     }
 
-    public function addMyLibrary(MyLibrary $myLibrary): static
+    public function addUserLibrary(UserLibrary $userLibrary): static
     {
-        if (!$this->myLibraries->contains($myLibrary)) {
-            $this->myLibraries->add($myLibrary);
-            $myLibrary->addEbook($this);
+        if (!$this->userLibraries->contains($userLibrary)) {
+            $this->userLibraries->add($userLibrary);
+            $userLibrary->addEbook($this);
         }
 
         return $this;
     }
 
-    public function removeMyLibrary(MyLibrary $myLibrary): static
+    public function removeUserLibrary(UserLibrary $userLibrary): static
     {
-        if ($this->myLibraries->removeElement($myLibrary)) {
-            $myLibrary->removeEbook($this);
+        if ($this->userLibraries->removeElement($userLibrary)) {
+            $userLibrary->removeEbook($this);
         }
 
         return $this;
     }
 }
+
+//     /**
+//      * @return Collection<int, MyLibrary>
+//      */
+//     public function getMyLibraries(): Collection
+//     {
+//         return $this->myLibraries;
+//     }
+
+//     public function addMyLibrary(MyLibrary $myLibrary): static
+//     {
+//         if (!$this->myLibraries->contains($myLibrary)) {
+//             $this->myLibraries->add($myLibrary);
+//             $myLibrary->addEbook($this);
+//         }
+
+//         return $this;
+//     }
+
+//     public function removeMyLibrary(MyLibrary $myLibrary): static
+//     {
+//         if ($this->myLibraries->removeElement($myLibrary)) {
+//             $myLibrary->removeEbook($this);
+//         }
+
+//         return $this;
+//     }
+// }

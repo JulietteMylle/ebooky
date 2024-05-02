@@ -55,12 +55,17 @@ update_profile_picture:
   controller: App\Controller\ProfileController::updateProfilePicture
   methods: PUT
 
-addToFavoris:
-  path: /mylibrary
-  controller: App\Controller\MyLibraryController::addToFavoris
+UserLibrary:
+  path: /userlibrary
+  controller: App\Controller\UserLibraryController::UserLibrary
+  methods: GET
+
+UserLibraryAdd:
+  path: /userlibrary_add
+  controller: App\Controller\UserLibraryController::AddToUserLibrary
   methods: POST
 
-getFavorites:
-  path: /mylibrary/favorites
-  controller: App\Controller\MyLibraryController::getFavorites
-  methods: GET
+UserLibraryDelete:
+  path: /userlibrary_delete
+  controller: App\Controller\UserLibraryController::DeleteFromUserLibrary
+  methods: DELETE

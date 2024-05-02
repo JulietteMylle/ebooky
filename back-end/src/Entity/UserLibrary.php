@@ -2,29 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\MyLibraryRepository;
+use App\Repository\UserLibraryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MyLibraryRepository::class)]
-class MyLibrary
+#[ORM\Entity(repositoryClass: UserLibraryRepository::class)]
+class UserLibrary
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
-
     /**
      * @var Collection<int, Ebook>
      */
-    #[ORM\ManyToMany(targetEntity: Ebook::class, inversedBy: 'myLibraries')]
+    #[ORM\ManyToMany(targetEntity: Ebook::class, inversedBy: 'userLibraries')]
     private Collection $ebooks;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'userLibrary', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     public function __construct()
@@ -35,18 +33,6 @@ class MyLibrary
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-
-        return $this;
     }
 
     /**
@@ -78,23 +64,10 @@ class MyLibrary
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 
-        return $this;
-    }
-    #[ORM\OneToOne(targetEntity: MyLibrary::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?MyLibrary $myLibrary = null;
-
-    public function getMyLibrary(): ?MyLibrary
-    {
-        return $this->myLibrary;
-    }
-
-    public function setMyLibrary(?MyLibrary $myLibrary): self
-    {
-        $this->myLibrary = $myLibrary;
         return $this;
     }
 }

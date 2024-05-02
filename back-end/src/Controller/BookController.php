@@ -72,11 +72,29 @@ class BookController extends AbstractController
         }
 
 
+        $authorsData = [];
+        foreach ($ebook->getAuthors() as $author) {
+            $authorsData[] = [
+                'id' => $author->getId(),
+                'fullName' => $author->getFullName(),
+                'biography' => $author->getBiography(),
+            ];
+        }
+
+        $categoriesData = [];
+        foreach ($ebook->getCategories() as $category) {
+            $categoriesData[] = [
+                'id' => $category->getId(),
+                'name' => $category->getName(),
+            ];
+        }
+
         $ebookData = [
             'title' => $ebook->getTitle(),
             'id' => $ebook->getId(),
             'picture' => 'https://localhost:8000/images/couvertures/' . $ebook->getPicture(),
             'description' => $ebook->getDescription(),
+            'authors' => $authorsData,
 
         ];
 

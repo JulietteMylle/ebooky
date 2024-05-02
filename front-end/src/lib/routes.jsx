@@ -6,7 +6,7 @@ import Profile from "../pages/Profile";
 import DeleteProfile from "../pages/DeleteProfile";
 import ErrorPage from "../pages/ErrorPage";
 import TermsOfService from "../pages/TermsOfService";
-import MyLibrary from "../pages/MyLibrary";
+import UserLibrary from "../pages/UserLibrary";
 import Library from "../pages/Library";
 import NewEbooks from "../components/organisms/NewBooks";
 
@@ -28,7 +28,7 @@ function AppRoutes() {
       <Route path="/newEbooks" element={<NewEbooks />} />
       <Route path="/ebooks/:id" element={<EbookDetails />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/mylibrary" element={<MyLibrary />} />
+      <Route path="/userlibrary" element={<UserLibrary />} />
     </Routes>
   );
 }
