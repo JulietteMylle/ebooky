@@ -29,6 +29,9 @@ class OrderLine
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $orderId = null;
 
+    #[ORM\Column]
+    private ?int $ebook_id = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class OrderLine
     public function setOrderId(?Order $orderId): static
     {
         $this->orderId = $orderId;
+
+        return $this;
+    }
+
+    public function getEbookId(): ?int
+    {
+        return $this->ebook_id;
+    }
+
+    public function setEbookId(int $ebook_id): static
+    {
+        $this->ebook_id = $ebook_id;
 
         return $this;
     }

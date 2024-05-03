@@ -142,3 +142,8 @@ panier_pay:
   path : /panier/pay
   controller: App\Controller\StripeController::panier_pay
   methods: POST
+
+transferer_panier:
+  path: /transfererpanier
+  controller: App\Controller\StripeController::transferer_panier
+  methods: POST
