@@ -64,12 +64,15 @@ class Ebook
     // #[ORM\ManyToMany(targetEntity: MyLibrary::class, mappedBy: 'ebooks')]
     // private Collection $myLibraries;
 
+<<<<<<< HEAD
     /**
      * @var Collection<int, CartItems>
      */
     #[ORM\OneToMany(targetEntity: CartItems::class, mappedBy: 'ebook')]
     private Collection $cartItems;
 
+=======
+>>>>>>> 7cbafe10ab41dad90cc0d22ace55c91fbd413a25
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -77,7 +80,10 @@ class Ebook
         $this->categories = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->userLibraries = new ArrayCollection();
+<<<<<<< HEAD
         $this->cartItems = new ArrayCollection();
+=======
+>>>>>>> 7cbafe10ab41dad90cc0d22ace55c91fbd413a25
     }
 
     public function getId(): ?int
@@ -363,6 +369,7 @@ class Ebook
 
         return $this;
     }
+<<<<<<< HEAD
 }
 
 //     /**
@@ -421,4 +428,34 @@ class Ebook
 
         return $this;
     }
+=======
+>>>>>>> 7cbafe10ab41dad90cc0d22ace55c91fbd413a25
 }
+
+//     /**
+//      * @return Collection<int, MyLibrary>
+//      */
+//     public function getMyLibraries(): Collection
+//     {
+//         return $this->myLibraries;
+//     }
+
+//     public function addMyLibrary(MyLibrary $myLibrary): static
+//     {
+//         if (!$this->myLibraries->contains($myLibrary)) {
+//             $this->myLibraries->add($myLibrary);
+//             $myLibrary->addEbook($this);
+//         }
+
+//         return $this;
+//     }
+
+//     public function removeMyLibrary(MyLibrary $myLibrary): static
+//     {
+//         if ($this->myLibraries->removeElement($myLibrary)) {
+//             $myLibrary->removeEbook($this);
+//         }
+
+//         return $this;
+//     }
+// }

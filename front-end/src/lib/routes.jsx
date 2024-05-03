@@ -12,6 +12,7 @@ import NewEbooks from "../components/organisms/NewBooks";
 
 import EbookDetails from "../pages/EbooksDetails";
 import Cart from "../pages/Cart";
+
 import AdminProfile from "../pages/AdminProfile";
 import AdminDeleteProfile from "../pages/AdminDeleteProfile";
 import AdminEbookList from "../pages/AdminEbookList";
@@ -24,6 +25,7 @@ import UpdateEbookCoverComponent from "../pages/AdminUpdateCover";
 
 import PaymentPage from "../pages/PaymentPage";
 import ConfirmationPage from "../pages/ConfirmationPage";
+
 
 
 function AppRoutes() {
@@ -41,6 +43,7 @@ function AppRoutes() {
       <Route path="/errorPage" element={<ErrorPage />} />
       <Route path="/ebooks/:id" element={<EbookDetails />} />
       <Route path="/cart" element={<Cart />} />
+
       <Route path="/admin/ebookListPage" element={<AdminEbookList />} />
       <Route path="/admin/authorPage" element={<AdminAuthorPage />} />
       <Route path="/admin/addAuthor" element={<AddAuthorForm />} />
@@ -65,6 +68,9 @@ function AppRoutes() {
 
 
       <Route path="/termsOfService" element={<TermsOfService />} />
+
+=======
+      <Route path="/userlibrary" element={<UserLibrary />} />
 
     </Routes>
   );

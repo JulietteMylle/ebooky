@@ -60,6 +60,7 @@ UserLibrary:
   controller: App\Controller\UserLibraryController::UserLibrary
   methods: GET
 
+<<<<<<< HEAD
 add_panier:
   path: /add_panier/{id}
   controller: App\Controller\PanierController::addPanier
@@ -162,6 +163,8 @@ transferer_panier:
   controller: App\Controller\StripeController::transferer_panier
   methods: POST
 
+=======
+>>>>>>> 7cbafe10ab41dad90cc0d22ace55c91fbd413a25
 UserLibraryAdd:
   path: /userlibrary_add
   controller: App\Controller\UserLibraryController::AddToUserLibrary
