@@ -6,13 +6,12 @@ import Profile from "../pages/Profile";
 import DeleteProfile from "../pages/DeleteProfile";
 import ErrorPage from "../pages/ErrorPage";
 import TermsOfService from "../pages/TermsOfService";
-import MyLibrary from "../pages/MyLibrary";
+import UserLibrary from "../pages/UserLibrary";
 import Library from "../pages/Library";
 import NewEbooks from "../components/organisms/NewBooks";
 
 import EbookDetails from "../pages/EbooksDetails";
 import Cart from "../pages/Cart";
-import EbookPage from "../pages/EbookPage";
 import AdminProfile from "../pages/AdminProfile";
 import AdminDeleteProfile from "../pages/AdminDeleteProfile";
 import AdminEbookList from "../pages/AdminEbookList";

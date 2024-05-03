@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserLibrary;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -52,11 +53,19 @@ class SecurityController extends AbstractController
         $cart->setUpdatedAt(new \DateTimeImmutable());
         $cart->setUser($user);
 
+        // Création de UserLibrary 
+        $myLibraryEntry = new UserLibrary();
+        $myLibraryEntry->setUserId($user);
+
+
+
+
         // Enregistrement des données dans la base de données
         $entityManager->beginTransaction();
         try {
             $entityManager->persist($user);
             $entityManager->persist($cart);
+            $entityManager->persist($myLibraryEntry);
             $entityManager->flush();
             $entityManager->commit();
         } catch (\Exception $e) {

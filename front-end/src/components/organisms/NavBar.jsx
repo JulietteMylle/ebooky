@@ -45,7 +45,7 @@ const NavBar = () => {
 
       <a href="/library">Librairie</a>
 
-      <a href="/mylibrary">Ma Bibliothèque</a>
+      <a href="/userlibrary">Ma Bibliothèque</a>
       {/* <span>Ma bibliothèque</span> */}
       <SearchInput />
       <ToggleTheme />

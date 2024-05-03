@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Filter from "../components/molecules/Filters";
-import BookCard from "../components/molecules/BookCard";
 
 function Library() {
   const [books, setBooks] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [favoris, setFavoris] = useState([]);
 
   useEffect(() => {
     axios
@@ -34,15 +32,34 @@ function Library() {
       });
   }, []);
 
-  const addToFavoris = (bookId) => {
-    const bookToAdd = books.find((book) => book.id === bookId);
-    setFavoris([...favoris, bookToAdd]);
-    // console.log(bookId);
-    // console.log(favoris);
-  };
+  const handleAddToFavoris = async (bookId) => {
+    try {
+      // Récupérer le token d'authentification stocké
+      const token = localStorage.getItem("session");
+      const parsedTokenObject = JSON.parse(token);
+      const tokenValue = parsedTokenObject.token;
 
-  const handleAddToFavoris = (bookId) => {
-    addToFavoris(bookId);
+      const response = await axios.post(
+        "https://localhost:8000/userlibrary_add",
+        {
+          ebooks: [bookId],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${tokenValue}`,
+          },
+        }
+      );
+
+      if (
+        response.data.message ===
+        "Ebooks ajoutés à votre bibliothèque avec succès"
+      ) {
+        console.log("Livre ajouté avec succès à la bibliothèque");
+      }
+    } catch (error) {
+      console.error("Probleme de récupération du book", error);
+    }
   };
 
   const handleFilter = (filters) => {
@@ -94,10 +111,26 @@ function Library() {
               {book.authors.map((author) => author.fullName).join(", ")}
             </p>
             <button
-              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md w-full mr-2"
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md w-full mr-2 flex items-center"
               onClick={() => handleAddToFavoris(book.id)}
             >
-              Ajouter aux favoris
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="#064e3b"
+                stroke="064e3b"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-library-big mr-1"
+              >
+                <rect width="8" height="18" x="3" y="3" rx="1" />
+                <path d="M7 3v18" />
+                <path d="M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z" />
+              </svg>
+              Ajouter à ma bibliothèque
             </button>
             <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md w-full">
               Voir plus
