@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 
 const ConfirmationPage = () => {
+
+
     return (
         <div>
             <h1>Confirmation de Paiement</h1>
