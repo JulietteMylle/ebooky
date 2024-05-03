@@ -13,6 +13,19 @@ import NewEbooks from "../components/organisms/NewBooks";
 import EbookDetails from "../pages/EbooksDetails";
 import Cart from "../pages/Cart";
 import EbookPage from "../pages/EbookPage";
+import AdminProfile from "../pages/AdminProfile";
+import AdminDeleteProfile from "../pages/AdminDeleteProfile";
+import AdminEbookList from "../pages/AdminEbookList";
+import AdminAuthorPage from "../pages/AdminAuthorPage";
+import AddAuthorForm from "../pages/AdminAddAuthor";
+import AdminPublisherPage from "../pages/AdminPublishers";
+import AdminAddPublisher from "../pages/AdminAddPublisher";
+import AddEbookForm from "../pages/AdminAddEbook";
+import UpdateEbookCoverComponent from "../pages/AdminUpdateCover";
+
+import PaymentPage from "../pages/PaymentPage";
+import ConfirmationPage from "../pages/ConfirmationPage";
+
 
 function AppRoutes() {
   return (
@@ -21,15 +34,39 @@ function AppRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/deleteProfile" element={<DeleteProfile />} />
-      <Route path="/errorPage" element={<ErrorPage />} />
+      <Route path="/admin/profile" element={<AdminProfile />} />
 
-      <Route path="/termsOfService" element={<TermsOfService />} />
-      <Route path="/library" element={<Library />} />
-      <Route path="/newEbooks" element={<NewEbooks />} />
+      <Route path="/deleteProfile" element={<DeleteProfile />} />
+      <Route path="/admin/deleteProfile" element={<AdminDeleteProfile />} />
+
+      <Route path="/errorPage" element={<ErrorPage />} />
       <Route path="/ebooks/:id" element={<EbookDetails />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/mylibrary" element={<MyLibrary />} />
+      <Route path="/admin/ebookListPage" element={<AdminEbookList />} />
+      <Route path="/admin/authorPage" element={<AdminAuthorPage />} />
+      <Route path="/admin/addAuthor" element={<AddAuthorForm />} />
+      <Route path="/admin/publishers" element={<AdminPublisherPage />} />
+      <Route path="/admin/addPublisher" element={<AdminAddPublisher />} />
+      <Route path="/admin/addEbook" element={<AddEbookForm />} />
+      <Route path="/admin/updateEbookCover/:id" element={<UpdateEbookCoverComponent />} />
+      <Route path="/cart/pay" element={<PaymentPage />} />
+      <Route path="/confirmation" element={<ConfirmationPage />} />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <Route path="/termsOfService" element={<TermsOfService />} />
+
     </Routes>
   );
 }

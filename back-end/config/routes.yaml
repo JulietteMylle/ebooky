@@ -51,3 +51,105 @@ cart:
   controller: App\Controller\PanierController::panier_utilisateur
 
   methods: GET
+
+add_panier:
+  path: /add_panier/{id}
+  controller: App\Controller\PanierController::addPanier
+  methods: POST
+
+remove_panier:
+  path: /remove_panier/{id}
+  controller: App\Controller\PanierController::removePanier
+  methods: DELETE
+
+admin_profile:
+  path: /admin/profile
+  controller: App\Controller\AdminController::adminProfile
+  methods: GET
+
+adminUpdateProfile:
+  path: /admin/updateProfile
+  controller: App\Controller\AdminController::adminUpdateProfile
+  methods: PUT
+
+adminDeleteProfile:
+  path: /admin/deleteProfile
+  controller: App\Controller\AdminController::adminDeleteProfile
+  methods: DELETE
+
+adminEbookListPage:
+  path: /admin/ebookListPage
+  controller: App\Controller\AdminController::adminEbookListPage
+  methods: GET
+
+adminEditEbook:
+  path: /admin/editEbook/{id}
+  controller: App\Controller\AdminController::adminEditEbook
+  methods: PUT
+
+admin_authors:
+  path: /admin/authors
+  controller: App\Controller\AdminController::admin_authors
+  methods: GET
+
+admin_add_author:
+  path: /admin/addAuthor
+  controller: App\Controller\AdminController::admin_add_author
+  methods: POST
+
+admin_update_author:
+  path: /admin/editAuthor/{id}
+  controller: App\Controller\AdminController::admin_update_author
+  methods: PUT
+
+admin_delete_author:
+  path: /admin/deleteAuthors/{id}
+  controller: App\Controller\AdminController::admin_delete_author
+  methods: DELETE
+
+admin_publishers:
+  path: /admin/publishers
+  controller: App\Controller\AdminController::admin_publishers
+  methods: GET
+
+admin_add_publisher: 
+  path: /admin/addPublisher
+  controller: App\Controller\AdminController::admin_add_publisher
+  methods: POST
+
+
+admin_edit_publisher: 
+  path: /admin/editPublisher/{id}
+  controller: App\Controller\AdminController::admin_update_publisher
+  methods: PUT
+
+admin_delete_publisher: 
+  path: /admin/deletePublisher/{id}
+  controller: App\Controller\AdminController::admin_delete_publisher
+  methods: DELETE
+
+
+admin_add_ebook: 
+  path: /admin/addEbook
+  controller: App\Controller\AdminController::admin_add_ebook
+  methods: POST
+
+admin_delete_ebook: 
+  path: /admin/deleteEbook/{id}
+  controller: App\Controller\AdminController::admin_delete_ebook
+  methods: DELETE
+
+admin_update_ebook_cover:
+  path : /admin/updateEbookCover/{id}
+  controller: App\Controller\AdminController::admin_update_ebook_cover
+  methods: POST
+
+panier_pay:
+  path : /panier/pay
+  controller: App\Controller\StripeController::panier_pay
+  methods: POST
+
+transferer_panier:
+  path: /transfererpanier
+  controller: App\Controller\StripeController::transferer_panier
+  methods: POST

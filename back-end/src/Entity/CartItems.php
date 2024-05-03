@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Cart;
 use App\Repository\CartItemsRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CartItemsRepository::class)]
@@ -30,9 +31,9 @@ class CartItems
     #[ORM\JoinColumn(name: 'cart_id', referencedColumnName: 'id', nullable: false)]
     private ?Cart $cart = null;
 
-    #[ORM\OneToOne(inversedBy: 'cartItems', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'cartItems')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Ebook $ebookId = null;
+    private ?Ebook $ebook = null;
 
     public function getId(): ?int
     {
@@ -99,14 +100,14 @@ class CartItems
         return $this;
     }
 
-    public function getEbookId(): ?Ebook
+    public function getEbook(): ?Ebook
     {
-        return $this->ebookId;
+        return $this->ebook;
     }
 
-    public function setEbookId(Ebook $ebookId): self
+    public function setEbook(?Ebook $ebook): static
     {
-        $this->ebookId = $ebookId;
+        $this->ebook = $ebook;
 
         return $this;
     }

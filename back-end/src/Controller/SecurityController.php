@@ -76,6 +76,7 @@ class SecurityController extends AbstractController
         $email = $data['email'];
         $password = $data['password'];
 
+
         $user = $userRepository->findOneBy(['email' => $email]);
         if (!$user || !$passwordHasher->isPasswordValid($user, $password)) {
             return new JsonResponse(['message' => 'Les informations fournies ne sont pas correctes.'], Response::HTTP_UNAUTHORIZED);
@@ -84,6 +85,7 @@ class SecurityController extends AbstractController
         $payload = [
             'email' => $user->getEmail(),
             'id' => $user->getId(),
+            'role' => $user->getRoles()
 
         ];
 
