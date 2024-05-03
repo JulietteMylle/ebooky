@@ -122,6 +122,36 @@ function AdminProfile() {
                                         <Link to="/admin/deleteProfile">Supprimer mon compte</Link>
                                     </Button>
                                 </div>
+                                <div className="justify-center m-4">
+                                    <Button className="flex bg-[#064e3b] mx-40 text-white py-2 px-20 rounded-full size-10">
+                                        <Link to="/admin/ebookListPage">Afficher la liste des ebooks : </Link>
+                                    </Button>
+                                </div>
+                                <div className="justify-center m-4">
+                                    <Button className="flex bg-[#064e3b] mx-40 text-white py-2 px-20 rounded-full size-10">
+                                        <Link to="/admin/authorPage">Afficher la liste des auteurs : </Link>
+                                    </Button>
+                                </div>
+                                <div className="justify-center m-4">
+                                    <Button className="flex bg-[#064e3b] mx-40 text-white py-2 px-20 rounded-full size-10">
+                                        <Link to="/admin/authorPage">Afficher la liste des maisons : </Link>
+                                    </Button>
+                                </div>
+                                <div className="justify-center m-4">
+                                    <Button className="flex bg-[#064e3b] mx-40 text-white py-2 px-20 rounded-full size-10">
+                                        <Link to="/admin/addEbook">Ajouter un ebook !  </Link>
+                                    </Button>
+                                </div>
+                                <div className="justify-center m-4">
+                                    <Button className="flex bg-[#064e3b] mx-40 text-white py-2 px-20 rounded-full size-10">
+                                        <Link to="/admin/addAuthor">Ajouter un auteur !  </Link>
+                                    </Button>
+                                </div>
+                                <div className="justify-center m-4">
+                                    <Button className="flex bg-[#064e3b] mx-40 text-white py-2 px-20 rounded-full size-10">
+                                        <Link to="/admin/addPublisher">Ajouter une maison d'édition !  </Link>
+                                    </Button>
+                                </div>
                             </div>
                         </form>
                     )}

@@ -137,3 +137,8 @@ admin_update_ebook_cover:
   path : /admin/updateEbookCover/{id}
   controller: App\Controller\AdminController::admin_update_ebook_cover
   methods: POST
+
+panier_pay:
+  path : /panier/pay
+  controller: App\Controller\StripeController::panier_pay
+  methods: POST

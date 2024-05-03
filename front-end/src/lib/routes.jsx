@@ -18,6 +18,9 @@ import AdminAddPublisher from "../pages/AdminAddPublisher";
 import AddEbookForm from "../pages/AdminAddEbook";
 import UpdateEbookCoverComponent from "../pages/AdminUpdateCover";
 
+import PaymentPage from "../pages/PaymentPage";
+import ConfirmationPage from "../pages/ConfirmationPage";
+
 
 function AppRoutes() {
   return (
@@ -41,6 +44,13 @@ function AppRoutes() {
       <Route path="/admin/addPublisher" element={<AdminAddPublisher />} />
       <Route path="/admin/addEbook" element={<AddEbookForm />} />
       <Route path="/admin/updateEbookCover/:id" element={<UpdateEbookCoverComponent />} />
+      <Route path="/cart/pay" element={<PaymentPage />} />
+      <Route path="/confirmation" element={<ConfirmationPage />} />
+
+
+
+
+
 
 
 

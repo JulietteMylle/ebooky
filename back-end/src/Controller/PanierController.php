@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use App\Entity\CartItems;
 use App\Repository\CartItemsRepository;
+use Doctrine\ORM\EntityManager;
 
 class PanierController extends AbstractController
 {
