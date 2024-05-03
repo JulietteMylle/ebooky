@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Pen } from "lucide-react";
@@ -67,22 +67,22 @@ function Profile() {
   };
 
   return (
-    <div>
+    <div className="cover-container">
       <BarProfile userData={userData} />
 
       <div className="flex justify-center">
-        <div className="border p-12 rounded-3xl m-30 mt-12 mb-12 bg-[url('src/assets/images/cover_img.png')] drop-shadow">
-          <div>
-            <p>Mon Profil</p>
+        <div className="border p-12 rounded-3xl m-30 mt-12 mb-12  drop-shadow">
+          <div className="text-center  cover-container">
+            <p className="text-center text-white text-6xl">Mon Profil</p>
           </div>
 
           {userData && (
             <form
-              className="text-center bg-[#F2F7F3] rounded-lg"
+              className="profile-form text-center bg-[#F2F7F3] rounded-lg"
               onSubmit={handleSubmit}
             >
               <div className=" my-20 text-xl">
-                <label>Nom d'utilisateur:</label>
+                <label>Nom d&apos;utilisateur:</label>
                 <input
                   type="text"
                   name="username"

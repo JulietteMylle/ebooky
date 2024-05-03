@@ -1,14 +1,15 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
-import OneEbookInfo from '@/components/organisms/OneEbookInfo';
+import OneEbookInfo from "@/components/organisms/OneEbookInfo";
 
 const EbookPage = () => {
-    const { productId } = useParams();
-    return (
-        <>
-            <OneEbookInfo />
-        </>
-    );
+  const { productId } = useParams();
+  return (
+    <>
+      <OneEbookInfo />
+      {/* <OneEbookInfo productId={productId} /> */}
+    </>
+  );
 };
 
 export default EbookPage;

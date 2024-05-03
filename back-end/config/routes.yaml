@@ -41,11 +41,26 @@ ebookDetails:
   controller: App\Controller\EbooksController::ebook_details
   methods: GET
 
+books:
+  path: /books
+  controller: App\Controller\BookController::allBooks
+
 cart:
   path: /panier
   controller: App\Controller\PanierController::panier_utilisateur
   methods: GET
 
+update_profile_picture:
+  path: /update-profile-picture
+  controller: App\Controller\ProfileController::updateProfilePicture
+  methods: PUT
+
+UserLibrary:
+  path: /userlibrary
+  controller: App\Controller\UserLibraryController::UserLibrary
+  methods: GET
+
+<<<<<<< HEAD
 add_panier:
   path: /add_panier/{id}
   controller: App\Controller\PanierController::addPanier
@@ -147,3 +162,15 @@ transferer_panier:
   path: /transfererpanier
   controller: App\Controller\StripeController::transferer_panier
   methods: POST
+
+=======
+>>>>>>> 7cbafe10ab41dad90cc0d22ace55c91fbd413a25
+UserLibraryAdd:
+  path: /userlibrary_add
+  controller: App\Controller\UserLibraryController::AddToUserLibrary
+  methods: POST
+
+UserLibraryDelete:
+  path: /userlibrary_delete
+  controller: App\Controller\UserLibraryController::DeleteFromUserLibrary
+  methods: DELETE
