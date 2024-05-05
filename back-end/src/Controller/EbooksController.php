@@ -23,7 +23,7 @@ class EbooksController extends AbstractController
             // Récupérer les auteurs de l'ebook
             $authors = [];
             foreach ($book->getAuthors() as $author) {
-                $authors[] = $author->getFullName(); // Supposons que la méthode getName() récupère le nom de l'auteur
+                $authors[] = $author->getFullName();
             }
 
             // Créer un tableau associatif pour stocker les informations de l'ebook

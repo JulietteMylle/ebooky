@@ -106,40 +106,38 @@ admin_publishers:
   controller: App\Controller\AdminController::admin_publishers
   methods: GET
 
-admin_add_publisher: 
+admin_add_publisher:
   path: /admin/addPublisher
   controller: App\Controller\AdminController::admin_add_publisher
   methods: POST
 
-
-admin_edit_publisher: 
+admin_edit_publisher:
   path: /admin/editPublisher/{id}
   controller: App\Controller\AdminController::admin_update_publisher
   methods: PUT
 
-admin_delete_publisher: 
+admin_delete_publisher:
   path: /admin/deletePublisher/{id}
   controller: App\Controller\AdminController::admin_delete_publisher
   methods: DELETE
 
-
-admin_add_ebook: 
+admin_add_ebook:
   path: /admin/addEbook
   controller: App\Controller\AdminController::admin_add_ebook
   methods: POST
 
-admin_delete_ebook: 
+admin_delete_ebook:
   path: /admin/deleteEbook/{id}
   controller: App\Controller\AdminController::admin_delete_ebook
   methods: DELETE
 
 admin_update_ebook_cover:
-  path : /admin/updateEbookCover/{id}
+  path: /admin/updateEbookCover/{id}
   controller: App\Controller\AdminController::admin_update_ebook_cover
   methods: POST
 
 panier_pay:
-  path : /panier/pay
+  path: /panier/pay
   controller: App\Controller\StripeController::panier_pay
   methods: POST
 
@@ -147,3 +145,23 @@ transferer_panier:
   path: /transfererpanier
   controller: App\Controller\StripeController::transferer_panier
   methods: POST
+
+ResetPassword:
+  path: /resetPassword
+  controller: App\Controller\ResetPasswordController::ResetPassword
+  methods: POST
+
+app_reset_password:
+  path: /reset/{token}
+  controller: App\Controller\ResetPasswordController::reset
+  methods: POST
+
+newComment:
+  path: /ebooks/{id}/newComment
+  controller: App\Controller\CommentsController::newComment
+  methods: POST
+
+comments:
+  path: /ebooks/{id}/comments
+  controller: App\Controller\CommentsController::comments
+  methods: GET

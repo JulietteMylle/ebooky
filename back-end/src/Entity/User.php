@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -114,6 +116,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Cart::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Cart $cart = null;
 
+    /**
+     * @var Collection<int, Comments>
+     */
+    #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'user_id', orphanRemoval: true)]
+    private Collection $Comments_id;
+
+    public function __construct()
+    {
+        $this->Comments_id = new ArrayCollection();
+    }
+
     public function getCart(): ?Cart
     {
         return $this->cart;
@@ -122,6 +135,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCart(?Cart $cart): self
     {
         $this->cart = $cart;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getCommentsId(): Collection
+    {
+        return $this->Comments_id;
+    }
+
+    public function addCommentsId(Comments $commentsId): static
+    {
+        if (!$this->Comments_id->contains($commentsId)) {
+            $this->Comments_id->add($commentsId);
+            $commentsId->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentsId(Comments $commentsId): static
+    {
+        if ($this->Comments_id->removeElement($commentsId)) {
+            // set the owning side to null (unless already changed)
+            if ($commentsId->getUserId() === $this) {
+                $commentsId->setUserId(null);
+            }
+        }
+
         return $this;
     }
 }

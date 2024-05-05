@@ -58,6 +58,12 @@ class Ebook
     #[ORM\OneToMany(targetEntity: CartItems::class, mappedBy: 'ebook')]
     private Collection $cartItems;
 
+    /**
+     * @var Collection<int, Comments>
+     */
+    #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'ebook_id', orphanRemoval: true)]
+    private Collection $comments_id;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -65,6 +71,7 @@ class Ebook
         $this->categories = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->cartItems = new ArrayCollection();
+        $this->comments_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -310,6 +317,36 @@ class Ebook
             // set the owning side to null (unless already changed)
             if ($cartItem->getEbook() === $this) {
                 $cartItem->setEbook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getCommentsId(): Collection
+    {
+        return $this->comments_id;
+    }
+
+    public function addCommentsId(Comments $commentsId): static
+    {
+        if (!$this->comments_id->contains($commentsId)) {
+            $this->comments_id->add($commentsId);
+            $commentsId->setEbookId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentsId(Comments $commentsId): static
+    {
+        if ($this->comments_id->removeElement($commentsId)) {
+            // set the owning side to null (unless already changed)
+            if ($commentsId->getEbookId() === $this) {
+                $commentsId->setEbookId(null);
             }
         }
 
