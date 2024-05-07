@@ -165,3 +165,10 @@ comments:
   path: /ebooks/{id}/comments
   controller: App\Controller\CommentsController::comments
   methods: GET
+
+
+ResetPasswordAfterEmail:
+  path: /emailChecked
+  controller: App\Controller\ResetPasswordController::ResetPasswordAfterEmail
+  methods: POST
+

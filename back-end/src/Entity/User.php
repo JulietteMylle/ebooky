@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -122,6 +123,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'user_id', orphanRemoval: true)]
     private Collection $Comments_id;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $token_reset = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $token_expires = null;
+
     public function __construct()
     {
         $this->Comments_id = new ArrayCollection();
@@ -164,6 +171,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $commentsId->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTokenReset(): ?string
+    {
+        return $this->token_reset;
+    }
+
+    public function setTokenReset(string $token_reset): static
+    {
+        $this->token_reset = $token_reset;
+
+        return $this;
+    }
+
+    public function getTokenExpires(): ?\DateTimeInterface
+    {
+        return $this->token_expires;
+    }
+
+    public function setTokenExpires(?\DateTimeInterface $token_expires): static
+    {
+        $this->token_expires = $token_expires;
 
         return $this;
     }
