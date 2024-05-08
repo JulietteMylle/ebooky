@@ -20,6 +20,9 @@ import UpdateEbookCoverComponent from "../pages/AdminUpdateCover";
 
 import PaymentPage from "../pages/PaymentPage";
 import ConfirmationPage from "../pages/ConfirmationPage";
+import ResetPasswordForm from "../pages/ResetPasswordRequest";
+import ResetPasswordEmail from "../pages/ResetPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 
 function AppRoutes() {
@@ -46,19 +49,8 @@ function AppRoutes() {
       <Route path="/admin/updateEbookCover/:id" element={<UpdateEbookCoverComponent />} />
       <Route path="/cart/pay" element={<PaymentPage />} />
       <Route path="/confirmation" element={<ConfirmationPage />} />
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <Route path="/resetPassword" element={<ResetPasswordForm />} />
+      <Route path="/resetPasswordEmail/:token" element={<ResetPasswordPage />} />
 
       <Route path="/termsOfService" element={<TermsOfService />} />
 

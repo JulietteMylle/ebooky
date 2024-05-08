@@ -4,6 +4,7 @@ import HeroSection from "../components/organisms/HeroSection";
 import { NewBooks } from "../components/organisms/NewBooks";
 import { Newsletter } from "../components/organisms/Newsletter";
 import { Testimonials } from "../components/organisms/Testimonials";
+import { TopRated } from "../components/organisms/TopRated";
 
 
 const Home = () => {
@@ -11,11 +12,10 @@ const Home = () => {
         <div>
             <div className="mt-5">
                 <HeroSection />
-                <Newsletter />
                 <NewBooks />
                 <Testimonials />
-                <BestSellers />
-                <BlogPreview />
+                <TopRated />
+
             </div>
         </div>
     );
