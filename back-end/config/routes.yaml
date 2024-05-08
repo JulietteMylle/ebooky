@@ -166,9 +166,12 @@ comments:
   controller: App\Controller\CommentsController::comments
   methods: GET
 
-
 ResetPasswordAfterEmail:
   path: /emailChecked
   controller: App\Controller\ResetPasswordController::ResetPasswordAfterEmail
   methods: POST
 
+top_rated_books:
+  path: /topRatedBooks
+  controller: App\Controller\EbooksController::top_rated_books
+  methods: GET

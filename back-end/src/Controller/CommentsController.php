@@ -47,8 +47,24 @@ class CommentsController extends AbstractController
         $comment->setEbookId($ebook);
         $comment->setUserId($user);
         $comment->setDate(new DateTime());
+        $comment->setRate($data['rate']);
         $entityManager->persist($comment);
+
+        $ebook = $ebookRepository->find($id);
+        $comments = $ebook->getCommentsId();
+        $totalRating = 0;
+        $numberOfRatings = 0;
+        foreach ($comments as $comment) {
+            if ($comment->getRate() !== null) {
+                $totalRating += $comment->getRate();
+                $numberOfRatings++;
+            }
+        }
+        $averageRating = $numberOfRatings > 0 ? $totalRating / $numberOfRatings : 0;
+        $ebook->setAverageRating($averageRating);
+        $entityManager->persist($ebook);
         $entityManager->flush();
+
 
         return $this->json($comment, 201);
     }
@@ -77,6 +93,7 @@ class CommentsController extends AbstractController
                     'content' => $comment->getContent(),
                     'username' => $userId->getUsername(),
                     'date' => $comment->getDate(),
+                    'rate' => $comment->getRate(),
                     // Autres attributs de commentaire que vous voulez inclure...
                 ];
             }

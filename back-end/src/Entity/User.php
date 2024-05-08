@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -121,6 +122,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Comments>
      */
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'user_id', orphanRemoval: true)]
+    #[Ignore]
     private Collection $Comments_id;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -180,7 +182,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->token_reset;
     }
 
-    public function setTokenReset(string $token_reset): static
+    public function setTokenReset(?string $token_reset): static
     {
         $this->token_reset = $token_reset;
 

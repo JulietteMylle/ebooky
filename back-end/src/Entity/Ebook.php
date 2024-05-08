@@ -64,6 +64,9 @@ class Ebook
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'ebook_id', orphanRemoval: true)]
     private Collection $comments_id;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $average_rating = null;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -349,6 +352,18 @@ class Ebook
                 $commentsId->setEbookId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAverageRating(): ?float
+    {
+        return $this->average_rating;
+    }
+
+    public function setAverageRating(?float $average_rating): static
+    {
+        $this->average_rating = $average_rating;
 
         return $this;
     }
