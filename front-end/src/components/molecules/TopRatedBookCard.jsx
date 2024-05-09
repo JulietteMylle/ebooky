@@ -1,40 +1,37 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
 const TopRatedBookCard = () => {
     const token = localStorage.getItem("session");
-    let tokenValue = ''; // Déclarer tokenValue en dehors de la condition if
+    let tokenValue = '';
 
     if (token) {
         const parsedTokenObject = JSON.parse(token);
-        tokenValue = parsedTokenObject.token; // Affecter tokenValue si le token est présent
+        tokenValue = parsedTokenObject.token;
     }
 
-    const addToCart = async (ebookId) => { // Prend l'ID de l'ebook en paramètre
+    const addToCart = async (ebookId) => {
         try {
-            // Effectuer une requête POST vers la route 'add_panier' avec l'ID de l'ebook et le token d'authentification
             const response = await axios.post(`https://localhost:8000/add_panier/${ebookId}`, {}, { headers: { Authorization: "Bearer " + tokenValue } });
-            console.log(response.data); // Afficher la réponse du serveur (peut être utile pour le débogage)
+            console.log(response.data);
         } catch (error) {
             console.error('Error adding item to cart:', error);
         }
     };
+
     const [ebooks, setEbooks] = useState([]);
 
     useEffect(() => {
-        // Fonction pour récupérer les données depuis l'API Symfony
         const fetchEbooks = async () => {
             try {
-                const response = await axios.get('https://localhost:8000/topRatedBooks'); // Endpoint vers votre API Symfony
-                setEbooks(response.data); // Mettre à jour l'état avec les données récupérées
+                const response = await axios.get('https://localhost:8000/topRatedBooks');
+                setEbooks(response.data);
             } catch (error) {
                 console.error('Error fetching ebooks:', error);
             }
         };
 
-        // Appeler la fonction pour récupérer les données lorsque le composant est monté
         fetchEbooks();
     }, []);
 
@@ -45,16 +42,22 @@ const TopRatedBookCard = () => {
                 {ebooks.map((ebook, index) => (
                     <div key={index}>
                         <Link to={`/ebooks/${ebook.id}`} className="hover:no-underline">
-                            <div className="bg-white shadow-md p-4 rounded-md">
-                                <img src={`${ebook.picture}`} alt={ebook.title} className="w-full h-auto rounded-md" /> {/* Afficher l'image */}
-                                <h3 className="text-xl font-semibold mb-2">{ebook.title}</h3>
-                                <p className="text-gray-600 mb-2">Prix: {ebook.price}</p>
-                                <p className="text-gray-600 mb-4">Auteurs: {ebook.authors.join(', ')}</p>
+                            <div className="bg-white shadow-md p-4 rounded-md transition-transform transform hover:scale-105 h-full flex flex-col justify-between">
+                                <div>
+                                    <img src={`${ebook.picture}`} alt={ebook.title} className="w-full h-auto rounded-md" />
+                                    <div className="flex flex-col">
+                                        <h3 className="text-xl font-semibold mb-2">{ebook.title}</h3>
+                                        <p className="text-gray-600 mb-2">Prix: {ebook.price} €</p>
+                                        <p className="text-gray-600 mb-4">Auteurs: {ebook.authors.join(', ')}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button style={{ backgroundColor: '#054E3B' }} className='text-white px-4 py-2 rounded-md transition-opacity duration-300 ease-in-out hover:bg-opacity-90 hover:text-opacity-90' onClick={() => addToCart(ebook.id)}>
+                                        Ajouter au panier
+                                    </button>
+                                </div>
                             </div>
                         </Link>
-                        <button onClick={() => addToCart(ebook.id)}> {/* Appeler la fonction addToCart avec l'ID de l'ebook */}
-                            Ajouter au panier
-                        </button>
                     </div>
                 ))}
             </div>

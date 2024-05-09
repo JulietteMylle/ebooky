@@ -8,25 +8,25 @@ const EbookDetails = () => {
     const [ebook, setEbook] = useState(null);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
-    const [rating, setRating] = useState(0); // Ajouter l'état pour la note
-    const [averageRating, setAverageRating] = useState(0); // Ajouter l'état pour la note moyenne
+    const [rating, setRating] = useState(0);
+    const [averageRating, setAverageRating] = useState(0);
     const token = localStorage.getItem("session");
-    let tokenValue = ''; // Déclarer tokenValue en dehors de la condition if
+    let tokenValue = '';
 
     if (token) {
         const parsedTokenObject = JSON.parse(token);
-        tokenValue = parsedTokenObject.token; // Affecter tokenValue si le token est présent
+        tokenValue = parsedTokenObject.token;
     }
 
-    const addToCart = async (ebookId) => { // Prend l'ID de l'ebook en paramètre
+    const addToCart = async (ebookId) => {
         try {
-            // Effectuer une requête POST vers la route 'add_panier' avec l'ID de l'ebook et le token d'authentification
             const response = await axios.post(`https://localhost:8000/add_panier/${ebookId}`, {}, { headers: { Authorization: "Bearer " + tokenValue } });
-            console.log(response.data); // Afficher la réponse du serveur (peut être utile pour le débogage)
+            console.log(response.data);
         } catch (error) {
             console.error('Error adding item to cart:', error);
         }
     };
+
     useEffect(() => {
         const fetchEbookDetails = async () => {
             try {
@@ -46,7 +46,6 @@ const EbookDetails = () => {
                 const response = await axios.get(`https://localhost:8000/ebooks/${id}/comments`);
                 setComments(response.data);
                 
-                // Calculer la note moyenne à partir des commentaires
                 const totalRating = response.data.reduce((acc, curr) => acc + curr.rate, 0);
                 const avgRating = totalRating / response.data.length;
                 setAverageRating(avgRating);
@@ -66,11 +65,11 @@ const EbookDetails = () => {
             const tokenValue = parsedTokenObject.token;
             await axios.post(
                 `https://localhost:8000/ebooks/${id}/newComment`,
-                { content: comment, rate: rating }, // Envoyer la note avec le commentaire
+                { content: comment, rate: rating },
                 { headers: { Authorization: "Bearer " + tokenValue } }
             );
             setComment('');
-            setRating(0); // Réinitialiser la note après avoir soumis le commentaire
+            setRating(0);
 
         } catch (error) {
             console.error('Error adding comment:', error);
@@ -82,7 +81,7 @@ const EbookDetails = () => {
     };
 
     const handleRatingChange = (newRating) => {
-        setRating(newRating); // Mettre à jour la note lorsque l'utilisateur change la note
+        setRating(newRating);
     };
 
     if (!ebook) {
@@ -95,21 +94,24 @@ const EbookDetails = () => {
                 <div className="flex flex-col md:flex-row">
                     <div className="p-4 md:w-1/2">
                         <h2 className="text-2xl font-bold mb-2">{ebook.title}</h2>
-                        <p className="text-gray-600 mb-2">Prix: {ebook.price}</p>
+                        <p className="text-gray-600 mb-2">Prix: {ebook.price} €</p>
                         <p className="text-gray-600 mb-2">Auteurs: {ebook.authors.join(', ')}</p>
                         <p className="text-gray-800">{ebook.description}</p>
-                        {ebook.publisher && <p className="text-gray-600">Publisher: {ebook.publisher}</p>}
-                        {/* Afficher la note moyenne */}
+                        {ebook.publisher && <p className="text-gray-600">Maison d'édition: {ebook.publisher}</p>}
                         <div>
                             Note moyenne : 
                             <Rating
-                                value={ebook.averageRating} // Utiliser la valeur de la note moyenne pour afficher les étoiles
+                                value={averageRating}
                                 size={20}
                                 activeColor="#ffd700"
-                                edit={false} // Empêcher l'édition de la note
+                                edit={false}
                             />
                         </div>
-                        <button onClick={() => addToCart(ebook.id)}> {/* Appeler la fonction addToCart avec l'ID de l'ebook */}
+                        <button 
+                            onClick={() => addToCart(ebook.id)} 
+                            style={{ backgroundColor: '#054E3B' }}
+                            className="bg-054E3B text-white py-2 px-4 mt-4 rounded-md hover:bg-opacity-90 hover:text-opacity-90"
+                        >
                             Ajouter au panier
                         </button>
                     </div>
@@ -127,18 +129,18 @@ const EbookDetails = () => {
                             value={comment}
                             onChange={handleCommentChange}
                         ></textarea>
-                        {/* Champ de notation avec des étoiles */}
                         <Rating
                             count={5}
-                            value={rating} // Utiliser la valeur de la note
-                            onChange={handleRatingChange} // Gérer le changement de la note
+                            value={rating}
+                            onChange={handleRatingChange}
                             size={24}
                             activeColor="#ffd700"
                             emptyIcon={<i className="far fa-star"></i>}
                             fullIcon={<i className="fas fa-star"></i>}
                         />
                         <button
-                            className="bg-blue-500 text-white py-2 px-4 mt-2 rounded-md hover:bg-blue-600"
+                        style={{ backgroundColor: '#054E3B' }}
+                            className=" text-white py-2 px-4 mt-2 rounded-md hover:bg-opacity-90 hover:text-opacity-90"
                             type="submit"
                         >
                             Soumettre
@@ -159,15 +161,14 @@ const EbookDetails = () => {
                                         </p>
                                         <p className="font-semibold">{comment.username}</p>
                                         <p className="text-gray-600">{comment.content}</p>
-                                        {/* Afficher la note ici si disponible */}
                                         {comment.rate && (
                                             <div>
                                                 Note : 
                                                 <Rating
-                                                    value={comment.rate} // Utiliser la valeur de la note pour afficher les étoiles
+                                                    value={comment.rate}
                                                     size={20}
                                                     activeColor="#ffd700"
-                                                    edit={false} // Empêcher l'édition de la note
+                                                    edit={false}
                                                 />
                                             </div>
                                         )}

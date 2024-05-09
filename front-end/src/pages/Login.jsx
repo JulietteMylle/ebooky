@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"
+
 
 function Login() {
     const [message, setMessage] = useState('');
@@ -54,9 +55,16 @@ function Login() {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                 />
-                <button className='my-8 text-2xl border w-80 h-20 rounded-lg bg-primary text-white hover:bg-transparent hover:text-black' type='submit'>Se connecter</button>
+                <button  className='my-8 text-2xl border w-80 h-20 rounded-lg bg-primary text-white hover:bg-transparent hover:text-black' type='submit'>Se connecter</button>
+                <a href="/resetPassword"> Vous avez oublié votre mot de passe ? Cliquez ici ! </a>
             </form>
             {message && <p className="text-center text-red-400 text-2xl ">{message}</p>}
+            
+            <div>
+            
+               
+                
+            </div>
         </div>
     );
 }
