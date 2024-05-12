@@ -6,8 +6,6 @@ use App\Repository\UserLibraryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\PseudoTypes\False_;
-use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: UserLibraryRepository::class)]
 class UserLibrary
@@ -26,9 +24,6 @@ class UserLibrary
      */
     #[ORM\ManyToMany(targetEntity: Ebook::class)]
     private Collection $ebook;
-
-    #[ORM\Column]
-    private ?bool $favorite = null;
 
     #[ORM\OneToOne(mappedBy: 'userLibrary', cascade: ['persist', 'remove'])]
     private ?FavoriteBooks $favoriteBooks = null;
@@ -75,18 +70,6 @@ class UserLibrary
     public function removeEbook(Ebook $ebook): static
     {
         $this->ebook->removeElement($ebook);
-
-        return $this;
-    }
-
-    public function isFavorite(): ?bool
-    {
-        return $this->favorite;
-    }
-
-    public function setFavorite(bool $favorite): static
-    {
-        $this->favorite = $favorite;
 
         return $this;
     }

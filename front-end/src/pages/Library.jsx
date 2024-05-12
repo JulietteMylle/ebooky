@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Filter from "../components/molecules/Filters";
+import { Link } from "react-router-dom";
 
 function Library() {
   const [books, setBooks] = useState([]);
@@ -61,33 +62,22 @@ function Library() {
 
   const handleAddToUserLib = async (bookId) => {
     try {
-      // Récupérer le token d'authentification stocké
-      const token = localStorage.getItem("session");
-      const parsedTokenObject = JSON.parse(token);
-      const tokenValue = parsedTokenObject.token;
+        // Récupérer le token d'authentification stocké
+        const token = localStorage.getItem("session");
+        const parsedTokenObject = JSON.parse(token);
+        const tokenValue = parsedTokenObject.token;
 
-      const response = await axios.post(
-        "https://localhost:8000/favorites_add",
-        {
-          ebooks: [bookId],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${tokenValue}`,
-          },
-        }
-      );
-
-      if (
-        response.data.message ===
-        "Ebooks ajoutés à votre bibliothèque avec succès"
-      ) {
-        console.log("Livre ajouté avec succès à la bibliothèque");
-      }
+        // Effectuer une requête POST vers l'endpoint '/favorites_add' avec l'ID de l'ebook et le token d'authentification
+        const response = await axios.post(
+            `https://localhost:8000/favorites_add`,
+            { ebook_id: bookId }, // Envoyer l'ID de l'ebook dans le corps de la requête
+            { headers: { Authorization: "Bearer " + tokenValue } }
+        );
+        console.log(response.data); // Afficher la réponse du serveur (peut être utile pour le débogage)
     } catch (error) {
-      console.error("Probleme de récupération du book", error);
+        console.error('Error adding item to favorites:', error);
     }
-  };
+};
 
   const handleFilter = (filters) => {
     let filteredBooksData = [...books];
@@ -159,9 +149,9 @@ function Library() {
               </svg>
               Ajouter à ma bibliothèque
             </button>
-            <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md w-full">
+            <Link to={`/ebooks/${book.id}`}className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md w-full mr-2 flex items-center">
               Voir plus
-            </button>
+            </Link>
           </div>
         ))}
       </div>
