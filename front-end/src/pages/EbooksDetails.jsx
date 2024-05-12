@@ -97,7 +97,7 @@ const EbookDetails = () => {
                         <p className="text-gray-600 mb-2">Prix: {ebook.price} €</p>
                         <p className="text-gray-600 mb-2">Auteurs: {ebook.authors.join(', ')}</p>
                         <p className="text-gray-800">{ebook.description}</p>
-                        {ebook.publisher && <p className="text-gray-600">Maison d'édition: {ebook.publisher}</p>}
+                        {ebook.publisher && <p className="text-gray-600">Maison dédition: {ebook.publisher}</p>}
                         <div>
                             Note moyenne : 
                             <Rating

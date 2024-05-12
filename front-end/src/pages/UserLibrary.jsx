@@ -5,7 +5,7 @@ import MyUserLib from "../components/organisms/MyUserLib";
 import GetFavoris from "../components/molecules/GetFavoris";
 
 function UserLibrary() {
-  const [favorites, setFavorites] = useState([]);
+  // const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchLibraryBooks = async () => {

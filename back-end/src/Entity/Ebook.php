@@ -65,8 +65,8 @@ class Ebook
     private Collection $favoriteBooks;
 
     /**
-    * @var Collection<int, Comments>
-    */
+     * @var Collection<int, Comments>
+     */
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'ebook_id', orphanRemoval: true)]
     private Collection $comments_id;
 
@@ -270,10 +270,6 @@ class Ebook
     }
 
     /**
-     * @return Collection<int, User>
-     */
-
-    /**
      * @return Collection<int, Review>
      */
     public function getReviews(): Collection
@@ -334,7 +330,6 @@ class Ebook
     }
 
     /**
-
      * @return Collection<int, FavoriteBooks>
      */
     public function getFavoriteBooks(): Collection
@@ -347,8 +342,21 @@ class Ebook
         if (!$this->favoriteBooks->contains($favoriteBook)) {
             $this->favoriteBooks->add($favoriteBook);
             $favoriteBook->addEbook($this);
-      }
+        }
 
+        return $this;
+    }
+
+    public function removeFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if ($this->favoriteBooks->removeElement($favoriteBook)) {
+            $favoriteBook->removeEbook($this);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, Comments>
      */
     public function getCommentsId(): Collection
@@ -365,13 +373,6 @@ class Ebook
         return $this;
     }
 
-
-    public function removeFavoriteBook(FavoriteBooks $favoriteBook): static
-    {
-        if ($this->favoriteBooks->removeElement($favoriteBook)) {
-            $favoriteBook->removeEbook($this);
-           }
-
     public function removeCommentsId(Comments $commentsId): static
     {
         if ($this->comments_id->removeElement($commentsId)) {
@@ -379,13 +380,10 @@ class Ebook
             if ($commentsId->getEbookId() === $this) {
                 $commentsId->setEbookId(null);
             }
-
         }
 
         return $this;
     }
-
-
 
     public function getAverageRating(): ?float
     {
@@ -398,5 +396,4 @@ class Ebook
 
         return $this;
     }
-
 }
