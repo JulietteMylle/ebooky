@@ -23,7 +23,7 @@ class EbooksController extends AbstractController
             // Récupérer les auteurs de l'ebook
             $authors = [];
             foreach ($book->getAuthors() as $author) {
-                $authors[] = $author->getFullName(); // Supposons que la méthode getName() récupère le nom de l'auteur
+                $authors[] = $author->getFullName();
             }
 
             // Créer un tableau associatif pour stocker les informations de l'ebook
@@ -64,6 +64,7 @@ class EbooksController extends AbstractController
             'authors' => $authors,
             'description' => $book->getDescription(),
             'picture' => 'http://localhost:8000/images/couvertures/' . $book->getPicture(),
+            'averageRating' => $book->getAverageRating(),
         ];
 
         // Récupérer le publisher de l'ebook
@@ -74,5 +75,29 @@ class EbooksController extends AbstractController
         }
 
         return new JsonResponse($bookData);
+    }
+    #[Route('/topRatedBooks', name: 'top_rated_books', methods: ['GET'])]
+    public function top_rated_books(EbookRepository $ebookRepository): JsonResponse
+    {
+        $topRatedBooks = $ebookRepository->findBy([], ['average_rating' => 'DESC'], 10);
+
+        $booksData = [];
+        foreach ($topRatedBooks as $book) {
+            // Récupérer les auteurs de l'ebook
+            $authors = [];
+            foreach ($book->getAuthors() as $author) {
+                $authors[] = $author->getFullName();
+            }
+
+            $booksData[] = [
+                'id' => $book->getId(),
+                'title' => $book->getTitle(),
+                'price' => $book->getPrice(),
+                'authors' => $authors,
+                'picture' => 'https://localhost:8000/images/couvertures/' . $book->getPicture(),
+            ];
+        }
+
+        return $this->json($booksData);
     }
 }

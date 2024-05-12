@@ -20,8 +20,15 @@ import UpdateEbookCoverComponent from "../pages/AdminUpdateCover";
 
 import PaymentPage from "../pages/PaymentPage";
 import ConfirmationPage from "../pages/ConfirmationPage";
+
 import Library from "../pages/Library";
 import UserLibrary from "../pages/UserLibrary";
+
+import ResetPasswordForm from "../pages/ResetPasswordRequest";
+import ResetPasswordEmail from "../pages/ResetPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
+
+
 
 function AppRoutes() {
   return (
@@ -50,8 +57,13 @@ function AppRoutes() {
       />
       <Route path="/cart/pay" element={<PaymentPage />} />
       <Route path="/confirmation" element={<ConfirmationPage />} />
+
       <Route path="/library" element={<Library />} />
       <Route path="/Userlibrary" element={<UserLibrary />} />
+
+      <Route path="/resetPassword" element={<ResetPasswordForm />} />
+      <Route path="/resetPasswordEmail/:token" element={<ResetPasswordPage />} />
+
 
       <Route path="/termsOfService" element={<TermsOfService />} />
     </Routes>

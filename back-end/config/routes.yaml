@@ -146,6 +146,7 @@ transferer_panier:
   controller: App\Controller\StripeController::transferer_panier
   methods: POST
 
+
 UserLibrary:
   path: /userlibrary
   controller: App\Controller\UserLibraryController::UserLibrary
@@ -174,4 +175,34 @@ RemoveFavorites:
 Favorites:
   path: /favorites
   controller: App\Controller\FavoriteBooksController::MyFavorites
+  methods: GET
+
+ResetPassword:
+  path: /resetPassword
+  controller: App\Controller\ResetPasswordController::ResetPassword
+  methods: POST
+
+app_reset_password:
+  path: /reset/{token}
+  controller: App\Controller\ResetPasswordController::reset
+  methods: POST
+
+newComment:
+  path: /ebooks/{id}/newComment
+  controller: App\Controller\CommentsController::newComment
+  methods: POST
+
+comments:
+  path: /ebooks/{id}/comments
+  controller: App\Controller\CommentsController::comments
+  methods: GET
+
+ResetPasswordAfterEmail:
+  path: /emailChecked
+  controller: App\Controller\ResetPasswordController::ResetPasswordAfterEmail
+  methods: POST
+
+top_rated_books:
+  path: /topRatedBooks
+  controller: App\Controller\EbooksController::top_rated_books
   methods: GET

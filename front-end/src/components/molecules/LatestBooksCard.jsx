@@ -45,17 +45,26 @@ const NewEbooks = () => {
             <div className="grid grid-cols-5 gap-4">
                 {ebooks.map((ebook, index) => (
                     <div key={index}>
-                        <Link to={`/ebooks/${ebook.id}`} className="hover:no-underline">
-                            <div className="bg-white shadow-md p-4 rounded-md">
-                                <img src={`${ebook.picture}`} alt={ebook.title} className="w-full h-auto rounded-md" /> {/* Afficher l'image */}
-                                <h3 className="text-xl font-semibold mb-2">{ebook.title}</h3>
-                                <p className="text-gray-600 mb-2">Prix: {ebook.price}</p>
-                                <p className="text-gray-600 mb-4">Auteurs: {ebook.authors.join(', ')}</p>
-                            </div>
-                        </Link>
-                        <button onClick={() => addToCart(ebook.id)}> {/* Appeler la fonction addToCart avec l'ID de l'ebook */}
-                            Ajouter au panier
-                        </button>
+                      <Link to={`/ebooks/${ebook.id}`} className="hover:no-underline">
+    <div className="bg-white shadow-md p-4 rounded-md transition-transform transform hover:scale-105 h-full flex flex-col justify-between">
+        <div>
+            <img src={`${ebook.picture}`} alt={ebook.title} className="w-full h-auto rounded-md" />
+            <div className="flex flex-col">
+                <h3 className="text-xl font-semibold mb-2">{ebook.title}</h3>
+                <p className="text-gray-600 mb-2">Prix: {ebook.price} €</p>
+                <p className="text-gray-600 mb-4">Auteurs: {ebook.authors.join(', ')}</p>
+            </div>
+        </div>
+        <div>
+            <button style={{ backgroundColor: '#054E3B' }} className='text-white px-4 py-2 rounded-md transition-opacity duration-300 ease-in-out hover:bg-opacity-90 hover:text-opacity-90'>
+                Ajouter au panier
+            </button>
+        </div>
+    </div>
+</Link>
+
+
+                        
                     </div>
                 ))}
             </div>

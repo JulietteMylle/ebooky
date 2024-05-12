@@ -64,6 +64,15 @@ class Ebook
     #[ORM\ManyToMany(targetEntity: FavoriteBooks::class, mappedBy: 'ebook')]
     private Collection $favoriteBooks;
 
+    /**
+    * @var Collection<int, Comments>
+    */
+    #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'ebook_id', orphanRemoval: true)]
+    private Collection $comments_id;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $average_rating = null;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -72,6 +81,7 @@ class Ebook
         $this->reviews = new ArrayCollection();
         $this->cartItems = new ArrayCollection();
         $this->favoriteBooks = new ArrayCollection();
+        $this->comments_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -324,6 +334,7 @@ class Ebook
     }
 
     /**
+
      * @return Collection<int, FavoriteBooks>
      */
     public function getFavoriteBooks(): Collection
@@ -336,17 +347,56 @@ class Ebook
         if (!$this->favoriteBooks->contains($favoriteBook)) {
             $this->favoriteBooks->add($favoriteBook);
             $favoriteBook->addEbook($this);
+      }
+
+     * @return Collection<int, Comments>
+     */
+    public function getCommentsId(): Collection
+    {
+        return $this->comments_id;
+    }
+
+    public function addCommentsId(Comments $commentsId): static
+    {
+        if (!$this->comments_id->contains($commentsId)) {
+            $this->comments_id->add($commentsId);
         }
 
         return $this;
     }
+
 
     public function removeFavoriteBook(FavoriteBooks $favoriteBook): static
     {
         if ($this->favoriteBooks->removeElement($favoriteBook)) {
             $favoriteBook->removeEbook($this);
+           }
+
+    public function removeCommentsId(Comments $commentsId): static
+    {
+        if ($this->comments_id->removeElement($commentsId)) {
+            // set the owning side to null (unless already changed)
+            if ($commentsId->getEbookId() === $this) {
+                $commentsId->setEbookId(null);
+            }
+
         }
 
         return $this;
     }
+
+
+
+    public function getAverageRating(): ?float
+    {
+        return $this->average_rating;
+    }
+
+    public function setAverageRating(?float $average_rating): static
+    {
+        $this->average_rating = $average_rating;
+
+        return $this;
+    }
+
 }
