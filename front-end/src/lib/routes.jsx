@@ -20,9 +20,14 @@ import UpdateEbookCoverComponent from "../pages/AdminUpdateCover";
 
 import PaymentPage from "../pages/PaymentPage";
 import ConfirmationPage from "../pages/ConfirmationPage";
+
+import Library from "../pages/Library";
+import UserLibrary from "../pages/UserLibrary";
+
 import ResetPasswordForm from "../pages/ResetPasswordRequest";
 import ResetPasswordEmail from "../pages/ResetPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
+
 
 
 function AppRoutes() {
@@ -46,17 +51,23 @@ function AppRoutes() {
       <Route path="/admin/publishers" element={<AdminPublisherPage />} />
       <Route path="/admin/addPublisher" element={<AdminAddPublisher />} />
       <Route path="/admin/addEbook" element={<AddEbookForm />} />
-      <Route path="/admin/updateEbookCover/:id" element={<UpdateEbookCoverComponent />} />
+      <Route
+        path="/admin/updateEbookCover/:id"
+        element={<UpdateEbookCoverComponent />}
+      />
       <Route path="/cart/pay" element={<PaymentPage />} />
       <Route path="/confirmation" element={<ConfirmationPage />} />
+
+      <Route path="/library" element={<Library />} />
+      <Route path="/Userlibrary" element={<UserLibrary />} />
+
       <Route path="/resetPassword" element={<ResetPasswordForm />} />
       <Route path="/resetPasswordEmail/:token" element={<ResetPasswordPage />} />
 
-      <Route path="/termsOfService" element={<TermsOfService />} />
 
+      <Route path="/termsOfService" element={<TermsOfService />} />
     </Routes>
   );
-
 }
 
 export default AppRoutes;
