@@ -122,14 +122,8 @@ const EbookDetails = () => {
                 </div>
                 <div className="p-4">
                     <form onSubmit={handleSubmitComment}>
-                        <textarea
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                            placeholder="Ajouter un commentaire..."
-                            rows="4"
-                            value={comment}
-                            onChange={handleCommentChange}
-                        ></textarea>
-                        <Rating
+                        <p>Votre note :</p>
+                    <Rating
                             count={5}
                             value={rating}
                             onChange={handleRatingChange}
@@ -138,6 +132,14 @@ const EbookDetails = () => {
                             emptyIcon={<i className="far fa-star"></i>}
                             fullIcon={<i className="fas fa-star"></i>}
                         />
+                        <textarea
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                            placeholder="Ajouter un commentaire..."
+                            rows="4"
+                            value={comment}
+                            onChange={handleCommentChange}
+                        ></textarea>
+                        
                         <button
                         style={{ backgroundColor: '#054E3B' }}
                             className=" text-white py-2 px-4 mt-2 rounded-md hover:bg-opacity-90 hover:text-opacity-90"

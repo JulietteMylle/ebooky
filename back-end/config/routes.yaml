@@ -146,7 +146,6 @@ transferer_panier:
   controller: App\Controller\StripeController::transferer_panier
   methods: POST
 
-
 UserLibrary:
   path: /userlibrary
   controller: App\Controller\UserLibraryController::UserLibrary
@@ -205,4 +204,14 @@ ResetPasswordAfterEmail:
 top_rated_books:
   path: /topRatedBooks
   controller: App\Controller\EbooksController::top_rated_books
+  methods: GET
+
+profileComments:
+  path: /profileComments
+  controller: App\Controller\ProfileController::profileComments
+  methods: GET
+
+userCommandes:
+  path: /userCommandes
+  controller: App\Controller\CommandesController::userCommandes
   methods: GET

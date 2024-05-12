@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Pen } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { BarProfile } from "../components/organisms/BarProfile";
+import CommentsComponent from "../components/organisms/ProfileComments";
 
 function Profile() {
   const [userData, setUserData] = useState(null);
@@ -127,6 +128,10 @@ function Profile() {
           )}
         </div>
       </div>
+      <div>
+  <p>Mes commentaires</p>
+  {userData && <CommentsComponent userData={userData} />}
+</div>
     </div>
   );
 }

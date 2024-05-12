@@ -97,7 +97,7 @@ const MyUserLib = () => {
       <div className="bg-white border-2 border-[#064e3b] bg-cover bg-[url('src/assets/images/cover_img.png')]">
         <p className="text-center text-2xl">
           {" "}
-          Tous les livres de ma bibliothèque
+          Mes favoris
         </p>
         <div className="overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 m-8">
