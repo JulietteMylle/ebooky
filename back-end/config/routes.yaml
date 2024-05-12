@@ -160,3 +160,18 @@ UserLibraryDelete:
   path: /userlibrary_delete
   controller: App\Controller\UserLibraryController::DeleteFromUserLibrary
   methods: DELETE
+
+AddToFavorites:
+  path: /favorites_add
+  controller: App\Controller\FavoriteBooksController::AddToFavorites
+  methods: POST
+
+RemoveFavorites:
+  path: /remove_favorites
+  controller: App\Controller\FavoriteBooksController::RemoveFavorites
+  methods: POST
+
+Favorites:
+  path: /favorites
+  controller: App\Controller\FavoriteBooksController::MyFavorites
+  methods: GET

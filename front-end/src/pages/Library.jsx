@@ -32,7 +32,34 @@ function Library() {
       });
   }, []);
 
-  const handleAddToFavoris = async (bookId) => {
+  //   const handleAddToFavoris = async (bookId) => {
+  //     try {
+  //       const token = localStorage.getItem("session");
+  //       const parsedTokenObject = JSON.parse(token);
+  //       const tokenValue = parsedTokenObject.token;
+
+  //       const response = await axios.post(
+  //         "https://localhost:8000/userlibrary_add_favorites",
+  //         {
+  //           id: bookId,
+  //           is_favorite: true,
+  //         },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${tokenValue}`,
+  //           },
+  //         }
+  //       );
+
+  //       if (response.status === 200) {
+  //         console.log("Livre ajouté avec succès aux favoris");
+  //       }
+  //     } catch (error) {
+  //       console.error("Problème lors de l'ajout du livre aux favoris :", error);
+  //     }
+  //   };
+
+  const handleAddToUserLib = async (bookId) => {
     try {
       // Récupérer le token d'authentification stocké
       const token = localStorage.getItem("session");
@@ -40,7 +67,7 @@ function Library() {
       const tokenValue = parsedTokenObject.token;
 
       const response = await axios.post(
-        "https://localhost:8000/userlibrary_add",
+        "https://localhost:8000/favorites_add",
         {
           ebooks: [bookId],
         },
@@ -112,7 +139,7 @@ function Library() {
             </p>
             <button
               className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md w-full mr-2 flex items-center"
-              onClick={() => handleAddToFavoris(book.id)}
+              onClick={() => handleAddToUserLib(book.id)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

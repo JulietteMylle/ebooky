@@ -58,6 +58,12 @@ class Ebook
     #[ORM\OneToMany(targetEntity: CartItems::class, mappedBy: 'ebook')]
     private Collection $cartItems;
 
+    /**
+     * @var Collection<int, FavoriteBooks>
+     */
+    #[ORM\ManyToMany(targetEntity: FavoriteBooks::class, mappedBy: 'ebook')]
+    private Collection $favoriteBooks;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -65,6 +71,7 @@ class Ebook
         $this->categories = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->cartItems = new ArrayCollection();
+        $this->favoriteBooks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -311,6 +318,33 @@ class Ebook
             if ($cartItem->getEbook() === $this) {
                 $cartItem->setEbook(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FavoriteBooks>
+     */
+    public function getFavoriteBooks(): Collection
+    {
+        return $this->favoriteBooks;
+    }
+
+    public function addFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if (!$this->favoriteBooks->contains($favoriteBook)) {
+            $this->favoriteBooks->add($favoriteBook);
+            $favoriteBook->addEbook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if ($this->favoriteBooks->removeElement($favoriteBook)) {
+            $favoriteBook->removeEbook($this);
         }
 
         return $this;

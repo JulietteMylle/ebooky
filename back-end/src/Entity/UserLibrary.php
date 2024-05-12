@@ -6,6 +6,8 @@ use App\Repository\UserLibraryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\PseudoTypes\False_;
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: UserLibraryRepository::class)]
 class UserLibrary
@@ -27,6 +29,9 @@ class UserLibrary
 
     #[ORM\Column]
     private ?bool $favorite = null;
+
+    #[ORM\OneToOne(mappedBy: 'userLibrary', cascade: ['persist', 'remove'])]
+    private ?FavoriteBooks $favoriteBooks = null;
 
     public function __construct()
     {
@@ -82,6 +87,28 @@ class UserLibrary
     public function setFavorite(bool $favorite): static
     {
         $this->favorite = $favorite;
+
+        return $this;
+    }
+
+    public function getFavoriteBooks(): ?FavoriteBooks
+    {
+        return $this->favoriteBooks;
+    }
+
+    public function setFavoriteBooks(?FavoriteBooks $favoriteBooks): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($favoriteBooks === null && $this->favoriteBooks !== null) {
+            $this->favoriteBooks->setUserLibrary(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($favoriteBooks !== null && $favoriteBooks->getUserLibrary() !== $this) {
+            $favoriteBooks->setUserLibrary($this);
+        }
+
+        $this->favoriteBooks = $favoriteBooks;
 
         return $this;
     }

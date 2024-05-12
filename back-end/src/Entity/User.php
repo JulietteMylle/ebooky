@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -117,6 +119,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserLibrary $userLibrary = null;
 
+    /**
+     * @var Collection<int, FavoriteBooks>
+     */
+    #[ORM\ManyToMany(targetEntity: FavoriteBooks::class, mappedBy: 'user')]
+    private Collection $favoriteBooks;
+
+    public function __construct()
+    {
+        $this->favoriteBooks = new ArrayCollection();
+    }
+
     public function getCart(): ?Cart
     {
         return $this->cart;
@@ -141,6 +154,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->userLibrary = $userLibrary;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FavoriteBooks>
+     */
+    public function getFavoriteBooks(): Collection
+    {
+        return $this->favoriteBooks;
+    }
+
+    public function addFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if (!$this->favoriteBooks->contains($favoriteBook)) {
+            $this->favoriteBooks->add($favoriteBook);
+            $favoriteBook->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if ($this->favoriteBooks->removeElement($favoriteBook)) {
+            $favoriteBook->removeUser($this);
+        }
 
         return $this;
     }

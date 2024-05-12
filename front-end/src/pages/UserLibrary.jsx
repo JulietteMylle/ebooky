@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MyUserLib from "../components/organisms/MyUserLib";
+// import Favoris from "../components/organisms/Favoris";
+import GetFavoris from "../components/molecules/GetFavoris";
 
 function UserLibrary() {
   const [favorites, setFavorites] = useState([]);
@@ -43,7 +45,7 @@ function UserLibrary() {
     <div className="container mx-auto">
       <MyUserLib />
       <div className="bg-white border m-8">
-        <p> Mes livres favoris </p>
+        <GetFavoris />
         <div className="overflow-x-auto max-h-[400px]">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 m-8 "></div>
         </div>
