@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240512174223 extends AbstractMigration
+final class Version20240513075105 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -33,6 +33,7 @@ final class Version20240512174223 extends AbstractMigration
         $this->addSql('ALTER TABLE user_library ADD CONSTRAINT FK_F98D86B6A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE user_library_ebook ADD CONSTRAINT FK_A07A0C725942873B FOREIGN KEY (user_library_id) REFERENCES user_library (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE user_library_ebook ADD CONSTRAINT FK_A07A0C7276E71D49 FOREIGN KEY (ebook_id) REFERENCES ebook (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE comments ADD rate INT NOT NULL');
     }
 
     public function down(Schema $schema): void
@@ -51,5 +52,6 @@ final class Version20240512174223 extends AbstractMigration
         $this->addSql('DROP TABLE favorite_books_ebook');
         $this->addSql('DROP TABLE user_library');
         $this->addSql('DROP TABLE user_library_ebook');
+        $this->addSql('ALTER TABLE comments DROP rate');
     }
 }

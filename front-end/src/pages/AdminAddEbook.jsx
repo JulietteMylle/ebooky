@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const AddEbookForm = () => {
+
     const [formData, setFormData] = useState({
         title: '',
         publisher: '',
@@ -38,9 +39,13 @@ const AddEbookForm = () => {
         });
 
         try {
+            const token = localStorage.getItem("session");
+            const parsedTokenObject = JSON.parse(token);
+            const tokenValue = parsedTokenObject.token;
             const response = await axios.post("https://localhost:8000/admin/addEbook", formDataToSend, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: "Bearer " + tokenValue
                 }
             });
             console.log("Response:", response.data);
