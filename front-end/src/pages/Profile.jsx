@@ -1,11 +1,13 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Pen } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { BarProfile } from "../components/organisms/BarProfile";
-import Rating from "react-rating-stars-component";
-import { Book } from 'lucide-react';
+// import Rating from "react-rating-stars-component";
+// import { Book } from 'lucide-react';
+import CommentsComponent from "../components/organisms/ProfileComments";
+
 
 function Profile() {
   const [userData, setUserData] = useState(null);
@@ -97,7 +99,7 @@ function Profile() {
               onSubmit={handleSubmit}
             >
               <div className=" my-20 text-xl">
-                <label>Nom d'utilisateur:</label>
+                <label>Nom d&apos;utilisateur:</label>
                 <input
                   type="text"
                   name="username"
@@ -144,37 +146,12 @@ function Profile() {
          
         </div>
       </div>
-          {/* Afficher les commentaires */}
-          <div className="mt-8">
-            <h2 className="text-2xl font-semibold mb-4">Commentaires de profil:</h2>
-            <ul>
-              {userComments.map((comment) => (
-                <li key={comment.id} className="my-4 p-6 bg-gradient-to-br from-white to-gray-100 rounded-lg shadow-lg">
-                  <div className="flex items-start justify-between">
-                    <div className="flex flex-col">
-                      <p className="text-lg font-semibold">{comment.content}</p>
-                      
-                      <div className="flex items-center mt-2">
-                      
-                        <Rating
-                          value={comment.rate}
-                          edit={false}
-                          size={24}
-                          activeColor="#ffd700"
-                        />
-                        
-                      </div>
-                      <p className="text-sm ml-2 text-gray-600"> Le {comment.date}</p>
-                    </div>
-                    <div className="flex items-center">
-                      <Book className="h-6 w-6 mr-2" />
-                      <p className="text-lg">{comment.ebook_title}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div>
+        <p className="text-3xl text-center align-center font-semibold mb-8">
+          Mes commentaires
+        </p>
+        {userData && <CommentsComponent userData={userData} />}
+      </div>
     </div>
   
   );

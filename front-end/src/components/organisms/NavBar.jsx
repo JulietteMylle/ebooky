@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import  { useState, useEffect } from "react";
+
 import Button from "../atoms/Button";
 import Logo from "../atoms/Logo";
-import SearchInput from "../atoms/SearchInput";
+
 import { ToggleTheme } from "../molecules/ToggleTheme";
 import { Link } from "react-router-dom";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+
 
 const NavBar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,10 +22,13 @@ const NavBar = () => {
       <div className="w-14 h-12 ">
         <Logo />
       </div>
+      
+
 
       <a href="/library">Librairie</a>
-
       <a href="/userlibrary">Mon Espace</a>
+    
+      <ToggleTheme />
       {isAuthenticated ? (
         <Link to="/profile">Mon Profil</Link>
       ) : (
