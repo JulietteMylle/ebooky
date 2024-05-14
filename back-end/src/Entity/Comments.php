@@ -17,7 +17,7 @@ class Comments
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Comments_id')]
+    #[ORM\ManyToOne(inversedBy: 'comments_id')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
 

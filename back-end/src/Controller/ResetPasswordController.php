@@ -43,8 +43,11 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('/resetPassword', name: 'ResetPassword', methods: ['POST'], format: 'json')]
-    public function ResetPassword(Request $request, MailerInterface $mailer, TranslatorInterface $translator, UserRepository $userRepository, EntityManagerInterface $em): JsonResponse
-    {
+    public function ResetPassword(
+        Request $request,
+        UserRepository $userRepository,
+        EntityManagerInterface $em
+    ): JsonResponse {
 
         /* Récupérer les données, puis l'utilisateur à partir de ces données */
         $data = json_decode($request->getContent(), true);
@@ -56,7 +59,7 @@ class ResetPasswordController extends AbstractController
             return new JsonResponse(['message' => 'Si une adresse mail correspondate existe, un mail pour 
              changer votre mot de passe a été envoyé. Pensez à vérifier vos spams'], 200);
         } else {
-            /* Génération du token */
+
             $randomToken = bin2hex(random_bytes(16));
 
             $user->setTokenReset($randomToken);
@@ -77,7 +80,7 @@ class ResetPasswordController extends AbstractController
         }
     }
     #[Route('/emailChecked', name: 'ResetPasswordAfterEmail', methods: ['POST'], format: 'json')]
-    public function ResetPasswordAfterEmail(UserPasswordHasherInterface $passwordHasher, Request $request, MailerInterface $mailer, TranslatorInterface $translator, UserRepository $userRepository, EntityManagerInterface $em): JsonResponse
+    public function ResetPasswordAfterEmail(UserPasswordHasherInterface $passwordHasher, Request $request, EntityManagerInterface $em): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
 

@@ -23,7 +23,7 @@ export default function TestimonialCard() {
         <div className="border-2 p-6 dark:border-white rounded-md bg-white">
           <p className="text-xl mb-4">⭐ ⭐ ⭐ ⭐ ⭐</p>
           <p className="text-lg leading-relaxed">
-            "Je suis tellement impressionné par la variété de livres disponibles sur Ebooky. De la fiction à la non-fiction, il y en a pour tous les goûts. La navigation sur le site est également fluide et intuitive. Bravo à l'équipe Ebooky pour leur excellent travail !"
+            "Ebooky a révolutionné la façon dont je gère ma bibliothèque numérique. L'interface est propre et facile à utiliser. Merci Ebooky pour simplifier ma vie de lecteur !"
           </p>
           <div className="flex items-center mt-4">
             <p className="text-lg font-semibold">LiteraryExplorer99</p>

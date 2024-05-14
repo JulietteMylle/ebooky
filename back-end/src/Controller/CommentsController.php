@@ -54,19 +54,27 @@ class CommentsController extends AbstractController
         $comments = $ebook->getCommentsId();
         $totalRating = 0;
         $numberOfRatings = 0;
+
         foreach ($comments as $comment) {
             if ($comment->getRate() !== null) {
                 $totalRating += $comment->getRate();
                 $numberOfRatings++;
             }
         }
-        $averageRating = $numberOfRatings > 0 ? $totalRating / $numberOfRatings : 0;
+
+        // Vérifiez si au moins une note a été laissée
+        if ($numberOfRatings > 0) {
+            $averageRating = $totalRating / $numberOfRatings;
+        } else {
+            // S'il n'y a pas de note, utilisez la note du nouveau commentaire
+            $averageRating = $data['rate'];
+        }
+
         $ebook->setAverageRating($averageRating);
         $entityManager->persist($ebook);
         $entityManager->flush();
 
-
-        return $this->json($comment, 201);
+        return $this->json($ebook, 201);
     }
 
     #[Route('/ebooks/{id}/comments', name: 'comments', methods: 'GET')]

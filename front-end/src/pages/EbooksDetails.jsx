@@ -32,6 +32,7 @@ const EbookDetails = () => {
             try {
                 const response = await axios.get(`https://localhost:8000/ebooks/${id}`);
                 setEbook(response.data);
+                setAverageRating(response.data.averageRating); // Utiliser la valeur de l'average rating de l'API
             } catch (error) {
                 console.error('Error fetching ebook details:', error);
             }
@@ -45,10 +46,6 @@ const EbookDetails = () => {
             try {
                 const response = await axios.get(`https://localhost:8000/ebooks/${id}/comments`);
                 setComments(response.data);
-                
-                const totalRating = response.data.reduce((acc, curr) => acc + curr.rate, 0);
-                const avgRating = totalRating / response.data.length;
-                setAverageRating(avgRating);
             } catch (error) {
                 console.error('Error fetching comments:', error);
             }
