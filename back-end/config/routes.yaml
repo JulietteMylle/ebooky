@@ -215,3 +215,8 @@ userCommandes:
   path: /userCommandes
   controller: App\Controller\CommandesController::userCommandes
   methods: GET
+
+deleteComment:
+  path: /delete_comment
+  controller: App\Controller\CommentsController::DeleteComment
+  methods: DELETE

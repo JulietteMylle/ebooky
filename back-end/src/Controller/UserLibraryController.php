@@ -49,12 +49,12 @@ class UserLibraryController extends AbstractController
             $items = [];
             foreach ($userLibraryItems as $userLibraryItem) {
                 $ebook = $userLibraryItem->getId();
-                $favorite = $userLibrary->isFavorite();
+                // $favorite = $userLibrary->isFavorite();
 
                 if ($ebook) {
                     $items[] = [
                         'id' => $userLibraryItem->getId(),
-                        'is_favorite' => $userLibrary->isFavorite(),
+                        // 'is_favorite' => $userLibrary->isFavorite(),
                     ];
                 }
             }
@@ -112,7 +112,7 @@ class UserLibraryController extends AbstractController
 
 
             $userLibrary->addEbook($ebook);
-            $userLibrary->setFavorite(false); // Modification de 'favorite' ICI
+            // $userLibrary->setFavorite(false); // Modification de 'favorite' ICI
             $entityManager->flush();
         }
 
