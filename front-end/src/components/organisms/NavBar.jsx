@@ -29,25 +29,10 @@ const NavBar = () => {
       <div className="w-14 h-12 ">
         <Logo />
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger className="flex gap-1 items-center">
-          Catégories <ChevronDown className="pt-1" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Team</DropdownMenuItem>
-          <DropdownMenuItem>Subscription</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
 
       <a href="/library">Librairie</a>
 
       <a href="/userlibrary">Mon Espace</a>
-      <SearchInput />
-      <ToggleTheme />
       {isAuthenticated ? (
         <Link to="/profile">Mon Profil</Link>
       ) : (

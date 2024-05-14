@@ -136,7 +136,7 @@ class ProfileController extends AbstractController
                 'id' => $comment->getId(),
                 'content' => $comment->getContent(),
                 'ebook_title' => $ebook ? $ebook->getTitle() : 'Ebook non trouvé', // Utiliser le titre de l'ebook ou une valeur par défaut si l'ebook n'est pas trouvé
-                'date' => $comment->getDate()->format('Y-m-d'),
+                'date' => $comment->getDate()->format('d-m-Y'),
                 'rate' => $comment->getRate(),
             ];
             $commentsArray[] = $commentData;

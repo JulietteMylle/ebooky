@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -77,6 +77,9 @@ function Login() {
       {message && (
         <p className="text-center text-red-400 text-2xl ">{message}</p>
       )}
+      <Link to={`/resetPassword`} className="bg-gray-200 hover:bg-gray-300 text-white font-semibold py-2 px-4 rounded-md flex items-center" style={{ backgroundColor: '#064E3B' }}>
+                     Vous avez oublié votre mot de passe ?
+                    </Link>
     </div>
   );
 
