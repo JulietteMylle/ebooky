@@ -8,9 +8,7 @@ export const TermsOfService = () => {
           Nos conditions générales d&apos;utilisation & notre politique de
           confidentialité
         </h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate
-        </p>
+       
       </div>
 
       <div className=" bg-white">

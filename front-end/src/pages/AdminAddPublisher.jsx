@@ -10,7 +10,13 @@ function AdminAddPublisher() {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-            const response = await axios.post("https://localhost:8000/admin/addPublisher", values);
+            const token = localStorage.getItem("session");
+            const parsedTokenObject = JSON.parse(token);
+            const tokenValue = parsedTokenObject.token;
+
+            const response = await axios.post("https://localhost:8000/admin/addPublisher", {
+                headers: { Authorization: "Bearer " + tokenValue }
+            }, values);
             console.log("Response: ", response.data);
         } catch (error) {
             console.error("Error:", error.response.data);

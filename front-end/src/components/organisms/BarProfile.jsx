@@ -20,17 +20,7 @@ export const BarProfile = ({ userData }) => {
             </span>
           )}
         </div>
-        <div className="absolute bottom-0 left-0 right-0 mb-4 flex justify-between">
-          {/* Cercle avec le premier chiffre */}
-          <div className="bg-white border rounded-full h-20 w-20 flex justify-center items-center">
-            <CircleNumber number={1} />
-          </div>
-
-          {/* Cercle avec le deuxième chiffre */}
-          <div className="bg-white border rounded-full h-20 w-20 flex justify-center items-center">
-            <CircleNumber number={2} />
-          </div>
-        </div>
+       
         <div className="flex justify-center absolute -bottom-16 left-0 right-0 object-none object-bottom">
           <div className="bg-white border rounded-full h-32 w-32 flex justify-center items-center">
             <img

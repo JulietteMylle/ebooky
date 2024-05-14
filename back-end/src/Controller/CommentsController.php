@@ -102,4 +102,51 @@ class CommentsController extends AbstractController
         // Retournez les commentaires sous forme de réponse JSON
         return new JsonResponse($formattedComments);
     }
+
+    #[Route('/delete_comment', name: 'DeleteComment', methods: ['DELETE'])]
+    public function DeleteComment(
+        UserRepository $userRepository,
+        Request $request,
+        CommentsRepository $commentsRepository,
+        JWTEncoderInterface $JWTInterface,
+        EntityManagerInterface $entityManager
+    ): JsonResponse {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+
+        try {
+            $decodedToken = $JWTInterface->decode($token);
+        } catch (\Exception $e) {
+            return new JsonResponse(['message' => 'Invalid token'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $userId = $decodedToken['id'];
+        $user = $userRepository->find($userId);
+
+        if (!$user) {
+            return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $data = json_decode($request->getContent(), true);
+        $commentId = $data['comment_id'] ?? null;
+
+        if (!$commentId) {
+            return new JsonResponse(['message' => 'Comment ID not provided'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $comment = $commentsRepository->find($commentId);
+
+        if (!$comment) {
+            return new JsonResponse(['message' => 'Commentaire introuvable'], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($comment->getUserId()->getId() !== $userId) {
+            return new JsonResponse(['message' => 'Opération non autorisé par cet utilisateur'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Commentaire supprimé avec succès'], Response::HTTP_OK);
+    }
 }

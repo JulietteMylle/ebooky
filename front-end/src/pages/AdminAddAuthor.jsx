@@ -10,7 +10,12 @@ function AddAuthorForm() {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post("https://localhost:8000/admin/addAuthor", values);
+      const token = localStorage.getItem("session");
+      const parsedTokenObject = JSON.parse(token);
+      const tokenValue = parsedTokenObject.token;
+      const response = await axios.post("https://localhost:8000/admin/addAuthor", {
+        headers: { Authorization: "Bearer " + tokenValue }
+      }, values);
       console.log("Response:", response.data);
       // Gérer la réponse ici, par exemple, afficher un message de succès ou rediriger l'utilisateur
     } catch (error) {

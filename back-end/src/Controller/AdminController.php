@@ -39,13 +39,20 @@ class AdminController extends AbstractController
         $decodedtoken = $JWTInterface->decode($token);
         $email = $decodedtoken["email"];
         $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $username = $user->getUsername();
+        $userRole = $user->getRoles();
 
         $responseData = [
             'email' => $email,
             'username' => $username,
+            'role' => $userRole
 
         ];
+
         return new JsonResponse($responseData);
     }
 
@@ -62,6 +69,10 @@ class AdminController extends AbstractController
         $decodedtoken = $JWTInterface->decode($token);
         $email = $decodedtoken["email"];
         $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
 
         $requestData = json_decode($request->getContent(), true);
 
@@ -94,6 +105,10 @@ class AdminController extends AbstractController
         $user = $userRepository->findOneBy(["email" => $email]);
         if (!$user) {
             return new JsonResponse(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+        $roles = $user->getRoles();
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
         }
 
         $userId = $user->getId();
@@ -215,8 +230,18 @@ class AdminController extends AbstractController
         return new JsonResponse(['message' => 'Ebook author updated successfully']);
     }
     #[Route('/admin/authors', name: 'admin_authors', methods: ['GET'])]
-    public function admin_authors(AuthorRepository $authorRepository): JsonResponse
+    public function admin_authors(AuthorRepository $authorRepository, Request $request, JWTEncoderInterface $JWTInterface, UserRepository $userRepository): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $authors = $authorRepository->findAll();
 
         $authorsData = [];
@@ -234,8 +259,18 @@ class AdminController extends AbstractController
 
 
     #[Route('/admin/getAuthorId', name: 'get_author_id', methods: ['GET'])]
-    public function getAuthorId(Request $request, AuthorRepository $authorRepository): JsonResponse
+    public function getAuthorId(Request $request, AuthorRepository $authorRepository, JWTEncoderInterface $JWTInterface, UserRepository $userRepository): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $fullName = $request->query->get('fullName');
 
         // Recherche de l'auteur par son nom complet
@@ -249,8 +284,19 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/addAuthor', name: 'admin_add_author', methods: ['POST'])]
-    public function admin_add_author(Request $request, EntityManagerInterface $entityManager, AuthorRepository $authorRepository): JsonResponse
+    public function admin_add_author(JWTEncoderInterface $JWTInterface, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, AuthorRepository $authorRepository): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
+
         $data = json_decode($request->getContent(), true);
 
         $fullName = $data['fullName'];
@@ -270,8 +316,18 @@ class AdminController extends AbstractController
         return new JsonResponse(['message' => 'Le nouvel auteur a été créé'], JsonResponse::HTTP_CREATED);
     }
     #[Route('/admin/editAuthor/{id}', name: 'admin_update_author', methods: ['PUT'])]
-    public function admin_update_author(Request $request, EntityManagerInterface $entityManager, AuthorRepository $authorRepository, int $id): JsonResponse
+    public function admin_update_author(JWTEncoderInterface $JWTInterface, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, AuthorRepository $authorRepository, int $id): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $data = json_decode($request->getContent(), true);
 
         $fullName = $data['fullName'] ?? null;
@@ -295,8 +351,18 @@ class AdminController extends AbstractController
         return new JsonResponse(['message' => 'L\'auteur a été mis à jour'], JsonResponse::HTTP_OK);
     }
     #[Route('/admin/deleteAuthors/{id}', name: 'admin_delete_author', methods: ['DELETE'])]
-    public function admin_delete_author(EntityManagerInterface $entityManager, AuthorRepository $authorRepository, int $id): JsonResponse
+    public function admin_delete_author(JWTEncoderInterface $JWTInterface, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, AuthorRepository $authorRepository, int $id): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $author = $authorRepository->find($id);
 
         if (!$author) {
@@ -309,8 +375,18 @@ class AdminController extends AbstractController
         return new JsonResponse(['message' => 'L\'auteur a été supprimé'], JsonResponse::HTTP_OK);
     }
     #[Route('/admin/publishers', name: 'admin_publishers', methods: ['GET'])]
-    public function admin_publishers(PublisherRepository $publisherRepository): JsonResponse
+    public function admin_publishers(PublisherRepository $publisherRepository, JWTEncoderInterface $JWTInterface, UserRepository $userRepository, Request $request): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $publishers = $publisherRepository->findAll();
 
         $publishersData = [];
@@ -326,8 +402,18 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/addPublisher', name: 'admin_add_publisher', methods: ['POST'])]
-    public function admin_add_publisher(Request $request, EntityManagerInterface $entityManager, PublisherRepository $publisherRepository): JsonResponse
+    public function admin_add_publisher(JWTEncoderInterface $JWTInterface, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, PublisherRepository $publisherRepository): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $data = json_decode($request->getContent(), true);
 
         $name = $data['name'];
@@ -347,8 +433,18 @@ class AdminController extends AbstractController
         return new JsonResponse(["message" => "La nouvelle maison d'édition a été créé"], JsonResponse::HTTP_CREATED);
     }
     #[Route('/admin/editPublisher/{id}', name: 'admin_update_publisher', methods: ['PUT'])]
-    public function admin_update_publisher(Request $request, EntityManagerInterface $entityManager, PublisherRepository $publisherRepository, int $id): JsonResponse
+    public function admin_update_publisher(JWTEncoderInterface $JWTInterface, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, PublisherRepository $publisherRepository, int $id): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $data = json_decode($request->getContent(), true);
 
         $name = $data['name'] ?? null;
@@ -374,8 +470,18 @@ class AdminController extends AbstractController
         return new JsonResponse(['message' => 'La maison édition a été mise à jour'], JsonResponse::HTTP_OK);
     }
     #[Route('/admin/deletePublisher/{id}', name: 'admin_delete_publisher', methods: ['DELETE'])]
-    public function admin_delete_publisher(EntityManagerInterface $entityManager, PublisherRepository $publisherRepository, int $id): JsonResponse
+    public function admin_delete_publisher(JWTEncoderInterface $JWTInterface, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, PublisherRepository $publisherRepository, int $id): JsonResponse
     {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         $publisher = $publisherRepository->find($id);
 
         if (!$publisher) {
@@ -390,13 +496,25 @@ class AdminController extends AbstractController
 
     #[Route('/admin/addEbook', name: 'admin_add_ebook', methods: ['POST'])]
     public function admin_add_ebook(
+        JWTEncoderInterface $JWTInterface,
+        UserRepository $userRepository,
+        Request $request,
         CategoryRepository $categoryRepository,
         EntityManagerInterface $entityManager,
-        Request $request,
         AuthorRepository $authorRepository,
         PublisherRepository $publisherRepository,
         EbookRepository $ebookRepository
     ): JsonResponse {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
         // Récupérer les données du formulaire
         $title = $request->request->get('title');
         $publisherName = $request->request->get('publisher');
@@ -469,12 +587,24 @@ class AdminController extends AbstractController
 
     #[Route('/admin/deleteEbook/{id}', name: 'admin_delete_ebook', methods: ['DELETE'])]
     public function admin_delete_ebook(
+        JWTEncoderInterface $JWTInterface,
+        UserRepository $userRepository,
+        Request $request,
         EntityManagerInterface $entityManager,
         EbookRepository $ebookRepository,
         int $id,
         AuthorRepository $authorRepository,
     ): JsonResponse {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
         $ebook = $ebookRepository->findOneBy(['id' => $id]);
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
 
 
         if (!$ebook) {
@@ -500,6 +630,16 @@ class AdminController extends AbstractController
         JWTEncoderInterface $JWTInterface,
         UserRepository $userRepository
     ): JsonResponse {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+        $roles = $user->getRoles();
+
+        if (!$user || !in_array('ROLE_ADMIN', $roles)) {
+            return new JsonResponse("Vous n'avez pas accès à cette page");
+        }
 
 
         $ebook = $ebookRepository->find($id);

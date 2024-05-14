@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Pen } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { BarProfile } from "../components/organisms/BarProfile";
+// import Rating from "react-rating-stars-component";
+// import { Book } from 'lucide-react';
+import CommentsComponent from "../components/organisms/ProfileComments";
+
 
 function Profile() {
   const [userData, setUserData] = useState(null);
@@ -11,6 +15,7 @@ function Profile() {
     username: "",
     email: "",
   });
+  const [userComments, setUserComments] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("session");
@@ -27,6 +32,18 @@ function Profile() {
       })
       .catch((error) => {
         console.error("Error fetching profile:", error);
+      });
+
+    // Récupérer les commentaires de profil
+    axios
+      .get("https://localhost:8000/profileComments", {
+        headers: { Authorization: "Bearer " + tokenValue },
+      })
+      .then((response) => {
+        setUserComments(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching profile comments:", error);
       });
   }, []);
 
@@ -82,7 +99,7 @@ function Profile() {
               onSubmit={handleSubmit}
             >
               <div className=" my-20 text-xl">
-                <label>Nom d'utilisateur:</label>
+                <label>Nom d&apos;utilisateur:</label>
                 <input
                   type="text"
                   name="username"
@@ -125,9 +142,18 @@ function Profile() {
               </div>
             </form>
           )}
+
+         
         </div>
       </div>
+      <div>
+        <p className="text-3xl text-center align-center font-semibold mb-8">
+          Mes commentaires
+        </p>
+        {userData && <CommentsComponent userData={userData} />}
+      </div>
     </div>
+  
   );
 }
 
