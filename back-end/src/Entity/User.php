@@ -59,6 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $token_expires = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $FailedLoginAttempts = null;
+
     public function __construct()
     {
         $this->favoriteBooks = new ArrayCollection();
@@ -254,6 +257,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->token_expires = $token_expires;
 
+        return $this;
+    }
+
+    public function getFailedLoginAttempts(): ?int
+    {
+        return $this->FailedLoginAttempts;
+    }
+
+    public function setFailedLoginAttempts(?int $FailedLoginAttempts): self
+    {
+        $this->FailedLoginAttempts = $FailedLoginAttempts;
+
+        return $this;
+    }
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $blocked = false;
+
+    public function isBlocked(): bool
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(bool $blocked): self
+    {
+        $this->blocked = $blocked;
         return $this;
     }
 }

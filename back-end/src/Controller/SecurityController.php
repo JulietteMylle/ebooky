@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Cart;
 use App\Entity\UserLibrary;
 use App\Repository\CartRepository;
+use Doctrine\ORM\EntityManager;
 
 class SecurityController extends AbstractController
 {
@@ -37,6 +38,9 @@ class SecurityController extends AbstractController
         $userRepository = $entityManager->getRepository(User::class);
         if ($userRepository->findOneBy(['email' => $email])) {
             return new JsonResponse(['message' => 'Cet e-mail est déjà utilisé.'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+        if (strlen($password) < 13 || !preg_match('/[A-Z]/', $password) || !preg_match('/[a-z]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
+            return new JsonResponse(['message' => 'Le mot de passe doit contenir au moins 13 caractères, une lettre majuscule, une lettre minuscule et un caractère spécial.'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // Création de l'utilisateur
@@ -73,7 +77,7 @@ class SecurityController extends AbstractController
 
 
     #[Route('/login', name: 'login', methods: "POST")]
-    public function login(Request $request, UserRepository $userRepository, JWTEncoderInterface $jwtEncoder, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    public function login(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository, JWTEncoderInterface $jwtEncoder, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $email = $data['email'];
@@ -81,9 +85,25 @@ class SecurityController extends AbstractController
 
 
         $user = $userRepository->findOneBy(['email' => $email]);
-        if (!$user || !$passwordHasher->isPasswordValid($user, $password)) {
+        if (!$user) {
             return new JsonResponse(['message' => 'Les informations fournies ne sont pas correctes.'], Response::HTTP_UNAUTHORIZED);
         }
+        if ($user->isBlocked()) {
+            return new JsonResponse(['message' => 'Votre compte a été bloqué en raison de tentatives de connexion infructueuses répétées. Veuillez contacter l\'administrateur pour obtenir de l\'aide.'], Response::HTTP_FORBIDDEN);
+        }
+        if (!$passwordHasher->isPasswordValid($user, $password)) {
+            $user->setFailedLoginAttempts($user->getFailedLoginAttempts() + 1); // Corrected
+            if ($user->getFailedLoginAttempts() >= 6) { // Correction
+                $user->setBlocked(true);
+                $entityManager->flush();
+                return new JsonResponse(['message' => 'Votre compte a été bloqué en raison de tentatives de connexion infructueuses répétées. Veuillez contacter l\'administrateur pour obtenir de l\'aide.'], Response::HTTP_FORBIDDEN);
+            }
+            $entityManager->flush();
+            return new JsonResponse(['message' => 'Les informations fournies ne sont pas correctes.'], Response::HTTP_UNAUTHORIZED);
+        }
+        $user->setFailedLoginAttempts(0);
+        $user->setBlocked(false);
+        $entityManager->flush();
 
         $payload = [
             'email' => $user->getEmail(),
@@ -91,8 +111,6 @@ class SecurityController extends AbstractController
             'role' => $user->getRoles()
 
         ];
-
-        // Encodez le payload pour obtenir le token JWT complet
         $token = $jwtEncoder->encode($payload);
 
         return new JsonResponse([
