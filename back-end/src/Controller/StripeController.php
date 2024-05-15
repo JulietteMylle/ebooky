@@ -28,31 +28,15 @@ class StripeController extends AbstractController
         $userId = $decodedToken["id"];
 
         $user = $userRepository->find($userId);
-
-        // Récupérez cartData du corps de la requête POST
         $totalPrice = $data['totalPrice'];
 
-        // Convertir le montant total en centimes
-
-
-        // Configurez votre clé secrète Stripe
         $stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'];
         Stripe::setApiKey($stripeSecretKey);
-
-        // Récupérez le clientSecret de l'intention de paiement
-        /* $intent = PaymentIntent::retrieve($data['paymentMethod']['clientSecret']);
-        $intent->confirm(); */
-
-        // Créez une intention de paiement (PaymentIntent)
         $paymentIntent = PaymentIntent::create([
-            'amount' => $totalPrice, // Montant en centimes
-            'currency' => 'eur', // Devise
+            'amount' => $totalPrice,
+            'currency' => 'eur',
         ]);
-
-        // Récupérez le clientSecret de l'intention de paiement
         $clientSecret = $paymentIntent->client_secret;
-
-        // Envoyez le clientSecret au client (par exemple, en tant que réponse JSON)
         return new JsonResponse(['clientSecret' =>  $clientSecret, 'totalPrice' => $totalPrice]);
     }
     #[Route('/transfererpanier', name: 'transferer_panier', methods: "POST")]
