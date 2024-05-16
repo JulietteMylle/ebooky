@@ -21,7 +21,7 @@ export default function Cover() {
   return (
     // Ajout de Tailwind ici pour responsive
     <div className="flex flex-col md:flex-row items-center bg-white border m-4 md:m-10 lg:m-20 max-w-full md:max-w-[1400px] h-auto md:h-[700px] mx-2 md:mx-auto">
-      <div className="w-full md:w-1/2 flex flex-col items-center md:items-start p-4">
+      <div className="w-full md:w-1/2 flex flex-col items-center  p-4">
         <p className="text-black text-center md:text-left text-2xl md:text-4xl p-5">
           {" "}
           Ebooky
