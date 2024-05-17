@@ -121,7 +121,8 @@ const MyUserLib = () => {
                   </p>
                   <div className="flex justify-center items-center">
                     <button
-                      className="bg-[#064e3b] hover:bg-[#064e3b] text-white font-semibold py-1 px-2 rounded-md w-auto flex items-center space-x-1"
+                      className="bg-[#064e3b] hover:bg-[#064e3b] text-white font-semibold 
+                      py-1 px-2 rounded-md w-auto flex items-center space-x-1"
                       onClick={() => handleDeleteFromUserLibrary(book.id)}
                     >
                       <svg

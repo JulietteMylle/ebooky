@@ -49,7 +49,8 @@ const TopRatedBookCard = () => {
         {ebooks.map((ebook, index) => (
           <div key={index}>
             <Link to={`/ebooks/${ebook.id}`} className="hover:no-underline">
-              <div className="bg-white shadow-md p-4 rounded-md transition-transform transform hover:scale-105 h-full flex flex-col justify-between">
+              <div className="bg-white shadow-md p-4 rounded-md transition-transform transform 
+              hover:scale-105 h-full flex flex-col justify-between">
                 <div>
                   <img
                     src={`${ebook.picture}`}
