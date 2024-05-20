@@ -1,6 +1,131 @@
 <mxfile host="65bd71144e">
+    <diagram name="Copy of Page-2" id="-FLEJG6GpmLpmSyYC5bo">
+        <mxGraphModel dx="1590" dy="1090" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" background="#FFFFFF" math="0" shadow="0">
+            <root>
+                <mxCell id="dRhl2SzCRUS3YTpGswZb-0"/>
+                <mxCell id="dRhl2SzCRUS3YTpGswZb-1" parent="dRhl2SzCRUS3YTpGswZb-0"/>
+                <mxCell id="dRhl2SzCRUS3YTpGswZb-3" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;fontColor=#000000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="634" y="98" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="dRhl2SzCRUS3YTpGswZb-4" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;fontColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="dRhl2SzCRUS3YTpGswZb-3" target="dRhl2SzCRUS3YTpGswZb-5">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="495" y="178" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dRhl2SzCRUS3YTpGswZb-5" value="&lt;span style=&quot;&quot;&gt;L'utilisateur souhaite ajouter un ebook à sa bibliothèque personnelle&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="528" y="177" width="242" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="dRhl2SzCRUS3YTpGswZb-6" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;fontColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="dRhl2SzCRUS3YTpGswZb-5" target="I-Xe6Y_EYi2xSJwtLORj-51">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="649.922" y="271.71000000000004" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dRhl2SzCRUS3YTpGswZb-9" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;fontColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.195;exitY=0.675;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-41" target="I-Xe6Y_EYi2xSJwtLORj-7">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="424" y="319" as="targetPoint"/>
+                        <mxPoint x="425" y="270" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dRhl2SzCRUS3YTpGswZb-54" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="589.31" y="1200" width="73" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-46" style="edgeStyle=none;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-7" target="I-Xe6Y_EYi2xSJwtLORj-33">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-7" value="L'utilisateur a trouvé le ebook à ajouter" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="717" y="756" width="182.5" height="64.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-10" value="&lt;font color=&quot;#000000&quot;&gt;L'utilisateur a-t-il un compte ?&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="578.38" y="354" width="141.25" height="87" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-11" value="no" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="I-Xe6Y_EYi2xSJwtLORj-10" parent="dRhl2SzCRUS3YTpGswZb-1" target="I-Xe6Y_EYi2xSJwtLORj-21">
+                    <mxGeometry x="-1" relative="1" as="geometry">
+                        <mxPoint x="714" y="456" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-12" value="yes" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=top;endArrow=open;endSize=8;strokeColor=#ff0000;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" source="I-Xe6Y_EYi2xSJwtLORj-10" parent="dRhl2SzCRUS3YTpGswZb-1" target="I-Xe6Y_EYi2xSJwtLORj-19">
+                    <mxGeometry x="-1" relative="1" as="geometry">
+                        <mxPoint x="552" y="876.5" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="649" y="522"/>
+                            <mxPoint x="810" y="522"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-43" style="edgeStyle=none;html=1;entryX=0.481;entryY=0.688;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-19" target="I-Xe6Y_EYi2xSJwtLORj-41">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-19" value="L'utilisateur se connecte&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="857" y="502" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-23" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;fontColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-21" target="I-Xe6Y_EYi2xSJwtLORj-19">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-21" value="L'utilisateur créé un compte" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="857" y="377.5000000000001" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-35" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-28" target="I-Xe6Y_EYi2xSJwtLORj-33">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1097" y="1088"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-28" value="Utilisation des filtres" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="1037" y="908" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-34" style="edgeStyle=none;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-31" target="I-Xe6Y_EYi2xSJwtLORj-33">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-31" value="Utilisation de la barre de recherche" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="864.5" y="908" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-49" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-33" target="I-Xe6Y_EYi2xSJwtLORj-48">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-33" value="L'utilisateur clique sur le bouton pour ajouter l'ebook&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="787" y="1058" width="187" height="62" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-44" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-40" target="I-Xe6Y_EYi2xSJwtLORj-28">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-45" style="edgeStyle=none;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-40" target="I-Xe6Y_EYi2xSJwtLORj-31">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-40" value="L'utilisateur cherche le ebook à ajouter" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="948" y="729.5" width="147" height="75.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-41" value="" style="shape=line;html=1;strokeWidth=6;strokeColor=#ff0000;fontColor=#FFFFFF;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="732" y="607" width="385" height="10" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-42" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;fontColor=#FFFFFF;exitX=0.75;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" source="I-Xe6Y_EYi2xSJwtLORj-41" parent="dRhl2SzCRUS3YTpGswZb-1" target="I-Xe6Y_EYi2xSJwtLORj-40">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="901" y="725" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-50" style="edgeStyle=none;html=1;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-48" target="dRhl2SzCRUS3YTpGswZb-54">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-48" value="L'ebook est ajouté dans la bibliothèque de l'utilisateur" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="532" y="1067" width="187.63" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-52" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#CC0000;fontColor=#FFFFFF;" edge="1" parent="dRhl2SzCRUS3YTpGswZb-1" source="I-Xe6Y_EYi2xSJwtLORj-51" target="I-Xe6Y_EYi2xSJwtLORj-10">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="407" y="398"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="I-Xe6Y_EYi2xSJwtLORj-51" value="&lt;span style=&quot;&quot;&gt;L'utilisateur se rend sur la page /library&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="dRhl2SzCRUS3YTpGswZb-1">
+                    <mxGeometry x="286" y="302" width="242" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
     <diagram id="vMwT53JufwZwW6NPW3oS" name="Page-2">
-        <mxGraphModel dx="1317" dy="1693" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" background="#FFFFFF" math="0" shadow="0">
+        <mxGraphModel dx="954" dy="654" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" background="#FFFFFF" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -262,14 +387,14 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="cNsP4o_Go_GW8O4ifK4a-1" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="1">
+                <mxCell id="cNsP4o_Go_GW8O4ifK4a-1" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" parent="1" vertex="1">
                     <mxGeometry x="647" y="982" width="73" height="65" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram id="Dwb8GULyjDsSTdrO3he8" name="Page-1">
-        <mxGraphModel dx="395" dy="508" grid="1" gridSize="1" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+        <mxGraphModel dx="954" dy="654" grid="1" gridSize="1" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
