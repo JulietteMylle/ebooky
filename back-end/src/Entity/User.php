@@ -118,6 +118,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Cart::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Cart $cart = null;
 
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserLibrary $userLibrary = null;
+
+    /**
+     * @var Collection<int, FavoriteBooks>
+     */
+    #[ORM\ManyToMany(targetEntity: FavoriteBooks::class, mappedBy: 'user')]
+    private Collection $favoriteBooks;
+
+    public function __construct()
+    {
+        $this->favoriteBooks = new ArrayCollection();
+    }
     /**
      * @var Collection<int, Comments>
      */
@@ -134,6 +148,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->Comments_id = new ArrayCollection();
+
     }
 
     public function getCart(): ?Cart
@@ -146,6 +161,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->cart = $cart;
         return $this;
     }
+
+
+    public function getUserLibrary(): ?UserLibrary
+    {
+        return $this->userLibrary;
+    }
+
+    public function setUserLibrary(UserLibrary $userLibrary): static
+    {
+        // set the owning side of the relation if necessary
+        if ($userLibrary->getUser() !== $this) {
+            $userLibrary->setUser($this);
+        }
+
+        $this->userLibrary = $userLibrary;
+      return $this;
+      }
 
     /**
      * @return Collection<int, Comments>
@@ -177,6 +209,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    /**
+     * @return Collection<int, FavoriteBooks>
+     */
+    public function getFavoriteBooks(): Collection
+    {
+        return $this->favoriteBooks;
+    }
+
+    public function addFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if (!$this->favoriteBooks->contains($favoriteBook)) {
+            $this->favoriteBooks->add($favoriteBook);
+            $favoriteBook->addUser($this);
+        }
+      return $this;
+      }
+
     public function getTokenReset(): ?string
     {
         return $this->token_reset;
@@ -188,6 +238,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
+    public function removeFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if ($this->favoriteBooks->removeElement($favoriteBook)) {
+            $favoriteBook->removeUser($this);
+        }
+  return $this;
+  }
 
     public function getTokenExpires(): ?\DateTimeInterface
     {

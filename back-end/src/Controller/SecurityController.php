@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Cart;
+use App\Entity\UserLibrary;
 use App\Repository\CartRepository;
 
 class SecurityController extends AbstractController
@@ -45,6 +46,8 @@ class SecurityController extends AbstractController
         $user->setPassword($passwordHasher->hashPassword($user, $password));
         $user->setRoles(["ROLE_USER"]);
 
+
+
         // Création du panier pour l'utilisateur
         $cart = new Cart();
         $cart->setStatus("pending");
@@ -52,17 +55,17 @@ class SecurityController extends AbstractController
         $cart->setUpdatedAt(new \DateTimeImmutable());
         $cart->setUser($user);
 
+        //Création de la librairie
+        $librairy = new UserLibrary();
+        $librairy->setUser($user);
+
         // Enregistrement des données dans la base de données
-        $entityManager->beginTransaction();
-        try {
-            $entityManager->persist($user);
-            $entityManager->persist($cart);
-            $entityManager->flush();
-            $entityManager->commit();
-        } catch (\Exception $e) {
-            $entityManager->rollback();
-            return new JsonResponse(['message' => 'Une erreur est survenue lors de la création de votre compte.'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+
+        $entityManager->persist($user);
+        $entityManager->persist($cart);
+        $entityManager->persist($librairy);
+        $entityManager->flush();
+
 
         return new JsonResponse(['message' => 'Votre compte a bien été créé'], JsonResponse::HTTP_CREATED);
     }
