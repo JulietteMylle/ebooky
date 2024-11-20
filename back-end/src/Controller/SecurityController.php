@@ -14,7 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Cart;
+use App\Entity\UserLibrary;
 use App\Repository\CartRepository;
+use Doctrine\ORM\EntityManager;
 
 class SecurityController extends AbstractController
 {
@@ -37,6 +39,9 @@ class SecurityController extends AbstractController
         if ($userRepository->findOneBy(['email' => $email])) {
             return new JsonResponse(['message' => 'Cet e-mail est déjà utilisé.'], JsonResponse::HTTP_BAD_REQUEST);
         }
+        if (strlen($password) < 13 || !preg_match('/[A-Z]/', $password) || !preg_match('/[a-z]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
+            return new JsonResponse(['message' => 'Le mot de passe doit contenir au moins 13 caractères, une lettre majuscule, une lettre minuscule et un caractère spécial.'], JsonResponse::HTTP_BAD_REQUEST);
+        }
 
         // Création de l'utilisateur
         $user = new User();
@@ -45,6 +50,8 @@ class SecurityController extends AbstractController
         $user->setPassword($passwordHasher->hashPassword($user, $password));
         $user->setRoles(["ROLE_USER"]);
 
+
+
         // Création du panier pour l'utilisateur
         $cart = new Cart();
         $cart->setStatus("pending");
@@ -52,17 +59,17 @@ class SecurityController extends AbstractController
         $cart->setUpdatedAt(new \DateTimeImmutable());
         $cart->setUser($user);
 
+        //Création de la librairie
+        $librairy = new UserLibrary();
+        $librairy->setUser($user);
+
         // Enregistrement des données dans la base de données
-        $entityManager->beginTransaction();
-        try {
-            $entityManager->persist($user);
-            $entityManager->persist($cart);
-            $entityManager->flush();
-            $entityManager->commit();
-        } catch (\Exception $e) {
-            $entityManager->rollback();
-            return new JsonResponse(['message' => 'Une erreur est survenue lors de la création de votre compte.'], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
+
+        $entityManager->persist($user);
+        $entityManager->persist($cart);
+        $entityManager->persist($librairy);
+        $entityManager->flush();
+
 
         return new JsonResponse(['message' => 'Votre compte a bien été créé'], JsonResponse::HTTP_CREATED);
     }
@@ -70,7 +77,7 @@ class SecurityController extends AbstractController
 
 
     #[Route('/login', name: 'login', methods: "POST")]
-    public function login(Request $request, UserRepository $userRepository, JWTEncoderInterface $jwtEncoder, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    public function login(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository, JWTEncoderInterface $jwtEncoder, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $email = $data['email'];
@@ -78,9 +85,25 @@ class SecurityController extends AbstractController
 
 
         $user = $userRepository->findOneBy(['email' => $email]);
-        if (!$user || !$passwordHasher->isPasswordValid($user, $password)) {
+        if (!$user) {
             return new JsonResponse(['message' => 'Les informations fournies ne sont pas correctes.'], Response::HTTP_UNAUTHORIZED);
         }
+        if ($user->isBlocked()) {
+            return new JsonResponse(['message' => 'Votre compte a été bloqué en raison de tentatives de connexion infructueuses répétées. Veuillez contacter l\'administrateur pour obtenir de l\'aide.'], Response::HTTP_FORBIDDEN);
+        }
+        if (!$passwordHasher->isPasswordValid($user, $password)) {
+            $user->setFailedLoginAttempts($user->getFailedLoginAttempts() + 1); // Corrected
+            if ($user->getFailedLoginAttempts() >= 6) { // Correction
+                $user->setBlocked(true);
+                $entityManager->flush();
+                return new JsonResponse(['message' => 'Votre compte a été bloqué en raison de tentatives de connexion infructueuses répétées. Veuillez contacter l\'administrateur pour obtenir de l\'aide.'], Response::HTTP_FORBIDDEN);
+            }
+            $entityManager->flush();
+            return new JsonResponse(['message' => 'Les informations fournies ne sont pas correctes.'], Response::HTTP_UNAUTHORIZED);
+        }
+        $user->setFailedLoginAttempts(0);
+        $user->setBlocked(false);
+        $entityManager->flush();
 
         $payload = [
             'email' => $user->getEmail(),
@@ -88,8 +111,6 @@ class SecurityController extends AbstractController
             'role' => $user->getRoles()
 
         ];
-
-        // Encodez le payload pour obtenir le token JWT complet
         $token = $jwtEncoder->encode($payload);
 
         return new JsonResponse([

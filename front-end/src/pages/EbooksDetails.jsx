@@ -32,6 +32,7 @@ const EbookDetails = () => {
             try {
                 const response = await axios.get(`https://localhost:8000/ebooks/${id}`);
                 setEbook(response.data);
+                setAverageRating(response.data.averageRating); // Utiliser la valeur de l'average rating de l'API
             } catch (error) {
                 console.error('Error fetching ebook details:', error);
             }
@@ -45,10 +46,6 @@ const EbookDetails = () => {
             try {
                 const response = await axios.get(`https://localhost:8000/ebooks/${id}/comments`);
                 setComments(response.data);
-                
-                const totalRating = response.data.reduce((acc, curr) => acc + curr.rate, 0);
-                const avgRating = totalRating / response.data.length;
-                setAverageRating(avgRating);
             } catch (error) {
                 console.error('Error fetching comments:', error);
             }
@@ -97,7 +94,7 @@ const EbookDetails = () => {
                         <p className="text-gray-600 mb-2">Prix: {ebook.price} €</p>
                         <p className="text-gray-600 mb-2">Auteurs: {ebook.authors.join(', ')}</p>
                         <p className="text-gray-800">{ebook.description}</p>
-                        {ebook.publisher && <p className="text-gray-600">Maison d'édition: {ebook.publisher}</p>}
+                        {ebook.publisher && <p className="text-gray-600">Maison dédition: {ebook.publisher}</p>}
                         <div>
                             Note moyenne : 
                             <Rating
@@ -122,14 +119,8 @@ const EbookDetails = () => {
                 </div>
                 <div className="p-4">
                     <form onSubmit={handleSubmitComment}>
-                        <textarea
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                            placeholder="Ajouter un commentaire..."
-                            rows="4"
-                            value={comment}
-                            onChange={handleCommentChange}
-                        ></textarea>
-                        <Rating
+                        <p>Votre note :</p>
+                    <Rating
                             count={5}
                             value={rating}
                             onChange={handleRatingChange}
@@ -138,6 +129,14 @@ const EbookDetails = () => {
                             emptyIcon={<i className="far fa-star"></i>}
                             fullIcon={<i className="fas fa-star"></i>}
                         />
+                        <textarea
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                            placeholder="Ajouter un commentaire..."
+                            rows="4"
+                            value={comment}
+                            onChange={handleCommentChange}
+                        ></textarea>
+                        
                         <button
                         style={{ backgroundColor: '#054E3B' }}
                             className=" text-white py-2 px-4 mt-2 rounded-md hover:bg-opacity-90 hover:text-opacity-90"

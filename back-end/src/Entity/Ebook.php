@@ -59,6 +59,12 @@ class Ebook
     private Collection $cartItems;
 
     /**
+     * @var Collection<int, FavoriteBooks>
+     */
+    #[ORM\ManyToMany(targetEntity: FavoriteBooks::class, mappedBy: 'ebook')]
+    private Collection $favoriteBooks;
+
+    /**
      * @var Collection<int, Comments>
      */
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'ebook_id', orphanRemoval: true)]
@@ -74,6 +80,7 @@ class Ebook
         $this->categories = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->cartItems = new ArrayCollection();
+        $this->favoriteBooks = new ArrayCollection();
         $this->comments_id = new ArrayCollection();
     }
 
@@ -263,10 +270,6 @@ class Ebook
     }
 
     /**
-     * @return Collection<int, User>
-     */
-
-    /**
      * @return Collection<int, Review>
      */
     public function getReviews(): Collection
@@ -327,6 +330,33 @@ class Ebook
     }
 
     /**
+     * @return Collection<int, FavoriteBooks>
+     */
+    public function getFavoriteBooks(): Collection
+    {
+        return $this->favoriteBooks;
+    }
+
+    public function addFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if (!$this->favoriteBooks->contains($favoriteBook)) {
+            $this->favoriteBooks->add($favoriteBook);
+            $favoriteBook->addEbook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteBook(FavoriteBooks $favoriteBook): static
+    {
+        if ($this->favoriteBooks->removeElement($favoriteBook)) {
+            $favoriteBook->removeEbook($this);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, Comments>
      */
     public function getCommentsId(): Collection
@@ -338,7 +368,6 @@ class Ebook
     {
         if (!$this->comments_id->contains($commentsId)) {
             $this->comments_id->add($commentsId);
-            $commentsId->setEbookId($this);
         }
 
         return $this;

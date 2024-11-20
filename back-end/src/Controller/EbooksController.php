@@ -59,6 +59,7 @@ class EbooksController extends AbstractController
         }
 
         $bookData = [
+            'id' => $book->getId(),
             'title' => $book->getTitle(),
             'price' => $book->getPrice(),
             'authors' => $authors,

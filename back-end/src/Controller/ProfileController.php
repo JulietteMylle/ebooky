@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Repository\CartRepository;
+use App\Repository\CommentsRepository;
+use App\Repository\EbookRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -109,5 +111,37 @@ class ProfileController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse(['message' => 'User deleted successfully'], Response::HTTP_OK);
+    }
+    #[Route('/profileComments', name: 'profileComments', methods: "GET")]
+    public function profileComments(Request $request, JWTEncoderInterface $JWTInterface, UserRepository $userRepository, CommentsRepository $commentsRepository, EbookRepository $ebookRepository): JsonResponse
+    {
+        $authHeaders = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authHeaders);
+
+        $decodedtoken = $JWTInterface->decode($token);
+        $email = $decodedtoken["email"];
+        $user = $userRepository->findOneBy(["email" => $email]);
+
+        $userComments = $commentsRepository->findBy(["user_id" => $user->getId()]);
+
+        $commentsArray = [];
+        foreach ($userComments as $comment) {
+            // Récupérer l'ID de l'ebook associé au commentaire
+            $ebookId = $comment->getEbookId();
+
+            // Récupérer l'ebook correspondant à partir de son ID
+            $ebook = $ebookRepository->find($ebookId);
+
+            $commentData = [
+                'id' => $comment->getId(),
+                'content' => $comment->getContent(),
+                'ebook_title' => $ebook ? $ebook->getTitle() : 'Ebook non trouvé', // Utiliser le titre de l'ebook ou une valeur par défaut si l'ebook n'est pas trouvé
+                'date' => $comment->getDate()->format('d-m-Y'),
+                'rate' => $comment->getRate(),
+            ];
+            $commentsArray[] = $commentData;
+        }
+
+        return new JsonResponse($commentsArray);
     }
 }
